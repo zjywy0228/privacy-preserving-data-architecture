@@ -30,28 +30,22 @@ The Nature Aging and Scientific Reports biomedical papers are the application co
 
 ```
 privacy-preserving-data-architecture/
+├── architectures/                # Reference architectures (institution-agnostic, paper-anchored)
+│   ├── README.md                 # pattern index
+│   └── biomedical-reference-architecture.md  # four-layer clinical/registry governed-data design
 ├── fhe-feature-extraction/       # FHE pipeline for encrypted medical-image features
 │   ├── fhe_pipeline.py
-│   ├── architecture.md
 │   └── examples/
 ├── dp-llm-training/              # Differential privacy wrapper for LLM/ML training
 │   ├── dp_trainer.py
-│   ├── privacy_accounting.py
 │   └── examples/
 ├── llm-leakage-assessment/       # LLM data-leakage threat taxonomy and checklist
 │   ├── ASSESSMENT-CHECKLIST.md
-│   ├── threat-taxonomy.md
-│   └── assessment_runner.py
-├── governance-templates/         # Data minimization, access control, audit-log templates
-│   ├── data-minimization-checklist.md
-│   ├── access-control-template.md
-│   └── audit-log-template.md
-└── docs/
-    ├── architecture-overview.md
-    ├── deployment-patterns.md
-    └── compliance/
-        ├── hipaa-control-mapping.md
-        └── nist-control-mapping.md
+│   └── threat-taxonomy.md
+├── governance-templates/         # Data minimization template
+│   └── data-minimization-checklist.md
+└── docs/compliance/
+    └── nist-control-mapping.md
 ```
 
 ## Quick Start
@@ -78,8 +72,9 @@ Review `llm-leakage-assessment/ASSESSMENT-CHECKLIST.md` for the structured workf
 
 | Phase | Target | Status |
 |---|---|---|
-| Phase 1 (current) | Initial FHE prototype, DP wrapper, LLM leakage checklist | In progress |
-| Phase 2 | Deployment patterns for pediatric/clinical and population-health workflows | Planned |
+| Phase 1 | Initial FHE prototype, DP wrapper, LLM leakage checklist | Complete |
+| Phase 1.2 | Biomedical reference architecture — four-layer design anchored to Nature Aging + Scientific Reports papers | **Live** (2026-05-12) |
+| Phase 2 | Deployment patterns for pediatric/clinical and population-health workflows; requirements and CI | In progress |
 | Phase 3 | Validated compliance-ready architecture suite with NIST/HIPAA control mappings | Planned |
 | Phase 4 | Peer-reviewed architecture papers and public validation reports | Planned |
 
