@@ -1,6 +1,11 @@
 # Privacy-Preserving Data Architecture
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
+
 Reusable architecture patterns, prototype modules, and assessment frameworks for institutions that need to analyze sensitive biomedical and scientific data while controlling raw-data exposure, AI leakage risk, and compliance obligations.
+
+Maintained by Junyi Zhang ([@zjywy0228](https://github.com/zjywy0228)). Issues and feedback welcome.
 
 ## Motivation
 
@@ -104,6 +109,18 @@ If you use materials from this repository in your research, please cite the rele
 
 MIT License. See [LICENSE](LICENSE).
 
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for how to contribute code, documentation, and architecture patterns.
+
 ---
 
-*Contributions and issue reports welcome. This is an active research project; interfaces and implementations will evolve.*
+## AI-Assistance Disclosure
+
+Some commits in this repository were prepared with AI coding assistance (Claude). All AI-generated code has been reviewed and tested by the maintainer before merge. The architectural decisions, threat models, and design choices reflect the maintainer's own research direction.
+
+The use of AI coding assistance is itself within the scope of this repository's `llm-leakage-assessment/` module — see [`docs/ai-assistance-policy.md`](docs/ai-assistance-policy.md) for how AI-assisted contributions are reviewed, tested, and disclosed.
+
+---
+
+*This is an active research project; architecture patterns and prototype implementations will evolve. Interfaces may change between minor versions.*
