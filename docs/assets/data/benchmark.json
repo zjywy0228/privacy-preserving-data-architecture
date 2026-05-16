@@ -1,0 +1,9 @@
+{
+  "run_timestamp": "2026-05-14T16:00:00Z",
+  "scheme": "CKKS (TenSEAL)",
+  "rows": [
+    {"vector_size": 128,  "cleartext_ms": 0.42, "ciphertext_ms": 18.7},
+    {"vector_size": 512,  "cleartext_ms": 1.61, "ciphertext_ms": 71.3},
+    {"vector_size": 2048, "cleartext_ms": 6.40, "ciphertext_ms": 285.1}
+  ]
+}
