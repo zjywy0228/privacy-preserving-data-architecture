@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  lint-and-test:
+    name: Lint + Test (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('requirements-dev.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-${{ matrix.python-version }}-
+
+      - name: Install dev dependencies
+        run: pip install ruff mypy numpy pytest pyyaml
+
+      - name: Ruff format check
+        run: ruff format --check .
+
+      - name: Ruff lint
+        run: ruff check .
+
+      - name: Mypy type check (core modules)
+        run: |
+          mypy fhe-feature-extraction/fhe_pipeline.py \
+               dp-llm-training/dp_trainer.py \
+               --ignore-missing-imports \
+               --no-strict-optional
+
+      - name: Run tests
+        run: pytest tests/ -v --tb=short
+
+  validate-nist-csv:
+    name: Validate NIST control-mapping CSV
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Check CSV row count and schema
+        run: |
+          python - <<'EOF'
+          import csv, sys
+          with open("docs/compliance/nist-control-mapping.csv") as f:
+              reader = csv.DictReader(f)
+              rows = list(reader)
+          required = {"pattern", "module", "nist_ai_rmf_control", "nist_pf_control", "nist_csf_2_control"}
+          assert required.issubset(set(rows[0].keys())), f"Missing columns: {required - set(rows[0].keys())}"
+          assert len(rows) >= 30, f"Expected >= 30 rows, got {len(rows)}"
+          print(f"CSV OK: {len(rows)} rows, {len(rows[0])} columns")
+          EOF
