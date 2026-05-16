@@ -1,0 +1,17 @@
+[
+  {"pattern": "FHE feature extraction", "module": "fhe-feature-extraction", "nist_ai_rmf": "MANAGE-2.2", "nist_pf": "PR.DS-P4", "nist_csf_2": "PR.DS-01"},
+  {"pattern": "FHE feature extraction", "module": "fhe-feature-extraction", "nist_ai_rmf": "GOVERN-1.1", "nist_pf": "PR.PO-P1", "nist_csf_2": "PR.DS-01"},
+  {"pattern": "FHE — raw-data exposure prevention", "module": "fhe-feature-extraction", "nist_ai_rmf": "MAP-2.3", "nist_pf": "PR.DS-P5", "nist_csf_2": "PR.DS-01"},
+  {"pattern": "DP training wrapper", "module": "dp-llm-training", "nist_ai_rmf": "MEASURE-2.5", "nist_pf": "PR.PO-P3", "nist_csf_2": "PR.DS-01"},
+  {"pattern": "DP training wrapper", "module": "dp-llm-training", "nist_ai_rmf": "MEASURE-2.10", "nist_pf": "CT.PO-P3", "nist_csf_2": "PR.DS-01"},
+  {"pattern": "DP — membership inference mitigation", "module": "dp-llm-training", "nist_ai_rmf": "MEASURE-2.5", "nist_pf": "PR.PO-P4", "nist_csf_2": "PR.DS-01"},
+  {"pattern": "LLM leakage assessment", "module": "llm-leakage-assessment", "nist_ai_rmf": "MAP-1.1", "nist_pf": "ID.DE-P2", "nist_csf_2": "ID.RA-01"},
+  {"pattern": "LLM leakage assessment", "module": "llm-leakage-assessment", "nist_ai_rmf": "MAP-2.2", "nist_pf": "ID.RA-P2", "nist_csf_2": "ID.RA-03"},
+  {"pattern": "LLM threat taxonomy", "module": "llm-leakage-assessment", "nist_ai_rmf": "MAP-2.2", "nist_pf": "ID.RA-P3", "nist_csf_2": "ID.RA-05"},
+  {"pattern": "LLM — prompt injection", "module": "llm-leakage-assessment", "nist_ai_rmf": "MEASURE-2.6", "nist_pf": "ID.DE-P3", "nist_csf_2": "RS.AN-03"},
+  {"pattern": "LLM — training-data extraction", "module": "llm-leakage-assessment", "nist_ai_rmf": "MEASURE-2.7", "nist_pf": "PR.PO-P4", "nist_csf_2": "PR.DS-01"},
+  {"pattern": "Data minimization checklist", "module": "governance-templates", "nist_ai_rmf": "GOVERN-1.4", "nist_pf": "PR.PO-P1", "nist_csf_2": "PR.DS-01"},
+  {"pattern": "Audit log template", "module": "governance-templates", "nist_ai_rmf": "GOVERN-1.4", "nist_pf": "GV.PO-P1", "nist_csf_2": "ID.AM-01"},
+  {"pattern": "Pre-export output review", "module": "governance-templates", "nist_ai_rmf": "MANAGE-3.1", "nist_pf": "PR.PO-P2", "nist_csf_2": "PR.DS-10"},
+  {"pattern": "Biomedical reference architecture", "module": "architectures", "nist_ai_rmf": "GOVERN-1.1, MAP-2.3", "nist_pf": "CT.PO-P3, PR.PO-P5", "nist_csf_2": "PR.DS-01"}
+]
