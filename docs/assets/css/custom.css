@@ -1,0 +1,76 @@
+/* custom.css — minimal overrides for the Tailwind-based dashboard */
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.875em;
+}
+
+/* Sortable NIST table headers */
+th.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+th.sortable:hover {
+  background-color: #f1f5f9;
+}
+th.sort-asc::after {
+  content: ' ↑';
+  font-size: 0.7em;
+  color: #64748b;
+}
+th.sort-desc::after {
+  content: ' ↓';
+  font-size: 0.7em;
+  color: #64748b;
+}
+
+/* Benchmark bar track */
+.bar-track {
+  display: inline-block;
+  width: 140px;
+  height: 10px;
+  background: #e2e8f0;
+  border-radius: 99px;
+  overflow: hidden;
+  vertical-align: middle;
+}
+.bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: 99px;
+  min-width: 2px;
+}
+.bar-cleartext  { background: #3b82f6; }
+.bar-ciphertext { background: #f97316; }
+
+/* Architecture card hover lift */
+.arch-card {
+  transition: transform 150ms, box-shadow 150ms, border-color 150ms;
+}
+.arch-card:hover {
+  transform: translateY(-2px);
+}
+
+/* Leakage progress bar */
+.leakage-bar-track {
+  height: 5px;
+  border-radius: 99px;
+  background: currentColor;
+  opacity: 0.15;
+  overflow: hidden;
+}
+.leakage-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: currentColor;
+  opacity: 0.65;
+}
+
+/* Loading pulse */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+.loading-placeholder {
+  animation: pulse 1.5s ease-in-out infinite;
+}
