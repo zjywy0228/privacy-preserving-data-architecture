@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Privacy-Preserving Data Architecture</title>
+  <meta name="description"
+        content="Reusable architecture patterns and prototype modules for analyzing sensitive biomedical and scientific data while controlling raw-data exposure, AI leakage, and compliance obligations." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/css/custom.css" />
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased">
+
+  <!-- ── Header ──────────────────────────────────────────────────────────── -->
+  <header class="border-b bg-white shadow-sm">
+    <div class="mx-auto max-w-6xl px-6 py-8">
+      <h1 class="text-3xl font-semibold tracking-tight text-slate-900">
+        Privacy-Preserving Data Architecture
+      </h1>
+      <p class="mt-2 max-w-2xl text-slate-600">
+        Reusable patterns and prototype modules for institutions analyzing sensitive
+        biomedical and scientific data while controlling raw-data exposure, AI leakage,
+        and compliance obligations.
+      </p>
+      <p class="mt-2 text-sm text-slate-500">
+        Maintained by Junyi Zhang
+        (<a class="underline hover:text-slate-700 transition-colors"
+            href="https://github.com/zjywy0228"
+            target="_blank" rel="noopener noreferrer">@zjywy0228</a>) ·
+        <a class="underline hover:text-slate-700 transition-colors"
+           href="https://github.com/zjywy0228/privacy-preserving-data-architecture"
+           target="_blank" rel="noopener noreferrer">GitHub Repository</a>
+      </p>
+
+      <!-- Badges -->
+      <div class="mt-4 flex flex-wrap items-center gap-2">
+        <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT" height="20" />
+        <img src="https://img.shields.io/badge/python-3.10%2B-blue.svg" alt="Python 3.10+" height="20" />
+        <img src="https://img.shields.io/github/last-commit/zjywy0228/privacy-preserving-data-architecture?label=last%20commit"
+             alt="Last commit" height="20" />
+        <img src="https://img.shields.io/github/issues/zjywy0228/privacy-preserving-data-architecture"
+             alt="Open issues" height="20" />
+      </div>
+
+      <!-- Section nav -->
+      <nav class="mt-4 flex flex-wrap gap-x-5 gap-y-1 text-sm" aria-label="Page sections">
+        <a class="text-blue-600 hover:underline" href="#modules">Modules</a>
+        <a class="text-blue-600 hover:underline" href="#compliance">NIST Mapping</a>
+        <a class="text-blue-600 hover:underline" href="#leakage">Leakage Assessment</a>
+        <a class="text-blue-600 hover:underline" href="#benchmark">FHE Benchmark</a>
+        <a class="text-blue-600 hover:underline" href="#architecture">Architecture</a>
+        <a class="text-blue-600 hover:underline" href="#commits">Recent Commits</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ── Main ─────────────────────────────────────────────────────────────── -->
+  <main class="mx-auto max-w-6xl px-6 py-10 space-y-16">
+
+    <!-- Prototype Modules -->
+    <section id="modules">
+      <div class="mb-5">
+        <h2 class="text-xl font-semibold text-slate-900">Prototype Modules</h2>
+        <p class="mt-1 text-sm text-slate-500">
+          Four reusable modules translating published FHE, DP, and LLM-leakage research into implementable patterns.
+        </p>
+      </div>
+      <div id="module-grid" class="grid gap-5 md:grid-cols-2">
+        <!-- Loading skeletons — replaced by app.js -->
+        <div class="loading-placeholder h-44 rounded-xl bg-slate-100"></div>
+        <div class="loading-placeholder h-44 rounded-xl bg-slate-100"></div>
+        <div class="loading-placeholder h-44 rounded-xl bg-slate-100"></div>
+        <div class="loading-placeholder h-44 rounded-xl bg-slate-100"></div>
+      </div>
+    </section>
+
+    <!-- NIST Control Mapping -->
+    <section id="compliance">
+      <div class="mb-5">
+        <h2 class="text-xl font-semibold text-slate-900">NIST Control Mapping</h2>
+        <p class="mt-1 text-sm text-slate-500">
+          First 15 rows — full mapping in
+          <code>docs/compliance/nist-control-mapping.md</code>.
+          Click any column header to sort.
+        </p>
+      </div>
+      <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+        <table id="nist-table" class="min-w-full text-sm">
+          <tbody>
+            <tr>
+              <td colspan="5" class="px-4 py-10 text-center text-sm text-slate-400">Loading…</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Leakage Assessment Results -->
+    <section id="leakage">
+      <div class="mb-5">
+        <h2 class="text-xl font-semibold text-slate-900">LLM Leakage Assessment Results</h2>
+        <p id="leakage-meta" class="mt-1 text-sm text-slate-500">
+          See <code>llm-leakage-assessment/</code> for test cases and methodology.
+        </p>
+      </div>
+      <div id="leakage-grid" class="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <!-- Injected by app.js -->
+      </div>
+      <p class="mt-3 text-xs text-slate-400">
+        Color key:
+        <span class="inline-block px-2 py-0.5 rounded bg-green-100 text-green-800 mr-1">≥ 80 % passed</span>
+        <span class="inline-block px-2 py-0.5 rounded bg-amber-100 text-amber-800 mr-1">50–79 %</span>
+        <span class="inline-block px-2 py-0.5 rounded bg-red-100 text-red-800">< 50 %</span>
+      </p>
+    </section>
+
+    <!-- FHE Benchmark -->
+    <section id="benchmark">
+      <div class="mb-5">
+        <h2 class="text-xl font-semibold text-slate-900">FHE Benchmark</h2>
+        <p class="mt-1 text-sm text-slate-500">
+          Cleartext vs. CKKS ciphertext feature-extraction timings at three vector sizes.
+          The overhead column shows how much slower encrypted computation is relative to plaintext —
+          the cost of keeping raw data unexposed throughout the pipeline.
+        </p>
+      </div>
+      <div id="benchmark-table">
+        <!-- Injected by app.js -->
+      </div>
+    </section>
+
+    <!-- Reference Architecture -->
+    <section id="architecture">
+      <div class="mb-5">
+        <h2 class="text-xl font-semibold text-slate-900">Reference Architectures</h2>
+        <p class="mt-1 text-sm text-slate-500">
+          Institution-agnostic, paper-anchored blueprints for governed sensitive-data workflows.
+          See <code>architectures/</code> for full pattern documents.
+        </p>
+      </div>
+      <div class="grid gap-5 md:grid-cols-2">
+
+        <!-- Biomedical architecture card -->
+        <a href="https://github.com/zjywy0228/privacy-preserving-data-architecture/blob/master/architectures/biomedical-reference-architecture.md"
+           target="_blank" rel="noopener noreferrer"
+           class="arch-card block rounded-xl border border-blue-200 bg-blue-50 p-6
+                  hover:border-blue-400 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="text-2xl" role="img" aria-hidden="true">🏥</span>
+            <h3 class="font-semibold text-slate-800">Biomedical Reference Architecture</h3>
+          </div>
+          <p class="text-sm text-slate-600">
+            Four-layer governed-data design for clinical and registry data workflows: access control,
+            privacy-preserving computation, audit trail, and cross-jurisdictional compliance alignment
+            (HIPAA, GDPR, Sweden's <em>Patientdatalag</em>).
+          </p>
+          <p class="mt-3 text-xs text-slate-400">
+            Anchored to: Nature Aging 2025 · Scientific Reports 2025 · FHE medical imaging (Applied Sciences 2024)
+          </p>
+          <span class="mt-4 inline-block text-xs font-medium text-blue-600">Read full pattern →</span>
+        </a>
+
+        <!-- Scientific collaboration card (coming soon) -->
+        <div class="rounded-xl border border-dashed border-slate-300 bg-slate-50 p-6 flex flex-col justify-center">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="text-2xl" role="img" aria-hidden="true">🔬</span>
+            <h3 class="font-semibold text-slate-600">Scientific Collaboration Controlled Access</h3>
+          </div>
+          <p class="text-sm text-slate-500">
+            Pattern for high-energy physics and cross-institutional scientific data collaboration
+            with controlled access, privacy-conscious integration, and audit logging.
+            Modeled on large-scale detector and registry workflows where raw data cannot leave
+            institutional boundaries.
+          </p>
+          <span class="mt-4 inline-block text-xs text-slate-400">In development — expected 2026-05-17</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Recent Commits -->
+    <section id="commits">
+      <div class="mb-5">
+        <h2 class="text-xl font-semibold text-slate-900">Recent Commits</h2>
+        <p class="mt-1 text-sm text-slate-500">Live from GitHub — updates on each page load.</p>
+      </div>
+      <div class="rounded-xl border border-slate-200 bg-white shadow-sm px-5 py-2">
+        <ul id="commit-feed" class="divide-y divide-slate-100 text-sm">
+          <li class="py-3 text-slate-400">Loading commit history…</li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── Footer ───────────────────────────────────────────────────────────── -->
+  <footer class="border-t bg-white mt-16">
+    <div class="mx-auto max-w-6xl px-6 py-6">
+      <div class="flex flex-wrap items-center justify-between gap-4 text-sm text-slate-500">
+        <div class="flex flex-wrap gap-x-5 gap-y-1">
+          <a class="hover:text-slate-700 underline"
+             href="https://github.com/zjywy0228/privacy-preserving-data-architecture/blob/master/README.md"
+             target="_blank" rel="noopener noreferrer">README</a>
+          <a class="hover:text-slate-700 underline"
+             href="https://github.com/zjywy0228/privacy-preserving-data-architecture/blob/master/LICENSE"
+             target="_blank" rel="noopener noreferrer">LICENSE</a>
+          <a class="hover:text-slate-700 underline"
+             href="https://github.com/zjywy0228/privacy-preserving-data-architecture/blob/master/CONTRIBUTING.md"
+             target="_blank" rel="noopener noreferrer">CONTRIBUTING</a>
+          <a class="hover:text-slate-700 underline"
+             href="https://github.com/zjywy0228/privacy-preserving-data-architecture/blob/master/docs/ai-assistance-policy.md"
+             target="_blank" rel="noopener noreferrer">AI Assistance Policy</a>
+        </div>
+        <span>
+          MIT licensed · Generated from <code>docs/</code> ·
+          <a class="underline hover:text-slate-700"
+             href="https://github.com/zjywy0228/privacy-preserving-data-architecture"
+             target="_blank" rel="noopener noreferrer">View source</a>
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

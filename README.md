@@ -2,10 +2,15 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
+[![Last commit](https://img.shields.io/github/last-commit/zjywy0228/privacy-preserving-data-architecture)](https://github.com/zjywy0228/privacy-preserving-data-architecture/commits/master)
 
 Reusable architecture patterns, prototype modules, and assessment frameworks for institutions that need to analyze sensitive biomedical and scientific data while controlling raw-data exposure, AI leakage risk, and compliance obligations.
 
 Maintained by Junyi Zhang ([@zjywy0228](https://github.com/zjywy0228)). Issues and feedback welcome.
+
+**[→ Live project dashboard](https://zjywy0228.github.io/privacy-preserving-data-architecture/)** — module status, NIST control mappings, leakage assessment results, FHE benchmark timings, and live commit feed.
+
+[![Dashboard preview](docs/assets/img/dashboard-preview.png)](https://zjywy0228.github.io/privacy-preserving-data-architecture/)
 
 ## Motivation
 
