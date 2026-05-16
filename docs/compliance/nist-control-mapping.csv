@@ -1,0 +1,41 @@
+pattern,module,nist_ai_rmf_control,nist_pf_control,nist_csf_2_control,hipaa_safeguard,notes
+FHE feature extraction — encrypt at source,fhe-feature-extraction,GOVERN-1.1,PR.PO-P1,PR.DS-01,§164.312(a)(2)(iv) Encryption,Raw input encrypted before any computation; plaintext never leaves origin
+FHE feature extraction — ciphertext computation,fhe-feature-extraction,MANAGE-2.2,PR.DS-P4,PR.DS-01,§164.312(e)(2)(ii) Encryption in transit,Statistical operations (sum/mean/variance/dot) execute entirely on ciphertext
+FHE feature extraction — output minimization,fhe-feature-extraction,MAP-2.3,PR.DS-P5,PR.DS-10,§164.514(b) De-identification,Only derived feature vector decrypted; raw biomedical input never exposed
+FHE feature extraction — audit trail,fhe-feature-extraction,GOVERN-1.4,GV.PO-P1,ID.AM-01,§164.312(b) Audit controls,DataMinimizationPipeline.get_audit_log() persists per-request provenance
+FHE feature extraction — NIST AML: data-exposure (Sec 4.1),fhe-feature-extraction,MEASURE-2.8,PR.DS-P4,PR.DS-01,,Addresses raw-data exposure during computation (NIST AML 2025 §4.1)
+FHE feature extraction — key management,fhe-feature-extraction,MANAGE-1.3,CT.PO-P3,PR.PS-01,§164.312(a)(2)(iv) Encryption,CKKS context and Galois keys scoped to the computation session
+FHE benchmark — performance characterisation,fhe-feature-extraction,MEASURE-1.1,ID.IM-P2,ID.RA-05,,Benchmark runner quantifies ciphertext overhead at 128/512/2048 vector sizes
+DP training wrapper — gradient clipping,dp-llm-training,MEASURE-2.5,PR.PO-P3,PR.DS-01,§164.312(a)(2)(iv) Encryption,Per-sample gradient clipping bounds sensitivity before noise injection
+DP training wrapper — Gaussian noise injection,dp-llm-training,MEASURE-2.10,CT.PO-P3,PR.DS-01,,Calibrated Gaussian noise injected at each step per Mironov RDP accountant
+DP training wrapper — RDP epsilon accounting,dp-llm-training,MEASURE-2.5,PR.PO-P4,ID.RA-03,,GaussianMechanism.compute_epsilon tracks (ε,δ) via Renyi DP composition
+DP training wrapper — budget enforcement,dp-llm-training,MANAGE-2.4,GV.PO-P1,PR.DS-01,§164.308(a)(1) Risk analysis,DPTrainer.should_stop() halts training when target epsilon is exhausted
+DP training wrapper — membership-inference mitigation,dp-llm-training,MEASURE-2.7,PR.PO-P4,PR.DS-01,,Addresses membership inference (NIST AML 2025 §2.3 + §2.5)
+DP training wrapper — training-data extraction mitigation,dp-llm-training,MEASURE-2.7,PR.PO-P4,PR.DS-01,,Bounds probability of extracting verbatim training records from model outputs
+DP budget accountant — per-epoch JSON audit log,dp-llm-training,GOVERN-1.4,GV.PO-P1,ID.AM-01,§164.312(b) Audit controls,BudgetAccountant.save_log() emits epoch-level (ε,δ,loss,budget_fraction) record
+DP budget accountant — noise-multiplier search,dp-llm-training,MEASURE-2.10,CT.PO-P3,ID.RA-05,,get_noise_multiplier_for_target() enables pre-training privacy budget planning
+LLM leakage — threat taxonomy v2,llm-leakage-assessment,MAP-2.2,ID.RA-P3,ID.RA-05,,Seven categories: prompt injection / indirect injection / training extraction / system-prompt extraction / log capture / embedding inversion / membership inference
+LLM leakage — risk assessment workflow,llm-leakage-assessment,MAP-1.1,ID.DE-P2,ID.RA-01,§164.308(a)(1) Risk analysis,AssessmentRunner operationalises ASSESSMENT-CHECKLIST.md for automated runs
+LLM leakage — prompt injection detection,llm-leakage-assessment,MEASURE-2.6,ID.DE-P3,RS.AN-03,,pi_001/002/003 YAML cases test adversarial instruction-override attempts
+LLM leakage — indirect injection detection,llm-leakage-assessment,MEASURE-2.6,ID.DE-P3,RS.AN-03,,ii_001/002 test injections via retrieved documents or tool outputs
+LLM leakage — training-data extraction detection,llm-leakage-assessment,MEASURE-2.7,PR.PO-P4,PR.DS-01,,te_001/002 test verbatim memorisation of sensitive training examples
+LLM leakage — system-prompt extraction detection,llm-leakage-assessment,MEASURE-2.6,PR.PO-P2,PR.DS-01,,sp_001/002 test attempts to surface the hidden system prompt
+LLM leakage — log-capture leakage detection,llm-leakage-assessment,MEASURE-2.8,PR.PO-P4,PR.DS-01,,lc_001/002 test whether model outputs or logs expose sensitive context
+LLM leakage — embedding inversion detection,llm-leakage-assessment,MEASURE-2.9,PR.DS-P4,PR.DS-01,,ei_001/002 test reconstruction of input from embedding vectors
+LLM leakage — membership inference detection,llm-leakage-assessment,MEASURE-2.7,PR.PO-P4,ID.RA-03,,mi_001/002 test ability to infer whether a record was in the training set
+LLM leakage — MockModel baseline,llm-leakage-assessment,MAP-1.1,ID.DE-P2,ID.RA-01,,MockModel provides deterministic safe responses for CI reproducibility
+Data minimization checklist,governance-templates,GOVERN-1.4,PR.PO-P1,PR.DS-01,§164.514(b) Minimum-necessary standard,Purpose-limitation and proportionality check before each data-access decision
+Pre-export output review,governance-templates,MANAGE-3.1,PR.PO-P2,PR.DS-10,§164.308(a)(4) Access controls,Review gate before any derived output leaves the privacy-preserving computation
+Audit log template — data-access record,governance-templates,GOVERN-1.4,GV.PO-P1,ID.AM-01,§164.312(b) Audit controls,Structured record of who accessed what data for what stated purpose
+Audit log template — retention policy,governance-templates,GOVERN-6.1,GV.PO-P1,GV.SC-06,,Retention period and disposal policy aligned with HIPAA 6-year minimum
+IRB-readiness annotation,governance-templates,MAP-5.1,GV.MT-P1,GV.RR-02,§164.512(i) Research exception,Template annotations flag items requiring IRB review or amendment
+Biomedical reference architecture — four-layer design,architectures,GOVERN-1.1,CT.PO-P3,PR.DS-01,§164.312 Technical safeguards,Layers: access-control / privacy-preserving compute / audit / cross-jurisdictional compliance
+Biomedical arch — GDPR/Patientdatalag alignment,architectures,MAP-2.3,PR.DS-P5,GV.SC-07,,Cross-jurisdictional data governance for Sweden/EU/US biomedical registry studies
+Biomedical arch — Nature Aging workflow anchor,architectures,GOVERN-1.1,GV.MT-P1,ID.AM-03,,Anchored to Nature Aging 2025 epilepsy study (Swedish register + UK Biobank data)
+Biomedical arch — Scientific Reports workflow anchor,architectures,GOVERN-1.1,GV.MT-P1,ID.AM-03,,Anchored to Scientific Reports 2025 pediatric sleep study (institutional clinical data)
+Biomedical arch — de-identification layer,architectures,MAP-2.3,PR.DS-P5,PR.DS-01,§164.514 De-identification,Architecture includes explicit raw-data de-identification before any cross-system transfer
+Biomedical arch — controlled-access output gate,architectures,MANAGE-3.1,PR.PO-P2,PR.DS-10,§164.308(a)(4),Output gate enforces minimum-necessary principle on computed results
+Biomedical arch — NIST AI RMF GOVERN,architectures,GOVERN-1.1,GV.PO-P1,GV.OC-02,,Organisational accountability for AI data governance aligned with NIST AI RMF Chapter 1
+Biomedical arch — NIST AI RMF MAP,architectures,MAP-2.3,ID.DE-P2,ID.RA-01,,AI risk context mapped to biomedical data-access threat model
+Biomedical arch — NIST AI RMF MEASURE,architectures,MEASURE-2.5,PR.PO-P3,PR.DS-01,,Privacy-risk measurement and documentation per NIST AI RMF Chapter 3
+Biomedical arch — NIST AI RMF MANAGE,architectures,MANAGE-2.2,PR.DS-P4,PR.DS-01,,Risk treatment mechanisms include FHE compute layer and DP training wrapper

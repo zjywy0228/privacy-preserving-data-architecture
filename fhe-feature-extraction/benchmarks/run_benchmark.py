@@ -22,7 +22,6 @@ import json
 import sys
 import time
 from pathlib import Path
-from typing import Dict, List
 
 import numpy as np
 
@@ -30,8 +29,8 @@ import numpy as np
 # Resolve the fhe-feature-extraction directory so we can import fhe_pipeline
 # regardless of where the script is invoked from.
 # ---------------------------------------------------------------------------
-_HERE = Path(__file__).resolve().parent          # …/benchmarks/
-_FHE_DIR = _HERE.parent                          # …/fhe-feature-extraction/
+_HERE = Path(__file__).resolve().parent  # …/benchmarks/
+_FHE_DIR = _HERE.parent  # …/fhe-feature-extraction/
 if str(_FHE_DIR) not in sys.path:
     sys.path.insert(0, str(_FHE_DIR))
 
@@ -44,14 +43,15 @@ from fhe_pipeline import (  # noqa: E402
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
-VECTOR_SIZES: List[int] = [128, 512, 2048]
+VECTOR_SIZES: list[int] = [128, 512, 2048]
 ITERATIONS: int = 10
-FEATURE_DIM: int = 32   # fixed output dimension for all runs
+FEATURE_DIM: int = 32  # fixed output dimension for all runs
 
 
 # ---------------------------------------------------------------------------
 # Core measurement logic
 # ---------------------------------------------------------------------------
+
 
 def _time_one_pass(extractor: FHEFeatureExtractor, vec: np.ndarray) -> float:
     """Return wall-clock seconds for one encrypt+extract+decrypt pass."""
@@ -62,10 +62,10 @@ def _time_one_pass(extractor: FHEFeatureExtractor, vec: np.ndarray) -> float:
 
 
 def run_benchmark(
-    vector_sizes: List[int] = VECTOR_SIZES,
+    vector_sizes: list[int] = VECTOR_SIZES,
     iterations: int = ITERATIONS,
     feature_dim: int = FEATURE_DIM,
-) -> List[Dict]:
+) -> list[dict]:
     """
     Run the benchmark and return a list of result dicts (one per vector size).
 
@@ -79,7 +79,7 @@ def run_benchmark(
     """
     ctx = FHEContext()
     mode = "tenseal" if TENSEAL_AVAILABLE else "mock"
-    results: List[Dict] = []
+    results: list[dict] = []
 
     for size in vector_sizes:
         rng = np.random.default_rng(seed=size)
@@ -89,7 +89,7 @@ def run_benchmark(
             fhe_context=ctx,
         )
 
-        timings: List[float] = []
+        timings: list[float] = []
         for _ in range(iterations):
             vec = rng.standard_normal(size).astype(np.float64)
             elapsed = _time_one_pass(extractor, vec)
@@ -114,13 +114,14 @@ def run_benchmark(
 # Formatting helpers
 # ---------------------------------------------------------------------------
 
-def _render_markdown_table(results: List[Dict], mode: str) -> str:
+
+def _render_markdown_table(results: list[dict], mode: str) -> str:
     mode_note = (
         "TenSEAL (real FHE)"
         if mode == "tenseal"
         else "mock/plaintext simulation (TenSEAL not installed)"
     )
-    lines: List[str] = [
+    lines: list[str] = [
         "# FHE Pipeline Benchmark Results",
         "",
         f"**Mode**: {mode_note}",
@@ -141,7 +142,7 @@ def _render_markdown_table(results: List[Dict], mode: str) -> str:
     return "\n".join(lines)
 
 
-def _render_json(results: List[Dict]) -> str:
+def _render_json(results: list[dict]) -> str:
     payload = {
         "schema_version": "1.0",
         "pipeline": "fhe-feature-extraction",
@@ -153,6 +154,7 @@ def _render_json(results: List[Dict]) -> str:
 # ---------------------------------------------------------------------------
 # Entry point
 # ---------------------------------------------------------------------------
+
 
 def main() -> None:
     print("Running FHE pipeline benchmark …")

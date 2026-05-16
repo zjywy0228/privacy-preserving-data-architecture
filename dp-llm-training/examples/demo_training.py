@@ -6,8 +6,9 @@ and monitor privacy budget consumption — stopping before the
 target epsilon is exhausted.
 """
 
-import sys
 import os
+import sys
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from dp_trainer import DPTrainer, PrivacyConfig
@@ -29,8 +30,8 @@ def main():
     MAX_STEPS = 500
 
     trainer = DPTrainer(
-        model=None,          # set to your nn.Module in real use
-        optimizer=None,      # set to your DP-wrapped optimizer
+        model=None,  # set to your nn.Module in real use
+        optimizer=None,  # set to your DP-wrapped optimizer
         config=config,
         dataset_size=DATASET_SIZE,
         batch_size=BATCH_SIZE,
@@ -41,21 +42,24 @@ def main():
         target_epsilon=config.target_epsilon,
         num_epochs=5,
     )
-    print(f"\nNoise multiplier needed for epsilon={config.target_epsilon} over 5 epochs: "
-          f"{needed_noise:.4f}")
+    print(
+        f"\nNoise multiplier needed for epsilon={config.target_epsilon} over 5 epochs: "
+        f"{needed_noise:.4f}"
+    )
     print(f"Configured noise multiplier: {config.noise_multiplier}\n")
 
-    print(f"Training for up to {MAX_STEPS} steps "
-          f"(batch {BATCH_SIZE} / dataset {DATASET_SIZE})...")
+    print(f"Training for up to {MAX_STEPS} steps (batch {BATCH_SIZE} / dataset {DATASET_SIZE})...")
 
     for step in range(1, MAX_STEPS + 1):
         _ = trainer.step(batch=None)  # pass real (inputs, labels) in production
 
         if step % 50 == 0:
             budget = trainer.privacy_budget_spent()
-            print(f"  Step {step:4d} | epsilon spent: {budget['epsilon_spent']:.4f} "
-                  f"/ {config.target_epsilon} | "
-                  f"exhausted: {budget['budget_exhausted']}")
+            print(
+                f"  Step {step:4d} | epsilon spent: {budget['epsilon_spent']:.4f} "
+                f"/ {config.target_epsilon} | "
+                f"exhausted: {budget['budget_exhausted']}"
+            )
 
         if trainer.should_stop():
             print(f"\n  Budget exhausted at step {step}. Stopping training.")

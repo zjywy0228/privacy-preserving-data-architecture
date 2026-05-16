@@ -20,10 +20,10 @@ Based on the architecture described in:
 """
 
 import numpy as np
-from typing import Optional, Tuple, List
 
 try:
     import tenseal as ts
+
     TENSEAL_AVAILABLE = True
 except ImportError:
     TENSEAL_AVAILABLE = False
@@ -43,7 +43,7 @@ class FHEContext:
     def __init__(
         self,
         poly_modulus_degree: int = 8192,
-        coeff_mod_bit_sizes: Optional[List[int]] = None,
+        coeff_mod_bit_sizes: list[int] | None = None,
         global_scale: float = 2**40,
     ):
         """
@@ -120,7 +120,7 @@ class FHEFeatureExtractor:
         input_dim: int,
         feature_dim: int,
         fhe_context: FHEContext,
-        projection_matrix: Optional[np.ndarray] = None,
+        projection_matrix: np.ndarray | None = None,
     ):
         """
         Args:
@@ -147,7 +147,7 @@ class FHEFeatureExtractor:
             U, _, _ = np.linalg.svd(raw, full_matrices=False)
             self.W = U  # orthogonal rows
 
-    def extract(self, plaintext_input: np.ndarray) -> Tuple[object, object]:
+    def extract(self, plaintext_input: np.ndarray) -> tuple[object, object]:
         """
         Encrypt the input and extract features in the encrypted domain.
 
@@ -192,7 +192,7 @@ class DataMinimizationPipeline:
 
     def __init__(self, extractor: FHEFeatureExtractor):
         self.extractor = extractor
-        self._audit_log: List[dict] = []
+        self._audit_log: list[dict] = []
 
     def process(
         self,
@@ -216,16 +216,18 @@ class DataMinimizationPipeline:
         _, enc_features = self.extractor.extract(plaintext_input)
         features = self.extractor.decrypt_features(enc_features)
 
-        self._audit_log.append({
-            "data_id": data_id,
-            "requester": requester,
-            "purpose": purpose,
-            "features_returned": features.shape[0],
-            "raw_data_returned": False,
-        })
+        self._audit_log.append(
+            {
+                "data_id": data_id,
+                "requester": requester,
+                "purpose": purpose,
+                "features_returned": features.shape[0],
+                "raw_data_returned": False,
+            }
+        )
 
         return features
 
-    def get_audit_log(self) -> List[dict]:
+    def get_audit_log(self) -> list[dict]:
         """Return the immutable audit trail of feature requests."""
         return list(self._audit_log)

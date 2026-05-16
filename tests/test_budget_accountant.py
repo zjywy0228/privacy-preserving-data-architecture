@@ -1,4 +1,4 @@
-﻿"""
+"""
 Tests for budget_accountant.BudgetAccountant
 
 These tests require no Opacus or PyTorch installation.  All epsilon
@@ -20,14 +20,13 @@ if _DP_DIR not in sys.path:
 
 from budget_accountant import BudgetAccountant  # noqa: E402
 
-
 # ---------------------------------------------------------------------------
 # Shared fixture parameters
 # ---------------------------------------------------------------------------
 TARGET_EPSILON = 3.0
 TARGET_DELTA = 1e-5
 NOISE_MULTIPLIER = 1.1
-SAMPLE_RATE = 64 / 5000   # batch_size=64, dataset_size=5000
+SAMPLE_RATE = 64 / 5000  # batch_size=64, dataset_size=5000
 STEPS_PER_EPOCH = 5000 // 64  # 78
 
 
@@ -44,7 +43,6 @@ def _make_accountant(**overrides) -> BudgetAccountant:
 
 
 class TestBudgetAccountantInitial(unittest.TestCase):
-
     def test_initial_budget_is_full(self):
         """remaining_budget() equals target_epsilon before any epochs are recorded."""
         acc = _make_accountant()
@@ -52,7 +50,6 @@ class TestBudgetAccountantInitial(unittest.TestCase):
 
 
 class TestEpsilonGrowth(unittest.TestCase):
-
     def test_epsilon_grows_monotonically(self):
         """Epsilon spent must strictly increase with each recorded epoch."""
         acc = _make_accountant()
@@ -67,28 +64,27 @@ class TestEpsilonGrowth(unittest.TestCase):
 
 
 class TestBudgetFraction(unittest.TestCase):
-
     def test_budget_fraction_bounded_zero_to_one(self):
         """budget_fraction in every log entry must be in [0.0, 1.0]."""
         acc = _make_accountant()
         for epoch in range(1, 6):
             entry = acc.record_epoch(epoch=epoch, steps_in_epoch=STEPS_PER_EPOCH, loss=0.5)
-            self.assertGreaterEqual(entry["budget_fraction"], 0.0,
-                                    f"budget_fraction < 0 at epoch {epoch}")
-            self.assertLessEqual(entry["budget_fraction"], 1.0,
-                                 f"budget_fraction > 1 at epoch {epoch}")
+            self.assertGreaterEqual(
+                entry["budget_fraction"], 0.0, f"budget_fraction < 0 at epoch {epoch}"
+            )
+            self.assertLessEqual(
+                entry["budget_fraction"], 1.0, f"budget_fraction > 1 at epoch {epoch}"
+            )
 
 
 class TestSaveLoadRoundtrip(unittest.TestCase):
-
     def test_save_and_load_roundtrip(self):
         """save_log followed by load_log returns the same number of records."""
         acc = _make_accountant()
         for epoch in range(1, 4):
             acc.record_epoch(epoch=epoch, steps_in_epoch=STEPS_PER_EPOCH, loss=float(epoch))
 
-        with tempfile.NamedTemporaryFile(mode="w", suffix=".json",
-                                         delete=False) as tmp:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as tmp:
             tmp_path = tmp.name
 
         try:
@@ -97,7 +93,7 @@ class TestSaveLoadRoundtrip(unittest.TestCase):
             self.assertEqual(len(loaded), 3)
 
             # Verify the file is valid JSON with expected structure
-            with open(tmp_path, "r", encoding="utf-8") as fh:
+            with open(tmp_path, encoding="utf-8") as fh:
                 raw = json.load(fh)
             self.assertIn("metadata", raw)
             self.assertIn("log", raw)
@@ -106,20 +102,25 @@ class TestSaveLoadRoundtrip(unittest.TestCase):
 
 
 class TestRecordReturnShape(unittest.TestCase):
-
     def test_record_returns_dict_with_expected_keys(self):
         """record_epoch() return value must contain all required keys."""
         acc = _make_accountant()
         entry = acc.record_epoch(epoch=1, steps_in_epoch=STEPS_PER_EPOCH, loss=2.0)
 
-        required_keys = {"epoch", "epsilon_spent", "budget_fraction", "budget_exhausted",
-                         "cumulative_steps", "delta", "loss"}
+        required_keys = {
+            "epoch",
+            "epsilon_spent",
+            "budget_fraction",
+            "budget_exhausted",
+            "cumulative_steps",
+            "delta",
+            "loss",
+        }
         for key in required_keys:
             self.assertIn(key, entry, f"Missing key '{key}' in record_epoch() result")
 
 
 class TestBudgetExhaustedFlag(unittest.TestCase):
-
     def test_budget_exhausted_flag(self):
         """With a tiny target_epsilon, budget_exhausted must become True after few steps."""
         # target_epsilon=0.01 is extremely tight; even 1 epoch of 78 steps
@@ -129,7 +130,7 @@ class TestBudgetExhaustedFlag(unittest.TestCase):
 
         self.assertTrue(
             entry["budget_exhausted"],
-            "budget_exhausted should be True when epsilon_spent >= target_epsilon"
+            "budget_exhausted should be True when epsilon_spent >= target_epsilon",
         )
         self.assertGreaterEqual(entry["epsilon_spent"], 0.01)
         self.assertEqual(acc.remaining_budget(), 0.0)

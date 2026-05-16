@@ -1,4 +1,4 @@
-﻿"""
+"""
 Standalone Privacy Budget Accountant for Differential Privacy Governance
 
 WHY THIS EXISTS:
@@ -28,8 +28,7 @@ WHY THIS EXISTS:
 
 import json
 import math
-from typing import Dict, Any, List, Optional
-
+from typing import Any
 
 # ---------------------------------------------------------------------------
 # Minimal RDP-based epsilon computation (self-contained, no Opacus dependency)
@@ -38,12 +37,13 @@ from typing import Dict, Any, List, Optional
 # installing the full dp-llm-training package or its torch/opacus dependencies.
 # ---------------------------------------------------------------------------
 
+
 def _compute_epsilon_rdp(
     noise_multiplier: float,
     sample_rate: float,
     steps: int,
     delta: float,
-    orders: Optional[List[int]] = None,
+    orders: list[int] | None = None,
 ) -> float:
     """
     Estimate epsilon after `steps` DP gradient updates (Mironov 2017 RDP bound).
@@ -63,7 +63,7 @@ def _compute_epsilon_rdp(
 
     best_eps = float("inf")
     for alpha in orders:
-        log_moment = steps * sample_rate ** 2 * alpha / (2.0 * noise_multiplier ** 2)
+        log_moment = steps * sample_rate**2 * alpha / (2.0 * noise_multiplier**2)
         eps_candidate = log_moment + math.log(1.0 / delta) / (alpha - 1)
         best_eps = min(best_eps, eps_candidate)
     return best_eps
@@ -72,6 +72,7 @@ def _compute_epsilon_rdp(
 # ---------------------------------------------------------------------------
 # BudgetAccountant
 # ---------------------------------------------------------------------------
+
 
 class BudgetAccountant:
     """
@@ -103,13 +104,13 @@ class BudgetAccountant:
 
         self._cumulative_steps: int = 0
         self._epsilon_spent: float = 0.0
-        self._log: List[Dict[str, Any]] = []
+        self._log: list[dict[str, Any]] = []
 
     # ------------------------------------------------------------------
     # Core recording interface
     # ------------------------------------------------------------------
 
-    def record_epoch(self, epoch: int, steps_in_epoch: int, loss: float) -> Dict[str, Any]:
+    def record_epoch(self, epoch: int, steps_in_epoch: int, loss: float) -> dict[str, Any]:
         """
         Record privacy cost for one completed training epoch.
 
@@ -138,7 +139,7 @@ class BudgetAccountant:
         budget_fraction = min(self._epsilon_spent / self.target_epsilon, 1.0)
         budget_exhausted = self._epsilon_spent >= self.target_epsilon
 
-        entry: Dict[str, Any] = {
+        entry: dict[str, Any] = {
             "epoch": epoch,
             "cumulative_steps": self._cumulative_steps,
             "epsilon_spent": round(self._epsilon_spent, 6),
@@ -158,7 +159,7 @@ class BudgetAccountant:
         """Return remaining epsilon budget (clamped to 0 when exhausted)."""
         return max(0.0, self.target_epsilon - self._epsilon_spent)
 
-    def summary(self) -> Dict[str, Any]:
+    def summary(self) -> dict[str, Any]:
         """Return a snapshot of the current accountant state."""
         return {
             "target_epsilon": self.target_epsilon,
@@ -199,7 +200,7 @@ class BudgetAccountant:
             json.dump(payload, fh, indent=2)
 
     @classmethod
-    def load_log(cls, path: str) -> List[Dict[str, Any]]:
+    def load_log(cls, path: str) -> list[dict[str, Any]]:
         """
         Load and return the epoch log from a previously saved JSON audit file.
 
@@ -209,6 +210,6 @@ class BudgetAccountant:
         Returns:
             List of epoch record dicts (the "log" array from the file).
         """
-        with open(path, "r", encoding="utf-8") as fh:
+        with open(path, encoding="utf-8") as fh:
             payload = json.load(fh)
         return payload["log"]

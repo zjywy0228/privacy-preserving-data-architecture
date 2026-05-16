@@ -15,7 +15,6 @@ from __future__ import annotations
 
 import sys
 import unittest
-import importlib
 from pathlib import Path
 from unittest import mock
 
@@ -30,12 +29,12 @@ if str(_FHE_DIR) not in sys.path:
 
 import fhe_pipeline  # noqa: E402
 
-
 # ---------------------------------------------------------------------------
 # Helper: build objects with TENSEAL_AVAILABLE forced to False
 # ---------------------------------------------------------------------------
 
-def _make_context() -> "fhe_pipeline.FHEContext":
+
+def _make_context() -> fhe_pipeline.FHEContext:
     """Return an FHEContext operating in mock mode."""
     with mock.patch.object(fhe_pipeline, "TENSEAL_AVAILABLE", False):
         return fhe_pipeline.FHEContext()
@@ -44,8 +43,8 @@ def _make_context() -> "fhe_pipeline.FHEContext":
 def _make_extractor(
     input_dim: int = 64,
     feature_dim: int = 16,
-    ctx: "fhe_pipeline.FHEContext | None" = None,
-) -> "fhe_pipeline.FHEFeatureExtractor":
+    ctx: fhe_pipeline.FHEContext | None = None,
+) -> fhe_pipeline.FHEFeatureExtractor:
     """Build an FHEFeatureExtractor in mock mode with a known-good projection matrix.
 
     fhe_pipeline uses np.linalg.svd(..., full_matrices=False) and assigns U as W.
@@ -70,7 +69,7 @@ def _make_extractor(
 def _make_pipeline(
     input_dim: int = 64,
     feature_dim: int = 16,
-) -> "fhe_pipeline.DataMinimizationPipeline":
+) -> fhe_pipeline.DataMinimizationPipeline:
     extractor = _make_extractor(input_dim=input_dim, feature_dim=feature_dim)
     return fhe_pipeline.DataMinimizationPipeline(extractor)
 
@@ -81,7 +80,6 @@ def _make_pipeline(
 
 
 class TestFHEContextMockMode(unittest.TestCase):
-
     def test_mock_context_encrypt_returns_mock_vector(self):
         """FHEContext without TenSEAL must return _MockEncryptedVector."""
         ctx = _make_context()
@@ -92,7 +90,6 @@ class TestFHEContextMockMode(unittest.TestCase):
 
 
 class TestMockEncryptedVector(unittest.TestCase):
-
     def _mock(self, data: list) -> fhe_pipeline._MockEncryptedVector:
         return fhe_pipeline._MockEncryptedVector(np.array(data, dtype=float))
 
@@ -113,7 +110,6 @@ class TestMockEncryptedVector(unittest.TestCase):
 
 
 class TestFHEFeatureExtractor(unittest.TestCase):
-
     def test_extractor_output_shape(self):
         """extract() returns a 2-tuple; decrypt_features gives a feature_dim array."""
         input_dim, feature_dim = 64, 16
@@ -136,7 +132,7 @@ class TestFHEFeatureExtractor(unittest.TestCase):
         """A custom projection_matrix passed at construction should be stored as W."""
         input_dim, feature_dim = 8, 4
         W = np.eye(feature_dim, input_dim)  # deterministic, non-random
-        extractor = _make_extractor(input_dim=input_dim, feature_dim=feature_dim)
+        _extractor = _make_extractor(input_dim=input_dim, feature_dim=feature_dim)
         # Re-build with an explicit projection matrix.
         ctx = _make_context()
         with mock.patch.object(fhe_pipeline, "TENSEAL_AVAILABLE", False):
@@ -150,7 +146,6 @@ class TestFHEFeatureExtractor(unittest.TestCase):
 
 
 class TestDataMinimizationPipeline(unittest.TestCase):
-
     def _run_pipeline(
         self,
         pipeline: fhe_pipeline.DataMinimizationPipeline,

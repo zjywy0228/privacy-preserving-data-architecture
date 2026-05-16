@@ -1,4 +1,4 @@
-﻿"""
+"""
 Text Classification Demo: Differentially Private Training with Budget Audit Log
 
 This demo simulates three epochs of DP text classification training.
@@ -15,8 +15,8 @@ Demonstrates:
 """
 
 import json
-import sys
 import os
+import sys
 
 # ---------------------------------------------------------------------------
 # Path setup: make dp-llm-training directory importable from any working dir
@@ -25,8 +25,8 @@ _DP_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if _DP_DIR not in sys.path:
     sys.path.insert(0, _DP_DIR)
 
-from dp_trainer import DPTrainer, PrivacyConfig           # noqa: E402
-from budget_accountant import BudgetAccountant            # noqa: E402
+from budget_accountant import BudgetAccountant  # noqa: E402
+from dp_trainer import DPTrainer, PrivacyConfig  # noqa: E402
 
 # ---------------------------------------------------------------------------
 # Simulation parameters (realistic text classification workload)
@@ -35,12 +35,12 @@ DATASET_SIZE = 5_000
 BATCH_SIZE = 64
 NUM_EPOCHS = 3
 TARGET_EPSILON = 3.0
-TARGET_DELTA = 1.0 / DATASET_SIZE   # 2e-4, standard choice of 1/N
+TARGET_DELTA = 1.0 / DATASET_SIZE  # 2e-4, standard choice of 1/N
 NOISE_MULTIPLIER = 1.1
 MAX_GRAD_NORM = 1.0
 
 SAMPLE_RATE = BATCH_SIZE / DATASET_SIZE
-STEPS_PER_EPOCH = DATASET_SIZE // BATCH_SIZE   # 78 steps per epoch
+STEPS_PER_EPOCH = DATASET_SIZE // BATCH_SIZE  # 78 steps per epoch
 
 
 def simulate_epoch_loss(epoch: int) -> float:
@@ -51,8 +51,10 @@ def simulate_epoch_loss(epoch: int) -> float:
 
 def print_table_header() -> None:
     print("\n" + "=" * 75)
-    print(f"  {'Epoch':>5}  {'Steps':>6}  {'Loss':>7}  {'Epsilon':>9}  "
-          f"{'Budget%':>8}  {'Remaining':>10}  {'Exhausted':>9}")
+    print(
+        f"  {'Epoch':>5}  {'Steps':>6}  {'Loss':>7}  {'Epsilon':>9}  "
+        f"{'Budget%':>8}  {'Remaining':>10}  {'Exhausted':>9}"
+    )
     print("-" * 75)
 
 
@@ -141,8 +143,10 @@ def run_demo(audit_log_path: str = "dp_audit_log.json") -> None:
     print("\nAudit log snippet (first entry):")
     print(json.dumps(loaded[0], indent=2))
 
-    print(f"\nFinal epsilon: {summary['epsilon_spent']:.5f} / {TARGET_EPSILON}  "
-          f"({summary['remaining_budget']:.5f} remaining)")
+    print(
+        f"\nFinal epsilon: {summary['epsilon_spent']:.5f} / {TARGET_EPSILON}  "
+        f"({summary['remaining_budget']:.5f} remaining)"
+    )
 
 
 if __name__ == "__main__":
