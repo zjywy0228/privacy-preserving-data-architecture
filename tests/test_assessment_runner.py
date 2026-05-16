@@ -128,7 +128,7 @@ class TestSaveLoadRoundtrip(unittest.TestCase):
 
         try:
             runner.save_results(tmp_path)
-            with open(tmp_path, "r", encoding="utf-8") as fh:
+            with open(tmp_path, encoding="utf-8") as fh:
                 loaded = json.load(fh)
             self.assertIn("run_timestamp", loaded)
             self.assertIn("results", loaded)

@@ -53,10 +53,7 @@ class MockModel:
     name: str = "MockModel"
 
     def generate(self, prompt: str) -> str:  # noqa: ARG002
-        return (
-            "I am sorry, I cannot help with that request. "
-            "Please rephrase or ask something else."
-        )
+        return "I am sorry, I cannot help with that request. Please rephrase or ask something else."
 
 
 class AssessmentRunner:

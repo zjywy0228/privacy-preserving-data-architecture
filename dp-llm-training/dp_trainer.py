@@ -23,20 +23,18 @@ Usage pattern:
         print(trainer.privacy_budget_spent())
 """
 
+import importlib.util
 import math
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from typing import Optional, Callable, Dict, Any, List
+from typing import Any
 
-try:
-    import torch
-    import torch.nn as nn
-    TORCH_AVAILABLE = True
-except ImportError:
-    TORCH_AVAILABLE = False
+TORCH_AVAILABLE = importlib.util.find_spec("torch") is not None
 
 try:
     from opacus import PrivacyEngine
     from opacus.accountants import RDPAccountant
+
     OPACUS_AVAILABLE = True
 except ImportError:
     OPACUS_AVAILABLE = False
@@ -56,6 +54,7 @@ class PrivacyConfig:
     noise_multiplier: Gaussian noise scale relative to max_grad_norm.
         Higher = stronger privacy, lower accuracy.
     """
+
     target_epsilon: float = 3.0
     target_delta: float = 1e-5
     max_grad_norm: float = 1.0
@@ -71,18 +70,19 @@ class PrivacyConfig:
 @dataclass
 class PrivacyAccountingRecord:
     """Tracks privacy budget consumption across training steps."""
+
     steps: int = 0
     epsilon_spent: float = 0.0
     delta: float = 1e-5
     budget_exhausted: bool = False
-    history: List[Dict[str, float]] = field(default_factory=list)
+    history: list[dict[str, float]] = field(default_factory=list)
 
     def update(self, step: int, epsilon: float):
         self.steps = step
         self.epsilon_spent = epsilon
         self.history.append({"step": step, "epsilon": epsilon})
 
-    def summary(self) -> Dict[str, Any]:
+    def summary(self) -> dict[str, Any]:
         return {
             "steps_trained": self.steps,
             "epsilon_spent": round(self.epsilon_spent, 4),
@@ -105,7 +105,7 @@ class GaussianMechanism:
         sample_rate: float,
         steps: int,
         delta: float,
-        orders: Optional[List[int]] = None,
+        orders: list[int] | None = None,
     ) -> float:
         """
         Estimate epsilon spent after `steps` gradient updates.
@@ -132,12 +132,7 @@ class GaussianMechanism:
         # Analytical approximation (Mironov 2017) when Opacus is not installed.
         best_eps = float("inf")
         for alpha in orders:
-            log_moment = (
-                steps
-                * sample_rate**2
-                * alpha
-                / (2 * noise_multiplier**2)
-            )
+            log_moment = steps * sample_rate**2 * alpha / (2 * noise_multiplier**2)
             eps_candidate = log_moment + math.log(1 / delta) / (alpha - 1)
             best_eps = min(best_eps, eps_candidate)
         return best_eps
@@ -155,10 +150,10 @@ class DPTrainer:
         self,
         model,
         optimizer,
-        config: Optional[PrivacyConfig] = None,
+        config: PrivacyConfig | None = None,
         dataset_size: int = 10_000,
         batch_size: int = 32,
-        criterion: Optional[Callable] = None,
+        criterion: Callable | None = None,
     ):
         self.model = model
         self.optimizer = optimizer
@@ -209,7 +204,7 @@ class DPTrainer:
 
         return loss_val
 
-    def privacy_budget_spent(self) -> Dict[str, Any]:
+    def privacy_budget_spent(self) -> dict[str, Any]:
         """Return a summary of privacy budget consumed so far."""
         return self.accounting.summary()
 
@@ -221,7 +216,7 @@ class DPTrainer:
         self,
         target_epsilon: float,
         num_epochs: int,
-        delta: Optional[float] = None,
+        delta: float | None = None,
     ) -> float:
         """
         Compute the noise multiplier needed to meet a target (epsilon, delta)

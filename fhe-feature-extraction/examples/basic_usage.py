@@ -10,12 +10,13 @@ No real patient data is used. The synthetic signal mimics the dimensionality
 of a flattened 8x8 image patch, representative of a medical imaging sub-region.
 """
 
-import sys
 import os
+import sys
+
 import numpy as np
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-from fhe_pipeline import FHEContext, FHEFeatureExtractor, DataMinimizationPipeline
+from fhe_pipeline import DataMinimizationPipeline, FHEContext, FHEFeatureExtractor
 
 
 def generate_synthetic_signal(dim: int = 64, seed: int = 0) -> np.ndarray:
@@ -28,7 +29,7 @@ def generate_synthetic_signal(dim: int = 64, seed: int = 0) -> np.ndarray:
 def main():
     print("=== FHE Feature Extraction Demo ===\n")
 
-    INPUT_DIM = 64   # 8x8 image patch (flattened)
+    INPUT_DIM = 64  # 8x8 image patch (flattened)
     FEATURE_DIM = 16  # Compact feature representation
 
     print("1. Initialising FHE context (CKKS scheme)...")
@@ -52,19 +53,23 @@ def main():
     for i in range(3):
         signal = generate_synthetic_signal(dim=INPUT_DIM, seed=i)
         features = pipeline.process(
-            data_id=f"STUDY-RECORD-{i+1:03d}",
+            data_id=f"STUDY-RECORD-{i + 1:03d}",
             plaintext_input=signal,
             requester="analysis-node-A",
             purpose="feature extraction for downstream classification model",
         )
-        print(f"   Record STUDY-RECORD-{i+1:03d}: "
-              f"input shape {signal.shape} -> features shape {features.shape}")
+        print(
+            f"   Record STUDY-RECORD-{i + 1:03d}: "
+            f"input shape {signal.shape} -> features shape {features.shape}"
+        )
 
     print("\n4. Audit log (raw data was never returned):")
     for entry in pipeline.get_audit_log():
-        print(f"   {entry['data_id']} | requester={entry['requester']} | "
-              f"raw_data_returned={entry['raw_data_returned']} | "
-              f"features_returned={entry['features_returned']}")
+        print(
+            f"   {entry['data_id']} | requester={entry['requester']} | "
+            f"raw_data_returned={entry['raw_data_returned']} | "
+            f"features_returned={entry['features_returned']}"
+        )
 
     print("\n5. Verifying round-trip accuracy (encrypt -> extract -> decrypt)...")
     test_signal = generate_synthetic_signal(dim=INPUT_DIM, seed=99)
