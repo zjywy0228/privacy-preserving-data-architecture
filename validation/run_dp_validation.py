@@ -156,8 +156,7 @@ def run_sweep(
 def _print_table(records: list[EpochRecord], target_epsilon: float) -> None:
     last_sigma: float | None = None
     header = (
-        f"  {'σ':>6}  {'epoch':>5}  {'steps':>7}  "
-        f"{'epsilon':>9}  {'budget%':>8}  {'exhausted':>9}"
+        f"  {'σ':>6}  {'epoch':>5}  {'steps':>7}  {'epsilon':>9}  {'budget%':>8}  {'exhausted':>9}"
     )
     sep = "  " + "─" * (len(header) - 2)
 
@@ -192,8 +191,9 @@ def _summarise(records: list[EpochRecord]) -> dict[str, Any]:
             "final_epsilon": last.epsilon,
             "final_budget_pct": last.budget_pct,
             "budget_exhausted": last.exhausted,
-            "epochs_completed": last.epoch if not last.exhausted else
-                next((r.epoch for r in rows if r.exhausted), last.epoch),
+            "epochs_completed": last.epoch
+            if not last.exhausted
+            else next((r.epoch for r in rows if r.exhausted), last.epoch),
         }
     return summary
 
@@ -209,11 +209,11 @@ def _build_parser() -> argparse.ArgumentParser:
         description="Sweep noise multiplier σ and show per-epoch privacy budget.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    p.add_argument("--dataset-size",    type=int,   default=120_000)
-    p.add_argument("--batch-size",      type=int,   default=256)
-    p.add_argument("--epochs",          type=int,   default=3)
-    p.add_argument("--target-epsilon",  type=float, default=3.0)
-    p.add_argument("--target-delta",    type=float, default=None)
+    p.add_argument("--dataset-size", type=int, default=120_000)
+    p.add_argument("--batch-size", type=int, default=256)
+    p.add_argument("--epochs", type=int, default=3)
+    p.add_argument("--target-epsilon", type=float, default=3.0)
+    p.add_argument("--target-delta", type=float, default=None)
     p.add_argument(
         "--sigmas",
         type=float,

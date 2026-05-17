@@ -53,10 +53,10 @@ import numpy as np
 @dataclass
 class RecordMeta:
     record_id: str
-    cohort: str          # "control" | "case" | "validation"
-    visit: int           # 1-based visit number
+    cohort: str  # "control" | "case" | "validation"
+    visit: int  # 1-based visit number
     signal_dim: int
-    label: int           # integer class label (0, 1, ...)
+    label: int  # integer class label (0, 1, ...)
 
 
 # ---------------------------------------------------------------------------

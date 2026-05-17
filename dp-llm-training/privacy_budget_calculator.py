@@ -90,7 +90,7 @@ def _rdp_epsilon(
     for alpha in orders:
         if alpha <= 1:
             continue
-        log_moment = steps * (sample_rate ** 2) * alpha / (2.0 * noise_multiplier ** 2)
+        log_moment = steps * (sample_rate**2) * alpha / (2.0 * noise_multiplier**2)
         candidate = log_moment + math.log(1.0 / delta) / (alpha - 1)
         best = min(best, candidate)
     return best
@@ -173,9 +173,7 @@ def compute_plan(
     sigma = _find_noise_multiplier(target_epsilon, sample_rate, steps, target_delta)
     feasible = sigma < 1000.0
 
-    eps_actual = (
-        _rdp_epsilon(sigma, sample_rate, steps, target_delta) if feasible else math.inf
-    )
+    eps_actual = _rdp_epsilon(sigma, sample_rate, steps, target_delta) if feasible else math.inf
 
     return BudgetPlan(
         dataset_size=dataset_size,
@@ -268,9 +266,7 @@ def _fmt_sweep(rows: list[SweepRow], target_epsilon: float) -> str:
     ]
     for r in rows:
         budget_str = "✓ yes" if r.within_budget else "✗ no"
-        lines.append(
-            f"  {r.noise_multiplier:>15.2f}  {r.epsilon:>12.4f}  {budget_str:>13}"
-        )
+        lines.append(f"  {r.noise_multiplier:>15.2f}  {r.epsilon:>12.4f}  {budget_str:>13}")
     lines.append("")
     return "\n".join(lines)
 

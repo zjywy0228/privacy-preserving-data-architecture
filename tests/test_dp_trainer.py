@@ -163,21 +163,15 @@ class TestDPTrainerMockMode(unittest.TestCase):
     def test_get_noise_multiplier_for_target(self) -> None:
         """get_noise_multiplier_for_target() should return a positive float."""
         trainer = self._make_trainer(dataset_size=10_000, batch_size=128)
-        sigma = trainer.get_noise_multiplier_for_target(
-            target_epsilon=3.0, num_epochs=3
-        )
+        sigma = trainer.get_noise_multiplier_for_target(target_epsilon=3.0, num_epochs=3)
         self.assertGreater(sigma, 0.0)
         self.assertLess(sigma, 100.0)
 
     def test_higher_target_epsilon_needs_less_noise(self) -> None:
         """Relaxing ε should require a lower (less noisy) σ."""
         trainer = self._make_trainer(dataset_size=10_000, batch_size=128)
-        sigma_tight = trainer.get_noise_multiplier_for_target(
-            target_epsilon=1.0, num_epochs=3
-        )
-        sigma_loose = trainer.get_noise_multiplier_for_target(
-            target_epsilon=8.0, num_epochs=3
-        )
+        sigma_tight = trainer.get_noise_multiplier_for_target(target_epsilon=1.0, num_epochs=3)
+        sigma_loose = trainer.get_noise_multiplier_for_target(target_epsilon=8.0, num_epochs=3)
         self.assertGreater(sigma_tight, sigma_loose)
 
 
@@ -206,26 +200,35 @@ class TestPrivacyBudgetCalculator(unittest.TestCase):
 
     def test_tight_epsilon_needs_more_noise(self) -> None:
         """Tighter ε target must demand a higher noise multiplier."""
-        plan_tight = compute_plan(dataset_size=5000, batch_size=64, epochs=3,
-                                  target_epsilon=1.0, target_delta=1e-5)
-        plan_loose = compute_plan(dataset_size=5000, batch_size=64, epochs=3,
-                                  target_epsilon=8.0, target_delta=1e-5)
-        self.assertGreater(plan_tight.required_noise_multiplier,
-                           plan_loose.required_noise_multiplier)
+        plan_tight = compute_plan(
+            dataset_size=5000, batch_size=64, epochs=3, target_epsilon=1.0, target_delta=1e-5
+        )
+        plan_loose = compute_plan(
+            dataset_size=5000, batch_size=64, epochs=3, target_epsilon=8.0, target_delta=1e-5
+        )
+        self.assertGreater(
+            plan_tight.required_noise_multiplier, plan_loose.required_noise_multiplier
+        )
 
     def test_sweep_returns_correct_count(self) -> None:
         sigmas = [0.5, 1.0, 1.5, 2.0]
         rows = sweep_sigma(
-            dataset_size=5000, batch_size=64, epochs=3,
-            target_epsilon=3.0, target_delta=1e-5,
+            dataset_size=5000,
+            batch_size=64,
+            epochs=3,
+            target_epsilon=3.0,
+            target_delta=1e-5,
             sigma_values=sigmas,
         )
         self.assertEqual(len(rows), len(sigmas))
 
     def test_sweep_rows_sorted_by_sigma(self) -> None:
         rows = sweep_sigma(
-            dataset_size=5000, batch_size=64, epochs=3,
-            target_epsilon=3.0, target_delta=1e-5,
+            dataset_size=5000,
+            batch_size=64,
+            epochs=3,
+            target_epsilon=3.0,
+            target_delta=1e-5,
         )
         sigmas = [r.noise_multiplier for r in rows]
         self.assertEqual(sigmas, sorted(sigmas))
@@ -233,12 +236,15 @@ class TestPrivacyBudgetCalculator(unittest.TestCase):
     def test_sweep_within_budget_flag(self) -> None:
         """Rows with large σ should be within budget; tiny σ should not."""
         rows = sweep_sigma(
-            dataset_size=5000, batch_size=64, epochs=3,
-            target_epsilon=3.0, target_delta=1e-5,
+            dataset_size=5000,
+            batch_size=64,
+            epochs=3,
+            target_epsilon=3.0,
+            target_delta=1e-5,
             sigma_values=[0.1, 3.0],  # 0.1 → huge ε; 3.0 → tiny ε
         )
-        self.assertFalse(rows[0].within_budget)   # σ = 0.1
-        self.assertTrue(rows[1].within_budget)    # σ = 3.0
+        self.assertFalse(rows[0].within_budget)  # σ = 0.1
+        self.assertTrue(rows[1].within_budget)  # σ = 3.0
 
     def test_rdp_epsilon_monotone_in_steps(self) -> None:
         params = dict(noise_multiplier=1.1, sample_rate=0.01, delta=1e-5)

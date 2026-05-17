@@ -56,7 +56,12 @@ for _p in (_FHE_DIR, _VAL_DIR):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-from fhe_pipeline import TENSEAL_AVAILABLE, DataMinimizationPipeline, FHEContext, FHEFeatureExtractor  # noqa: E402
+from fhe_pipeline import (
+    TENSEAL_AVAILABLE,
+    DataMinimizationPipeline,
+    FHEContext,
+    FHEFeatureExtractor,
+)  # noqa: E402
 from synthetic_medical_signal import generate_dataset  # noqa: E402
 
 
@@ -124,9 +129,8 @@ def validate_pipeline(
     elapsed = time.perf_counter() - t_start
 
     audit_log = pipeline.get_audit_log()
-    audit_ok = (
-        len(audit_log) == n_samples
-        and all(not entry["raw_data_returned"] for entry in audit_log)
+    audit_ok = len(audit_log) == n_samples and all(
+        not entry["raw_data_returned"] for entry in audit_log
     )
 
     return {
@@ -157,9 +161,9 @@ def run_sweep(
     """
     if configs is None:
         configs = [
-            {"signal_dim": 128,  "feature_dim": 16,  "n_samples": 50},
-            {"signal_dim": 512,  "feature_dim": 32,  "n_samples": 30},
-            {"signal_dim": 2048, "feature_dim": 64,  "n_samples": 10},
+            {"signal_dim": 128, "feature_dim": 16, "n_samples": 50},
+            {"signal_dim": 512, "feature_dim": 32, "n_samples": 30},
+            {"signal_dim": 2048, "feature_dim": 64, "n_samples": 10},
         ]
     return [validate_pipeline(**cfg) for cfg in configs]
 
@@ -202,14 +206,16 @@ def _build_parser() -> argparse.ArgumentParser:
         description="Validate FHE round-trip error and throughput on synthetic signals.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    p.add_argument("--n-samples",   type=int, default=50)
-    p.add_argument("--signal-dim",  type=int, default=128)
+    p.add_argument("--n-samples", type=int, default=50)
+    p.add_argument("--signal-dim", type=int, default=128)
     p.add_argument("--feature-dim", type=int, default=32)
-    p.add_argument("--seed",        type=int, default=0)
-    p.add_argument("--sweep",       action="store_true",
-                   help="Run the default multi-config sweep instead of a single config.")
-    p.add_argument("--output",      type=str, default=None,
-                   help="Write JSON report to FILE.")
+    p.add_argument("--seed", type=int, default=0)
+    p.add_argument(
+        "--sweep",
+        action="store_true",
+        help="Run the default multi-config sweep instead of a single config.",
+    )
+    p.add_argument("--output", type=str, default=None, help="Write JSON report to FILE.")
     return p
 
 
@@ -219,12 +225,14 @@ def main(argv: list[str] | None = None) -> None:
     if args.sweep:
         results = run_sweep()
     else:
-        results = [validate_pipeline(
-            n_samples=args.n_samples,
-            signal_dim=args.signal_dim,
-            feature_dim=args.feature_dim,
-            seed=args.seed,
-        )]
+        results = [
+            validate_pipeline(
+                n_samples=args.n_samples,
+                signal_dim=args.signal_dim,
+                feature_dim=args.feature_dim,
+                seed=args.seed,
+            )
+        ]
 
     _print_table(results)
 
