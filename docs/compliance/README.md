@@ -1,7 +1,8 @@
 # Compliance Documentation
 
 This folder maps the architecture patterns and prototype modules in this repository to
-published NIST framework controls and HIPAA technical safeguards.
+published NIST framework controls, HIPAA technical safeguards, and the PPDSA national
+strategy objectives.
 
 ## Files
 
@@ -9,6 +10,8 @@ published NIST framework controls and HIPAA technical safeguards.
 |---|---|
 | `nist-control-mapping.csv` | 40-row control mapping (primary reference) |
 | `nist-control-mapping.md` | Markdown summary (human-readable, fewer rows) |
+| `hipaa-control-mapping.md` | HIPAA Security Rule §164.312 mapping for FHE, DP, and LLM leakage modules |
+| `ppdsa-alignment.md` | Alignment to the five PPDSA national strategy objectives (OSTP, March 2023) |
 
 ## Control mapping methodology
 
