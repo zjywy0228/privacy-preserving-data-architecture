@@ -19,9 +19,13 @@ _DP_DIR = Path(__file__).resolve().parent.parent / "dp-llm-training"
 if str(_DP_DIR) not in sys.path:
     sys.path.insert(0, str(_DP_DIR))
 
-from dp_trainer import DPTrainer, GaussianMechanism, PrivacyConfig, PrivacyAccountingRecord  # noqa: E402
-from privacy_budget_calculator import compute_plan, sweep_sigma, _rdp_epsilon  # noqa: E402
-
+from dp_trainer import (  # noqa: E402
+    DPTrainer,
+    GaussianMechanism,
+    PrivacyAccountingRecord,
+    PrivacyConfig,
+)
+from privacy_budget_calculator import _rdp_epsilon, compute_plan, sweep_sigma  # noqa: E402
 
 # ---------------------------------------------------------------------------
 # GaussianMechanism

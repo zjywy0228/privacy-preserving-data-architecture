@@ -43,7 +43,6 @@ if str(_DP_DIR) not in sys.path:
 
 from dp_trainer import DPTrainer, PrivacyConfig  # noqa: E402
 
-
 # ---------------------------------------------------------------------------
 # Data structures
 # ---------------------------------------------------------------------------

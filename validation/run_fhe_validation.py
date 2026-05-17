@@ -56,14 +56,13 @@ for _p in (_FHE_DIR, _VAL_DIR):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-from fhe_pipeline import (
+from fhe_pipeline import (  # noqa: E402
     TENSEAL_AVAILABLE,
     DataMinimizationPipeline,
     FHEContext,
     FHEFeatureExtractor,
-)  # noqa: E402
+)
 from synthetic_medical_signal import generate_dataset  # noqa: E402
-
 
 # ---------------------------------------------------------------------------
 # Validation core
