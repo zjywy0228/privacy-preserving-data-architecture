@@ -120,6 +120,9 @@ class GaussianMechanism:
         Returns:
             Estimated epsilon under (epsilon, delta)-DP.
         """
+        if steps == 0:
+            return 0.0
+
         if orders is None:
             orders = list(range(2, 64)) + [128, 256, 512]
 

@@ -161,15 +161,29 @@ class FHEFeatureExtractor:
 
         enc_input = self.ctx.encrypt_vector(plaintext_input)
 
-        # Linear projection: W @ x, computed row-by-row in the encrypted domain.
-        # Each row of W is a public weight vector; dot product with enc_input
-        # is a supported homomorphic operation under CKKS.
-        feature_values = []
-        for row in self.W:
-            dot = float(np.dot(row, plaintext_input))  # plaintext shortcut for demo
-            # In a real deployment: compute the dot product homomorphically.
-            # TenSEAL supports enc_vector.dot(weight_vector).
-            feature_values.append(dot)
+        # Linear projection: W @ x, computed row-by-row.
+        # When TenSEAL is available, each dot product is executed homomorphically:
+        #   enc_input.dot(w_i) applies the CKKS inner-product circuit and returns
+        #   an encrypted scalar without ever exposing the plaintext input.
+        # The scalar results are decrypted only to assemble the output feature
+        # vector, which is then re-encrypted.  In a deployment where the feature
+        # consumer holds the secret key, enc_input.dot(w_i) results can be
+        # transmitted encrypted and decrypted at the destination — the server
+        # performing the projection never touches plaintext.
+        feature_values: list[float] = []
+        if TENSEAL_AVAILABLE and hasattr(enc_input, "dot"):
+            for row in self.W:
+                # Homomorphic dot product: W row (plaintext) ⊙ enc_input (ciphertext).
+                # Returns a CKKSVector containing the encrypted scalar result.
+                enc_dot = enc_input.dot(row.tolist())
+                # Decrypt the scalar to collect the feature; re-encrypt the full
+                # feature vector below.  The raw input plaintext_input is never
+                # accessed after this point.
+                feature_values.append(enc_dot.decrypt()[0])
+        else:
+            # Mock mode: project using plaintext (no TenSEAL installed).
+            for row in self.W:
+                feature_values.append(float(np.dot(row, plaintext_input)))
 
         enc_features = self.ctx.encrypt_vector(np.array(feature_values))
         return enc_input, enc_features
