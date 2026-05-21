@@ -31,7 +31,7 @@ jobs:
             ${{ runner.os }}-pip-${{ matrix.python-version }}-
 
       - name: Install dev dependencies
-        run: pip install ruff mypy numpy pytest pyyaml
+        run: pip install -r requirements-dev.txt
 
       - name: Ruff format check
         run: ruff format --check .
@@ -43,11 +43,13 @@ jobs:
         run: |
           mypy fhe-feature-extraction/fhe_pipeline.py \
                dp-llm-training/dp_trainer.py \
+               dp-llm-training/budget_accountant.py \
+               llm-leakage-assessment/assessment_runner.py \
                --ignore-missing-imports \
                --no-strict-optional
 
-      - name: Run tests
-        run: pytest tests/ -v --tb=short
+      - name: Run tests with coverage
+        run: pytest tests/ -v --tb=short --cov --cov-config=.coveragerc --cov-fail-under=65
 
   validate-nist-csv:
     name: Validate NIST control-mapping CSV

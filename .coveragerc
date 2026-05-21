@@ -1,0 +1,11 @@
+[run]
+include =
+    fhe-feature-extraction/fhe_pipeline.py
+    dp-llm-training/dp_trainer.py
+    dp-llm-training/budget_accountant.py
+    dp-llm-training/privacy_budget_calculator.py
+    llm-leakage-assessment/assessment_runner.py
+
+[report]
+show_missing = true
+skip_covered = false
