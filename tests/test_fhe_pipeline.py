@@ -188,5 +188,112 @@ class TestDataMinimizationPipeline(unittest.TestCase):
             self.assertFalse(entry["raw_data_returned"])
 
 
+class TestFHEContextDecryptDirect(unittest.TestCase):
+    """Covers FHEContext.decrypt_vector branches (lines 83-86 in mock mode)."""
+
+    def test_decrypt_mock_vector_returns_original(self):
+        """decrypt_vector on a _MockEncryptedVector must return the original data."""
+        ctx = _make_context()
+        original = np.array([1.5, -2.3, 0.7])
+        mock_enc = fhe_pipeline._MockEncryptedVector(original)
+        with mock.patch.object(fhe_pipeline, "TENSEAL_AVAILABLE", False):
+            result = ctx.decrypt_vector(mock_enc)
+        np.testing.assert_array_almost_equal(result, original)
+
+    def test_decrypt_unrecognised_type_raises(self):
+        """decrypt_vector must raise ValueError for an unknown encrypted type."""
+        ctx = _make_context()
+        with mock.patch.object(fhe_pipeline, "TENSEAL_AVAILABLE", False):
+            with self.assertRaises(ValueError):
+                ctx.decrypt_vector("not_a_vector")
+
+
+class TestMockEncryptedVectorScalarAdd(unittest.TestCase):
+    """Covers _MockEncryptedVector.__add__ with a non-mock scalar (line 98)."""
+
+    def test_add_plain_scalar(self):
+        """Adding a plain float to a MockEncryptedVector must broadcast correctly."""
+        enc = fhe_pipeline._MockEncryptedVector(np.array([1.0, 2.0, 3.0]))
+        result = enc + 10.0
+        self.assertIsInstance(result, fhe_pipeline._MockEncryptedVector)
+        np.testing.assert_array_almost_equal(result._data, [11.0, 12.0, 13.0])
+
+    def test_add_plain_array(self):
+        """Adding a plain numpy array must element-wise add without wrapping."""
+        enc = fhe_pipeline._MockEncryptedVector(np.array([1.0, 2.0, 3.0]))
+        result = enc + np.array([10.0, 20.0, 30.0])
+        self.assertIsInstance(result, fhe_pipeline._MockEncryptedVector)
+        np.testing.assert_array_almost_equal(result._data, [11.0, 22.0, 33.0])
+
+
+class TestFHEFeatureExtractorAutoProjection(unittest.TestCase):
+    """Covers lines 145-148: auto-generated orthogonal projection matrix."""
+
+    def test_auto_projection_shape(self):
+        """Extractor built without projection_matrix must produce W with correct shape."""
+        input_dim, feature_dim = 32, 8
+        ctx = _make_context()
+        with mock.patch.object(fhe_pipeline, "TENSEAL_AVAILABLE", False):
+            extractor = fhe_pipeline.FHEFeatureExtractor(
+                input_dim=input_dim,
+                feature_dim=feature_dim,
+                fhe_context=ctx,
+                projection_matrix=None,  # triggers auto-generation
+            )
+        self.assertEqual(extractor.W.shape, (feature_dim, input_dim))
+
+    def test_auto_projection_rows_approx_orthonormal(self):
+        """Auto-generated rows must be approximately orthonormal (SVD gives unit rows)."""
+        ctx = _make_context()
+        with mock.patch.object(fhe_pipeline, "TENSEAL_AVAILABLE", False):
+            extractor = fhe_pipeline.FHEFeatureExtractor(
+                input_dim=16,
+                feature_dim=4,
+                fhe_context=ctx,
+            )
+        norms = np.linalg.norm(extractor.W, axis=1)
+        np.testing.assert_array_almost_equal(norms, np.ones(4), decimal=5)
+
+    def test_auto_projection_extract_runs(self):
+        """Extractor with auto projection must still process inputs end-to-end."""
+        input_dim, feature_dim = 32, 8
+        ctx = _make_context()
+        with mock.patch.object(fhe_pipeline, "TENSEAL_AVAILABLE", False):
+            extractor = fhe_pipeline.FHEFeatureExtractor(
+                input_dim=input_dim,
+                feature_dim=feature_dim,
+                fhe_context=ctx,
+            )
+        vec = np.random.default_rng(7).standard_normal(input_dim)
+        with mock.patch.object(fhe_pipeline, "TENSEAL_AVAILABLE", False):
+            _, enc_features = extractor.extract(vec)
+            features = extractor.decrypt_features(enc_features)
+        self.assertEqual(features.shape, (feature_dim,))
+
+
+class TestFHEFeatureExtractorShapeValidation(unittest.TestCase):
+    """Covers the assertion in FHEFeatureExtractor.__init__ and extract()."""
+
+    def test_wrong_projection_shape_raises(self):
+        """Passing a projection_matrix with wrong shape must raise AssertionError."""
+        ctx = _make_context()
+        with mock.patch.object(fhe_pipeline, "TENSEAL_AVAILABLE", False):
+            with self.assertRaises(AssertionError):
+                fhe_pipeline.FHEFeatureExtractor(
+                    input_dim=16,
+                    feature_dim=4,
+                    fhe_context=ctx,
+                    projection_matrix=np.eye(5, 16),  # wrong: (5, 16) not (4, 16)
+                )
+
+    def test_wrong_input_shape_raises(self):
+        """Passing input with wrong length to extract() must raise AssertionError."""
+        extractor = _make_extractor(input_dim=64, feature_dim=16)
+        bad_vec = np.ones(32)  # wrong dimension
+        with mock.patch.object(fhe_pipeline, "TENSEAL_AVAILABLE", False):
+            with self.assertRaises(AssertionError):
+                extractor.extract(bad_vec)
+
+
 if __name__ == "__main__":
     unittest.main()
