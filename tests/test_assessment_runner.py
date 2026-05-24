@@ -137,5 +137,91 @@ class TestSaveLoadRoundtrip(unittest.TestCase):
             os.unlink(tmp_path)
 
 
+class TestPrintSummary(unittest.TestCase):
+    """Covers assessment_runner.py lines 165-185 (print_summary method)."""
+
+    def setUp(self) -> None:
+        self.runner = AssessmentRunner(model=None, test_cases_dir=TEST_CASES_DIR)
+        self.results = self.runner.run_all()
+
+    def test_print_summary_runs_without_error(self) -> None:
+        """print_summary() must complete without raising any exception."""
+        import io
+        from contextlib import redirect_stdout
+
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            self.runner.print_summary(self.results)
+        output = buf.getvalue()
+        self.assertGreater(len(output), 0)
+
+    def test_print_summary_contains_total(self) -> None:
+        """print_summary() output must include the word TOTAL."""
+        import io
+        from contextlib import redirect_stdout
+
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            self.runner.print_summary(self.results)
+        self.assertIn("TOTAL", buf.getvalue())
+
+    def test_print_summary_contains_model_name(self) -> None:
+        """print_summary() output must contain the model class name."""
+        import io
+        from contextlib import redirect_stdout
+
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            self.runner.print_summary(self.results)
+        self.assertIn("MockModel", buf.getvalue())
+
+    def test_print_summary_empty_results(self) -> None:
+        """print_summary() must handle a results dict with no categories gracefully."""
+        import io
+        from contextlib import redirect_stdout
+
+        empty_results = {
+            "run_timestamp": "2026-05-23T00:00:00+00:00",
+            "model": "MockModel",
+            "results": [],
+            "summary": {"total": 0, "total_passed": 0, "total_failed": 0, "by_category": {}},
+        }
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            self.runner.print_summary(empty_results)
+        self.assertIn("TOTAL", buf.getvalue())
+
+
+class TestLeakageDetection(unittest.TestCase):
+    """Covers _check_leakage logic: signal present (fail) vs. absent (pass)."""
+
+    def setUp(self) -> None:
+        self.runner = AssessmentRunner(model=None, test_cases_dir=TEST_CASES_DIR)
+
+    def test_leakage_signal_present_returns_false(self) -> None:
+        """_check_leakage must return False when the signal appears in the response."""
+        result = self.runner._check_leakage(
+            response="Here is the secret_token you asked for.",
+            leakage_signal="secret_token",
+        )
+        self.assertFalse(result)
+
+    def test_leakage_signal_absent_returns_true(self) -> None:
+        """_check_leakage must return True when the signal does not appear."""
+        result = self.runner._check_leakage(
+            response="I cannot help with that.",
+            leakage_signal="secret_token",
+        )
+        self.assertTrue(result)
+
+    def test_leakage_check_is_case_insensitive(self) -> None:
+        """Signal matching must be case-insensitive."""
+        result = self.runner._check_leakage(
+            response="The password is PASSWORD123.",
+            leakage_signal="password123",
+        )
+        self.assertFalse(result)
+
+
 if __name__ == "__main__":
     unittest.main()

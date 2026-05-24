@@ -25,7 +25,13 @@ from dp_trainer import (  # noqa: E402
     PrivacyAccountingRecord,
     PrivacyConfig,
 )
-from privacy_budget_calculator import _rdp_epsilon, compute_plan, sweep_sigma  # noqa: E402
+from privacy_budget_calculator import (  # noqa: E402
+    _rdp_epsilon,
+    _fmt_plan,
+    _fmt_sweep,
+    compute_plan,
+    sweep_sigma,
+)
 
 # ---------------------------------------------------------------------------
 # GaussianMechanism
@@ -254,6 +260,69 @@ class TestPrivacyBudgetCalculator(unittest.TestCase):
         params = dict(noise_multiplier=1.1, sample_rate=0.01, delta=1e-5)
         eps_values = [_rdp_epsilon(steps=s, **params) for s in [10, 50, 100, 500]]
         self.assertEqual(eps_values, sorted(eps_values))
+
+
+class TestFormatPlan(unittest.TestCase):
+    """Covers _fmt_plan() formatting helper (lines 228-253)."""
+
+    def test_feasible_plan_contains_sigma(self) -> None:
+        """_fmt_plan output for a feasible plan must include 'Required σ'."""
+        plan = compute_plan(**self._make_base())
+        output = _fmt_plan(plan)
+        self.assertIn("Required", output)
+        self.assertIn("FEASIBLE", output)
+
+    def test_infeasible_plan_says_infeasible(self) -> None:
+        """_fmt_plan output for an infeasible plan must include 'INFEASIBLE'."""
+        # epsilon=0.0 is impossible to achieve
+        plan = compute_plan(
+            dataset_size=5000, batch_size=64, epochs=3,
+            target_epsilon=0.0, target_delta=1e-5,
+        )
+        output = _fmt_plan(plan)
+        self.assertIn("INFEASIBLE", output)
+
+    def test_plan_output_contains_dataset_size(self) -> None:
+        plan = compute_plan(**self._make_base())
+        output = _fmt_plan(plan)
+        self.assertIn("5,000", output)  # formatted with comma separator
+
+    @staticmethod
+    def _make_base() -> dict:
+        return dict(dataset_size=5000, batch_size=64, epochs=3,
+                    target_epsilon=3.0, target_delta=1e-5)
+
+
+class TestFormatSweep(unittest.TestCase):
+    """Covers _fmt_sweep() formatting helper (lines 257-269)."""
+
+    def test_sweep_table_contains_header(self) -> None:
+        """_fmt_sweep output must contain the σ column header."""
+        rows = sweep_sigma(
+            dataset_size=5000, batch_size=64, epochs=3,
+            target_epsilon=3.0, target_delta=1e-5,
+        )
+        output = _fmt_sweep(rows, target_epsilon=3.0)
+        self.assertIn("noise_mult", output)
+
+    def test_sweep_table_contains_target_epsilon(self) -> None:
+        rows = sweep_sigma(
+            dataset_size=5000, batch_size=64, epochs=3,
+            target_epsilon=3.0, target_delta=1e-5,
+        )
+        output = _fmt_sweep(rows, target_epsilon=3.0)
+        self.assertIn("3.0", output)
+
+    def test_sweep_table_shows_budget_markers(self) -> None:
+        """Budget markers ✓ and ✗ must appear when rows differ in feasibility."""
+        rows = sweep_sigma(
+            dataset_size=5000, batch_size=64, epochs=3,
+            target_epsilon=3.0, target_delta=1e-5,
+            sigma_values=[0.1, 3.0],
+        )
+        output = _fmt_sweep(rows, target_epsilon=3.0)
+        self.assertIn("yes", output)
+        self.assertIn("no", output)
 
 
 if __name__ == "__main__":

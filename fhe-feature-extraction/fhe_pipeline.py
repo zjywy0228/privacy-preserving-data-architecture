@@ -144,8 +144,10 @@ class FHEFeatureExtractor:
             # In practice, train on synthetic or public data.
             rng = np.random.default_rng(42)
             raw = rng.standard_normal((feature_dim, input_dim))
-            U, _, _ = np.linalg.svd(raw, full_matrices=False)
-            self.W = U  # orthogonal rows
+            # full_matrices=False: Vt is (min(m,n), input_dim), giving rows that
+            # are orthonormal and always have shape (feature_dim, input_dim).
+            _, _, Vt = np.linalg.svd(raw, full_matrices=False)
+            self.W = Vt  # shape (feature_dim, input_dim), orthonormal rows
 
     def extract(self, plaintext_input: np.ndarray) -> tuple[object, object]:
         """
