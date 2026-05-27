@@ -276,8 +276,11 @@ class TestFormatPlan(unittest.TestCase):
         """_fmt_plan output for an infeasible plan must include 'INFEASIBLE'."""
         # epsilon=0.0 is impossible to achieve
         plan = compute_plan(
-            dataset_size=5000, batch_size=64, epochs=3,
-            target_epsilon=0.0, target_delta=1e-5,
+            dataset_size=5000,
+            batch_size=64,
+            epochs=3,
+            target_epsilon=0.0,
+            target_delta=1e-5,
         )
         output = _fmt_plan(plan)
         self.assertIn("INFEASIBLE", output)
@@ -289,8 +292,9 @@ class TestFormatPlan(unittest.TestCase):
 
     @staticmethod
     def _make_base() -> dict:
-        return dict(dataset_size=5000, batch_size=64, epochs=3,
-                    target_epsilon=3.0, target_delta=1e-5)
+        return dict(
+            dataset_size=5000, batch_size=64, epochs=3, target_epsilon=3.0, target_delta=1e-5
+        )
 
 
 class TestFormatSweep(unittest.TestCase):
@@ -299,16 +303,22 @@ class TestFormatSweep(unittest.TestCase):
     def test_sweep_table_contains_header(self) -> None:
         """_fmt_sweep output must contain the σ column header."""
         rows = sweep_sigma(
-            dataset_size=5000, batch_size=64, epochs=3,
-            target_epsilon=3.0, target_delta=1e-5,
+            dataset_size=5000,
+            batch_size=64,
+            epochs=3,
+            target_epsilon=3.0,
+            target_delta=1e-5,
         )
         output = _fmt_sweep(rows, target_epsilon=3.0)
         self.assertIn("noise_mult", output)
 
     def test_sweep_table_contains_target_epsilon(self) -> None:
         rows = sweep_sigma(
-            dataset_size=5000, batch_size=64, epochs=3,
-            target_epsilon=3.0, target_delta=1e-5,
+            dataset_size=5000,
+            batch_size=64,
+            epochs=3,
+            target_epsilon=3.0,
+            target_delta=1e-5,
         )
         output = _fmt_sweep(rows, target_epsilon=3.0)
         self.assertIn("3.0", output)
@@ -316,8 +326,11 @@ class TestFormatSweep(unittest.TestCase):
     def test_sweep_table_shows_budget_markers(self) -> None:
         """Budget markers ✓ and ✗ must appear when rows differ in feasibility."""
         rows = sweep_sigma(
-            dataset_size=5000, batch_size=64, epochs=3,
-            target_epsilon=3.0, target_delta=1e-5,
+            dataset_size=5000,
+            batch_size=64,
+            epochs=3,
+            target_epsilon=3.0,
+            target_delta=1e-5,
             sigma_values=[0.1, 3.0],
         )
         output = _fmt_sweep(rows, target_epsilon=3.0)
