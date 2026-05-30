@@ -26,9 +26,9 @@ from dp_trainer import (  # noqa: E402
     PrivacyConfig,
 )
 from privacy_budget_calculator import (  # noqa: E402
-    _rdp_epsilon,
     _fmt_plan,
     _fmt_sweep,
+    _rdp_epsilon,
     compute_plan,
     sweep_sigma,
 )
