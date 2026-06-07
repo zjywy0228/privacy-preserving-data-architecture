@@ -5,6 +5,7 @@ include =
     dp-llm-training/budget_accountant.py
     dp-llm-training/privacy_budget_calculator.py
     llm-leakage-assessment/assessment_runner.py
+    llm-leakage-assessment/attacks/membership_inference.py
 
 [report]
 show_missing = true
