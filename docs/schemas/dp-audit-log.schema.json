@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zjywy0228.github.io/privacy-preserving-data-architecture/schemas/dp-audit-log.schema.json",
+  "title": "DP Training Audit Log",
+  "description": "Schema for the privacy-budget audit log produced by dp-llm-training/budget_accountant.py. Each log documents cumulative privacy expenditure (epsilon, delta) per training epoch, enabling post-hoc governance review without re-running training. Aligned with NIST AI RMF GOVERN-1.7 (continuous monitoring) and GOVERN-1.4 (audit trail persistence).",
+  "type": "object",
+  "required": [
+    "metadata",
+    "log"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "metadata": {
+      "description": "Training-run hyperparameters fixed before the run begins.",
+      "type": "object",
+      "required": [
+        "target_epsilon",
+        "target_delta",
+        "noise_multiplier",
+        "sample_rate"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "target_epsilon": {
+          "description": "Maximum acceptable privacy loss (epsilon). Training halts if epsilon_spent exceeds this value.",
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "target_delta": {
+          "description": "Failure-probability bound (delta). Should be much smaller than 1/n.",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "exclusiveMaximum": 1
+        },
+        "noise_multiplier": {
+          "description": "Ratio of Gaussian noise standard deviation to per-sample gradient clipping threshold.",
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "sample_rate": {
+          "description": "Batch size divided by dataset size. Must be in (0, 1].",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "log": {
+      "description": "Ordered list of per-epoch audit records. Must have at least one entry.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/epoch_record"
+      }
+    }
+  },
+  "$defs": {
+    "epoch_record": {
+      "description": "Audit record for one completed training epoch.",
+      "type": "object",
+      "required": [
+        "epoch",
+        "cumulative_steps",
+        "epsilon_spent",
+        "delta",
+        "loss",
+        "budget_fraction",
+        "budget_exhausted"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "epoch": {
+          "description": "1-indexed epoch number.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "cumulative_steps": {
+          "description": "Total gradient update steps completed up to and including this epoch.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "epsilon_spent": {
+          "description": "Cumulative epsilon consumed through this epoch (RDP accountant estimate).",
+          "type": "number",
+          "minimum": 0
+        },
+        "delta": {
+          "description": "Delta value used for this epoch epsilon computation. Should equal metadata.target_delta.",
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "exclusiveMaximum": 1
+        },
+        "loss": {
+          "description": "Average training loss for this epoch.",
+          "type": "number",
+          "minimum": 0
+        },
+        "budget_fraction": {
+          "description": "epsilon_spent / target_epsilon, clamped to [0, 1].",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "budget_exhausted": {
+          "description": "True when epsilon_spent >= target_epsilon.",
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}
