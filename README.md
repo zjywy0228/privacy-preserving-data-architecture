@@ -5,6 +5,8 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![Last commit](https://img.shields.io/github/last-commit/zjywy0228/privacy-preserving-data-architecture)](https://github.com/zjywy0228/privacy-preserving-data-architecture/commits/master)
 
+> **What's new (2026-06-09):** Membership-inference attack module, differential-privacy audit-log JSON Schema + validator, `pyproject.toml` packaging, `Makefile`, `pre-commit` hooks, architecture decision records, glossary, and BibTeX references added in PRs #17–24. [Full changelog →](CHANGELOG.md)
+
 Reusable architecture patterns, prototype modules, and assessment frameworks for institutions that need to analyze sensitive biomedical and scientific data while controlling raw-data exposure, AI leakage risk, and compliance obligations.
 
 Maintained by Junyi Zhang ([@zjywy0228](https://github.com/zjywy0228)). Issues and feedback welcome.
