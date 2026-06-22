@@ -1,0 +1,12 @@
+# Dependencies for end-to-end-clinical-data-flow.ipynb
+# Install with: pip install -r examples/requirements-notebook.txt
+tenseal>=0.3.14
+opacus>=1.5.2
+torch>=2.0.0
+scikit-learn>=1.4.0
+pandas>=2.1.0
+numpy>=1.26.0
+matplotlib>=3.8.0
+pyyaml>=6.0
+jupyter>=1.0.0
+nbconvert>=7.0.0
