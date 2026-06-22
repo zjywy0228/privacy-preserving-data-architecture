@@ -17,10 +17,17 @@ export interface NistRow {
   nist_csf_2: string;
 }
 
+export interface LeakageTest {
+  id: string;
+  description: string;
+  passed: boolean;
+}
+
 export interface LeakageCategory {
   name: string;
   passed: number;
   total: number;
+  tests?: LeakageTest[];
 }
 
 export interface LeakageResults {
