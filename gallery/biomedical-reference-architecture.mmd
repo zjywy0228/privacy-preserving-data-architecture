@@ -1,0 +1,33 @@
+%%{init: {"theme": "base", "themeVariables": {"primaryColor": "#dbeafe", "primaryTextColor": "#1e3a5f", "lineColor": "#3b82f6", "tertiaryColor": "#f0f9ff"}}}%%
+flowchart TB
+    SRC[("🔒 Protected Source Data\nClinical records · Biobank · Registry\n— never leaves controlled environment —")]
+
+    subgraph L1["Layer 1 · Data Intake & Classification"]
+        direction LR
+        A1["Source identification"] --- A2["Sensitivity classification"]
+        A2 --- A3["Legal basis mapping"]
+        A3 --- A4["Intake checklist\n(HIPAA · GDPR · IRB)"]
+    end
+
+    subgraph L2["Layer 2 · Access Control & Governance"]
+        direction LR
+        B1["Role matrix"] --- B2["DUA / IRB scope enforcement"]
+        B2 --- B3["Audit log"]
+        B3 --- B4["Data minimization\ncheckpoint"]
+    end
+
+    subgraph L3["Layer 3 · Privacy-Preserving Transformation"]
+        direction LR
+        C1["FHE encrypted\ncomputation\n(TenSEAL · CKKS)"] --- C2["DP-bounded\naggregation\n(Opacus · ε/δ)"]
+        C2 --- C3["LLM leakage\ncontrols\n(prompt · log · MIA)"]
+    end
+
+    subgraph L4["Layer 4 · Output Review & Compliance"]
+        direction LR
+        D1["Aggregate outputs\n(no raw records)"] --- D2["Audit sign-off"]
+        D2 --- D3["Publication\nchecklist"]
+    end
+
+    OUT["📄 Approved Aggregate Results\n(Federal alignment: NIST AI RMF · NIST PF · HIPAA §164.308)"]
+
+    SRC --> L1 --> L2 --> L3 --> L4 --> OUT
