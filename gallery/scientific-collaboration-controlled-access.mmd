@@ -1,0 +1,31 @@
+%%{init: {"theme": "base", "themeVariables": {"primaryColor": "#dcfce7", "primaryTextColor": "#14532d", "lineColor": "#16a34a", "tertiaryColor": "#f0fdf4"}}}%%
+flowchart TB
+    SRC[("🔬 Pre-publication Scientific Data\nDetector readout · Calibration constants\nSimulation seeds · Analysis code\n— under collaboration embargo —")]
+
+    subgraph L1["Layer 1 · Classification & Embargo Registration"]
+        direction LR
+        A1["Data tier\nclassification\n(Raw / Reco / Cal)"] --- A2["Embargo status\n(active · cleared)"]
+        A2 --- A3["Permitted-use\nscope"] --- A4["Cross-institution\nprovenance record"]
+    end
+
+    subgraph L2["Layer 2 · Access Control & Collaboration Governance"]
+        direction LR
+        B1["Tier-based\ndata access"] --- B2["Role matrix\n(MOU-bound)"]
+        B2 --- B3["Calibration\nversion lock"] --- B4["Audit log"]
+    end
+
+    subgraph L3["Layer 3 · Privacy-Preserving Transformation"]
+        direction LR
+        C1["FHE observable\nextraction"] --- C2["DP-bounded\naggregate outputs"]
+        C2 --- C3["LLM leakage\ncontrols\n(AI-assisted workflows)"]
+    end
+
+    subgraph L4["Layer 4 · Output Review & Collaboration Sign-Off"]
+        direction LR
+        D1["Internal\nreview"] --- D2["Spokesperson\napproval"]
+        D2 --- D3["Public release\n(paper / conference)"]
+    end
+
+    OUT["📡 Approved Physics Results\n(Federal alignment: DOE SR · NIST CSF 2.0 · NIST AI RMF)"]
+
+    SRC --> L1 --> L2 --> L3 --> L4 --> OUT
