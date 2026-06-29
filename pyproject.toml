@@ -66,6 +66,8 @@ target-version = "py310"
 "**/*.ipynb" = ["E402"]
 
 [tool.mypy]
-python_version = "3.10"
+# numpy 2.x stubs use `type X = ...` (PEP 695); parsing requires python_version
+# >= "3.12" regardless of the runtime Python version on the CI runner.
+python_version = "3.12"
 ignore_missing_imports = true
 no_strict_optional = true
