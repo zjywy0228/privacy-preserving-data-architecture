@@ -21,10 +21,8 @@ from __future__ import annotations
 
 import argparse
 import json
-import sys
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
 
 import numpy as np
 import pandas as pd
@@ -86,7 +84,7 @@ class ClinicalSchemaConfig:
 def generate_synthetic_clinical(
     n: int = 512,
     seed: int = 42,
-    config: Optional[ClinicalSchemaConfig] = None,
+    config: ClinicalSchemaConfig | None = None,
     include_text_notes: bool = False,
 ) -> pd.DataFrame:
     """Generate a synthetic clinical dataset with no real PHI.
@@ -120,9 +118,7 @@ def generate_synthetic_clinical(
     glucose = rng.normal(config.glucose_mean, config.glucose_std, n).clip(
         config.glucose_min, config.glucose_max
     )
-    bmi = rng.normal(config.bmi_mean, config.bmi_std, n).clip(
-        config.bmi_min, config.bmi_max
-    )
+    bmi = rng.normal(config.bmi_mean, config.bmi_std, n).clip(config.bmi_min, config.bmi_max)
     hr = rng.normal(config.heart_rate_mean, config.heart_rate_std, n).clip(
         config.heart_rate_min, config.heart_rate_max
     )

@@ -8,4 +8,3 @@ adding the containing directory to sys.path:
     sys.path.insert(0, "governance-templates/synthetic-data")
     from generate_synthetic_clinical import generate_synthetic_clinical
 """
-

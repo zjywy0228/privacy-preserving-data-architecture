@@ -2,25 +2,20 @@
 
 from __future__ import annotations
 
-import sys
 import os
+import sys
 
-import numpy as np
 import pandas as pd
-import pytest
 
 # governance-templates/synthetic-data uses hyphens (invalid package identifiers),
 # so we add its path directly instead of using a dotted import.
-_SYNTH_DIR = os.path.join(
-    os.path.dirname(__file__), "..", "governance-templates", "synthetic-data"
-)
+_SYNTH_DIR = os.path.join(os.path.dirname(__file__), "..", "governance-templates", "synthetic-data")
 sys.path.insert(0, os.path.abspath(_SYNTH_DIR))
 
 from generate_synthetic_clinical import (  # noqa: E402
     ClinicalSchemaConfig,
     generate_synthetic_clinical,
 )
-
 
 # ---------------------------------------------------------------------------
 # Shape and schema
@@ -36,9 +31,18 @@ def test_default_output_shape() -> None:
 def test_column_names() -> None:
     df = generate_synthetic_clinical(n=10, seed=0)
     expected = {
-        "record_id", "age", "sex", "systolic_bp", "diastolic_bp",
-        "glucose_mg_dl", "bmi", "heart_rate", "comorbidity_count",
-        "on_medication", "prior_hospitalization", "label",
+        "record_id",
+        "age",
+        "sex",
+        "systolic_bp",
+        "diastolic_bp",
+        "glucose_mg_dl",
+        "bmi",
+        "heart_rate",
+        "comorbidity_count",
+        "on_medication",
+        "prior_hospitalization",
+        "label",
     }
     assert set(df.columns) == expected
 
