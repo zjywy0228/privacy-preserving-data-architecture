@@ -59,12 +59,8 @@ testpaths = ["tests"]
 addopts = "-v --tb=short"
 
 [tool.mypy]
-python_version = "3.10"
+# numpy 2.x stubs use `type X = ...` (PEP 695); parsing requires python_version
+# >= "3.12" regardless of the runtime Python version on the CI runner.
+python_version = "3.12"
 ignore_missing_imports = true
 no_strict_optional = true
-
-[[tool.mypy.overrides]]
-# numpy 2.x stubs use `type X = ...` (PEP 695 / Python 3.12+) which mypy
-# rejects under python_version = "3.10".  Skip following numpy imports entirely.
-module = ["numpy", "numpy.*"]
-follow_imports = "skip"
