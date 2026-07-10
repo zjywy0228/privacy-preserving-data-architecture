@@ -11,6 +11,9 @@ Each pattern documents a repeatable, institution-agnostic design that can be eva
 | File | Coverage | Anchored Papers |
 |---|---|---|
 | [`biomedical-reference-architecture.md`](biomedical-reference-architecture.md) | Four-layer reference architecture for clinical and population-health governed-data workflows | Nature Aging (2025) — epilepsy/infectious disease; Scientific Reports (2025) — pediatric sleep-disordered breathing |
+| [`scientific-collaboration-controlled-access.md`](scientific-collaboration-controlled-access.md) | Four-layer controlled-access architecture for large-scale multi-institution scientific collaborations | STAR / RHIC (DOE, BNL); CMS / LHC (CERN, DOE, NSF) |
+
+> **Rendered diagrams:** See [`gallery/`](../gallery/) for PNG exports of all architecture diagrams.
 
 ---
 
