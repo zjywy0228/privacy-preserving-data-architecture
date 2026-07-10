@@ -51,8 +51,20 @@ Documentation = "https://zjywy0228.github.io/privacy-preserving-data-architectur
 Issues = "https://github.com/zjywy0228/privacy-preserving-data-architecture/issues"
 
 [build-system]
-requires = ["setuptools>=68"]
-build-backend = "setuptools.backends.legacy:build"
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+exclude = [
+    "tests*",
+    "dashboard*",
+    "docs*",
+    "gallery*",
+    "architectures*",
+    "validation*",
+    "examples*",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
