@@ -3,7 +3,7 @@
 # Requires GNU Make. On Windows: WSL, Git Bash with make, or
 # Chocolatey (choco install make) / Scoop (scoop install make).
 
-.PHONY: help install lint fmt type-check test coverage benchmark demo clean
+.PHONY: help install lint fmt type-check test coverage benchmark demo validate-csv clean
 
 help:
 	@echo "Available targets:"
@@ -15,6 +15,7 @@ help:
 	@echo "  coverage    Run pytest with coverage report"
 	@echo "  benchmark   Run FHE cleartext-vs-ciphertext benchmark"
 	@echo "  demo        Run the FHE medical-image demo"
+	@echo "  validate-csv  Validate docs/compliance/nist-control-mapping.csv schema + control IDs"
 	@echo "  clean       Remove generated artefacts"
 
 install:
@@ -40,6 +41,9 @@ benchmark:
 
 demo:
 	python fhe-feature-extraction/examples/medical_image_demo.py
+
+validate-csv:
+	python tools/validate_control_mapping.py
 
 clean:
 	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
