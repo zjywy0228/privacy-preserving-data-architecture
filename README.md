@@ -1,5 +1,7 @@
 # Privacy-Preserving Data Architecture
 
+**中文文档:** [README.zh-CN.md](README.zh-CN.md)
+
 [![CI](https://github.com/zjywy0228/privacy-preserving-data-architecture/actions/workflows/ci.yml/badge.svg)](https://github.com/zjywy0228/privacy-preserving-data-architecture/actions/workflows/ci.yml)
 [![Publish to TestPyPI](https://github.com/zjywy0228/privacy-preserving-data-architecture/actions/workflows/publish-testpypi.yml/badge.svg)](https://github.com/zjywy0228/privacy-preserving-data-architecture/actions/workflows/publish-testpypi.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
