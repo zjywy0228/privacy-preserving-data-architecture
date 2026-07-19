@@ -11,6 +11,7 @@ strategy objectives.
 | `nist-control-mapping.csv` | 40-row control mapping (primary reference) |
 | `nist-control-mapping.md` | Markdown summary (human-readable, fewer rows) |
 | `hipaa-control-mapping.md` | HIPAA Security Rule §164.312 mapping for FHE, DP, and LLM leakage modules |
+| `gdpr-article-mapping.csv` | 22-row GDPR Article 25/32/5/89 mapping for all three core workstreams |
 | `ppdsa-alignment.md` | Alignment to the five PPDSA national strategy objectives (OSTP, March 2023) |
 
 ## Control mapping methodology
@@ -30,8 +31,9 @@ Researchers and compliance reviewers can filter the CSV by:
 - `module` — see all controls for a specific module (e.g., `fhe-feature-extraction`)
 - `nist_ai_rmf_control` — find all patterns that implement a specific AI RMF subcategory (e.g., `MEASURE-2.5`)
 - `hipaa_safeguard` — see which architecture patterns address a specific HIPAA section
+- `gdpr_article` (in `gdpr-article-mapping.csv`) — find patterns that address a specific GDPR article (e.g., `Art. 25(1)`)
 
-The CSV is validated in CI (`ci.yml` `validate-nist-csv` job) to ensure column
+The NIST CSV is validated in CI (`ci.yml` `validate-nist-csv` job) to ensure column
 schema and a minimum row count of 30.
 
 ## Limitations
