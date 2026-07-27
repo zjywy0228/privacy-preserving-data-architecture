@@ -7,6 +7,106 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-07-25
+
+June–July 2026 sprint (2026-05-28 – 2026-07-25): 18 pull requests merged
+covering a membership-inference reference implementation, architecture decision
+records, audit-log schemas, dashboard enhancements, governance templates,
+compliance mappings, packaging, and community infrastructure.
+
+### Added
+
+#### Security & privacy modules
+- `llm-leakage-assessment/attacks/membership_inference.py` — reference implementation
+  of a membership-inference attack (shadow-model and likelihood-ratio variants) for
+  benchmarking LLM privacy guarantees (PR #21)
+
+#### Documentation — architecture decision records
+- `docs/adr/0001-why-tenseal.md` — ADR justifying TenSEAL (CKKS) for FHE feature
+  extraction; covers security level, performance, and Python ecosystem fit (PR #22)
+- `docs/adr/0002-why-opacus.md` — ADR justifying Opacus for differentially-private
+  LLM fine-tuning; covers Rényi-DP accountant, per-sample gradient clipping (PR #22)
+- `docs/adr/0003-why-csv-control-mapping.md` — ADR explaining the CSV-over-JSON
+  choice for the NIST control-mapping artefact (PR #22)
+- `docs/glossary.md` — privacy-ML glossary for non-specialist readers; defines FHE,
+  DP, membership inference, and related terms with NIST anchors (PR #22)
+- `docs/papers/references.bib` — BibTeX index for papers cited across the repository
+  (Mironov 2017, Zhu et al. 2019, Carlini et al. 2021, and others) (PR #22)
+
+#### Compliance documentation
+- `docs/schemas/dp-audit-log.schema.json` — JSON Schema for the DP training and
+  leakage-assessment audit-event log; standalone CLI validator included (PR #24)
+- `docs/compliance/gdpr-article-mapping.csv` — 22-row GDPR Article 25/32/5/89
+  mapping for all three core workstreams (FHE, DP, leakage) (PR #35)
+
+#### Governance templates
+- `governance-templates/irb-amendment-template.md` — fill-in template for amending an
+  approved IRB protocol to add FHE or DP controls (PR #20)
+- `governance-templates/synthetic-data/generate_synthetic_clinical.py` — synthetic
+  EHR generator (age, sex, diagnosis, lab values) using Python Faker and NumPy;
+  Parquet + CSV output; no real patient data (PR #30)
+
+#### Architecture & notebooks
+- `examples/end-to-end-clinical-data-flow.ipynb` — Jupyter notebook tracing synthetic
+  EHR data through FHE feature extraction → DP training → leakage assessment in one
+  runnable session (PR #29)
+- `gallery/` — PNG renders of all Mermaid architecture diagrams for quick inspection
+  without a Mermaid renderer (PR #31)
+
+#### Dashboard enhancements
+- NIST Explorer tab: full-text search with highlight, column filter, CSV export (PR #26)
+- Leakage assessment expandable detail panel with per-test-case breakdown (PR #27)
+- Benchmark chart: log-scale toggle, per-vector-size overhead labels, raw-data table (PR #28)
+
+#### Build & packaging
+- `pyproject.toml` — PEP 517/518 packaging metadata; `pip install -e .[dev]` works;
+  optional extras for FHE and DP dependencies (PR #32)
+- `.github/workflows/publish-testpypi.yml` — automated TestPyPI publish on version
+  tag; README badge links to TestPyPI release page (PR #32)
+- `Makefile` — `make test`, `make lint`, `make fmt`, `make benchmark`, `make demo`
+  targets; wraps ruff, mypy, pytest, and example runners (PR #21)
+- `.pre-commit-config.yaml` — ruff format + ruff check + mypy + codespell hooks (PR #21)
+
+#### Repository community files
+- `CITATIONS-OF-THIS-REPO.md` — structured record of external citations of this
+  repository (PR #25)
+- `CODE_OF_CONDUCT.md` — Contributor Covenant 2.1 (PR #25)
+- `SECURITY.md` — responsible-disclosure policy and supported versions table (PR #25)
+- `README.zh-CN.md` — full Mandarin translation of the README (PR #34)
+
+#### CI & tooling
+- `tools/validate_control_mapping.py` — CLI linter for the NIST control-mapping CSV;
+  validates column schema, minimum row count, and cell-level constraints; integrated
+  into the `validate-nist-csv` CI job (PR #33)
+
+### Changed
+
+- README: "What's new in v0.3" callout added; TestPyPI badge and GDPR-mapping link
+  added (PR #25, PR #32, PR #34)
+- `pyproject.toml`: version bumped to `0.3.0`
+
+### Fixed
+
+- `fix/ruff-format-test-dp-trainer`: ruff format and lint failures in
+  `tests/test_dp_trainer.py` corrected; import ordering and unused-variable
+  suppressions applied (PR #19)
+- mypy `python_version` set to `3.12` in CI to resolve numpy 2.x stub incompatibility
+  that caused false-positive type errors (PR #30)
+
+### Sprint statistics
+
+| Metric | Value |
+|--------|-------|
+| Pull requests merged | 18 (PR #18 – #35) |
+| Calendar days | 58 (2026-05-28 – 2026-07-25) |
+| New / modified files | ~45 |
+| NIST control-mapping rows | 40 |
+| GDPR mapping rows | 22 |
+| BibTeX references | 8 |
+| Architecture decision records | 3 |
+
+---
+
 ## [0.2.0] - 2026-05-27
 
 Two-week development sprint (2026-05-13 – 2026-05-27): 17 pull requests merged
@@ -151,6 +251,7 @@ Initial public release.
 - `DEVELOPMENT_PLAN.md` — 2-week sprint roadmap with daily branch/PR schedule
 - `README.md`, `LICENSE` (MIT)
 
-[Unreleased]: https://github.com/zjywy0228/privacy-preserving-data-architecture/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/zjywy0228/privacy-preserving-data-architecture/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/zjywy0228/privacy-preserving-data-architecture/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/zjywy0228/privacy-preserving-data-architecture/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/zjywy0228/privacy-preserving-data-architecture/releases/tag/v0.1.0
