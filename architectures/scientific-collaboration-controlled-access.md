@@ -145,9 +145,9 @@ This enforces the same boundary that STAR and CMS collaborations enforce operati
 from fhe_pipeline import FHEFeaturePipeline
 
 pipeline = FHEFeaturePipeline(poly_modulus_degree=8192)
-encrypted_signal = pipeline.encrypt(raw_detector_waveform)   # encrypted at source
-observables = pipeline.extract_features(encrypted_signal)    # runs on ciphertext
-result = pipeline.decrypt_features(observables)              # only observables returned
+encrypted_signal = pipeline.encrypt(raw_detector_waveform)  # encrypted at source
+observables = pipeline.extract_features(encrypted_signal)  # runs on ciphertext
+result = pipeline.decrypt_features(observables)  # only observables returned
 # raw_detector_waveform never appears in analyst environment
 ```
 
@@ -167,7 +167,7 @@ Use when: the analysis merges contributions from multiple institutions (partial 
 from budget_accountant import BudgetAccountant
 
 accountant = BudgetAccountant(
-    target_epsilon=2.0,       # privacy budget
+    target_epsilon=2.0,  # privacy budget
     target_delta=1e-6,
     noise_multiplier=1.3,
     sample_rate=0.01,
@@ -179,8 +179,9 @@ for epoch, (contributions, loss) in enumerate(collaboration_rounds, start=1):
         steps_in_epoch=len(contributions),
         loss=loss,
     )
-    print(f"Epoch {epoch}: ε={entry['epsilon_spent']:.4f}, "
-          f"budget used={entry['budget_fraction']:.1%}")
+    print(
+        f"Epoch {epoch}: ε={entry['epsilon_spent']:.4f}, budget used={entry['budget_fraction']:.1%}"
+    )
     if entry["budget_exhausted"]:
         break
 

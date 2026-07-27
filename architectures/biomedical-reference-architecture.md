@@ -144,9 +144,9 @@ Use when: the analysis requires computing features from raw records (e.g., image
 from fhe_pipeline import FHEFeaturePipeline
 
 pipeline = FHEFeaturePipeline(poly_modulus_degree=8192)
-encrypted_input = pipeline.encrypt(raw_signal)          # raw signal encrypted at source
-features = pipeline.extract_features(encrypted_input)   # extraction runs on ciphertext
-result = pipeline.decrypt_features(features)            # only features returned
+encrypted_input = pipeline.encrypt(raw_signal)  # raw signal encrypted at source
+features = pipeline.extract_features(encrypted_input)  # extraction runs on ciphertext
+result = pipeline.decrypt_features(features)  # only features returned
 # raw_signal never appears in analyst environment after encryption step
 ```
 
@@ -169,7 +169,7 @@ trainer = DPTrainer(
     model=model,
     optimizer=optimizer,
     data_loader=data_loader,
-    target_epsilon=3.0,   # privacy budget (lower = more private)
+    target_epsilon=3.0,  # privacy budget (lower = more private)
     target_delta=1e-5,
     max_grad_norm=1.0,
 )
