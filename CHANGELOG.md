@@ -22,6 +22,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   ciphertext handling, authorized-client and round checks, SHA-256 receipt
   records, a TenSEAL CKKS aggregation backend, and a clearly non-cryptographic
   mock backend for continuous integration.
+- Reconciled the federated FHE control mapping with the NIST Privacy Framework
+  1.1 Initial Public Draft and removed claims not implemented by the reference
+  coordinator.
 
 ## [0.3.0] - 2026-07-25
 

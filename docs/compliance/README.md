@@ -8,7 +8,7 @@ strategy objectives.
 
 | File | Description |
 |---|---|
-| `nist-control-mapping.csv` | 40-row control mapping (primary reference) |
+| `nist-control-mapping.csv` | 46-row control mapping (primary reference); includes a bounded mapping of the federated FHE reference extension to the NIST Privacy Framework 1.1 Initial Public Draft |
 | `nist-control-mapping.md` | Markdown summary (human-readable, fewer rows) |
 | `hipaa-control-mapping.md` | HIPAA Security Rule §164.312 mapping for FHE, DP, and LLM leakage modules |
 | `gdpr-article-mapping.csv` | 22-row GDPR Article 25/32/5/89 mapping for all three core workstreams |
@@ -20,7 +20,7 @@ Each row in the CSV links one **pattern** (a specific technical mechanism or des
 decision in this codebase) to:
 
 - **NIST AI RMF control** — from the [AI Risk Management Framework (2023)](https://www.nist.gov/system/files/documents/2023/01/26/AI%20RMF%201.0.pdf). Functions: GOVERN, MAP, MEASURE, MANAGE.
-- **NIST Privacy Framework control** — from the [Privacy Framework v1.0 (2020)](https://www.nist.gov/privacy-framework). Functions: IDENTIFY, GOVERN, CONTROL, COMMUNICATE, PROTECT.
+- **NIST Privacy Framework control** — generally from the [Privacy Framework v1.0 (2020)](https://www.nist.gov/privacy-framework). The six federated FHE rows use identifiers from the [Privacy Framework 1.1 Initial Public Draft (April 2025)](https://www.nist.gov/privacy-framework/new-projects/privacy-framework-version-11). As checked on August 3, 2026, NIST still labels Version 1.1 an Initial Public Draft and says the final release is forthcoming; these rows must be reviewed when the final version is published.
 - **NIST CSF 2.0 control** — from the [Cybersecurity Framework v2.0 (2024)](https://www.nist.gov/cyberframework). Functions: GOVERN, IDENTIFY, PROTECT, DETECT, RESPOND, RECOVER.
 - **HIPAA safeguard** — section of [45 CFR Part 164](https://www.hhs.gov/hipaa/for-professionals/security/index.html) most relevant to the pattern. Biomedical data workflows often fall under HIPAA; this column assists compliance reviewers evaluating the architecture.
 
@@ -41,3 +41,8 @@ schema and a minimum row count of 30.
 This mapping reflects the **design intent** of the architecture patterns, not a formal
 certification or audit finding. A qualified compliance reviewer should validate any
 claims against your specific deployment context and applicable regulations.
+
+The federated FHE rows describe only controls visible in this repository. They do not
+claim that the reference coordinator supplies client authentication, transport
+security, durable replay protection, or an approved institutional data-governance
+process.

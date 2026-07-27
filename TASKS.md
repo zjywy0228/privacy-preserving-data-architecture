@@ -28,7 +28,7 @@ checks are complete.
 ## Governance and standards
 
 - [x] Merge the governed data-access control policy template.
-- [ ] Reconcile the NIST Privacy Framework 1.1 mapping with its current
+- [x] Reconcile the NIST Privacy Framework 1.1 mapping with its current
   publication status and implemented repository modules.
 - [ ] Add a machine-readable validation report for compliance mappings.
 

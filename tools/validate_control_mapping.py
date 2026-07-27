@@ -49,6 +49,7 @@ COLUMN_PATTERNS: dict[str, re.Pattern[str]] = {
 
 KNOWN_MODULES: set[str] = {
     "fhe-feature-extraction",
+    "fhe-feature-extraction/federated",
     "dp-llm-training",
     "llm-leakage-assessment",
     "governance-templates",
