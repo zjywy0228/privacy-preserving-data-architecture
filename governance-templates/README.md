@@ -11,6 +11,7 @@ before submission or deployment.
 
 | Template | Purpose | Applicable controls |
 |---|---|---|
+| [`data-access-control-policy-template.md`](data-access-control-policy-template.md) | Define data tiers, authorized roles, approval workflows, technical controls, audits, and incident response | HIPAA, NIST Privacy Framework, NIST CSF, GDPR |
 | [`irb-amendment-template.md`](irb-amendment-template.md) | Amend an existing IRB protocol to add FHE / DP / federated learning | 45 CFR 46, HIPAA §164.308(a)(1) |
 | [`derived-variable-lineage-template.md`](derived-variable-lineage-template.md) | Document data-lineage for derived variables exported from a controlled-access environment | NIST Privacy Framework CT.DM-P4 |
 | [`pre-export-output-review-checklist.md`](pre-export-output-review-checklist.md) | Pre-export review checklist for analytical outputs leaving a secure enclave | NIST CSF PR.DS-5, HIPAA §164.312(b) |
@@ -32,6 +33,11 @@ before submission or deployment.
 3. **Pre-export review:** Run through `pre-export-output-review-checklist.md`
    before releasing any aggregate statistics, model outputs, or derived variables
    from a controlled-access environment.
+
+4. **Data-access policy:** Copy `data-access-control-policy-template.md`, assign
+   the in-scope datasets to tiers, replace every bracketed field, and obtain the
+   institution-specific legal, privacy, security, and ethics approvals required
+   before adoption.
 
 ## Federal alignment
 
