@@ -3,7 +3,7 @@
 Structured assessment methodology for institutions deploying large language models (LLMs) or AI-assisted workflows on sensitive personal or institutional data.
 
 Based on the threat taxonomy in:
-> Zhang et al., "Assessment Methods and Protection Strategies for Data Leakage Risks in Large Language Models," IEEE, 2025.
+> Xiao et al., "Assessment Methods and Protection Strategies for Data Leakage Risks in Large Language Models," *Journal of Industrial Engineering and Applied Science*, 3(2), 6–15, 2025. DOI: [10.70393/6a69656173.323736](https://doi.org/10.70393/6a69656173.323736)
 
 ---
 
@@ -16,6 +16,16 @@ Work through each section before deploying an LLM system on sensitive data. For 
 - **RISK-ACCEPTED**: gap is known, documented, and accepted by the data owner
 
 Repeat assessment when: model version changes, new data categories are added, workflow integrations change, or after any suspected exposure incident.
+
+Generate a data-minimized Markdown or HTML report from runner JSON:
+
+```bash
+python llm-leakage-assessment/report_generator.py \
+  llm-leakage-assessment/examples/sample-results.json \
+  assessment-report.html
+```
+
+Generated reports omit prompts, responses, and leakage signals by design.
 
 ---
 
