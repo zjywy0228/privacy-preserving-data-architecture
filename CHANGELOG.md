@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Corrected the venues, author order, volume/issue, pages, and resolvable DOIs
+  for the three anchor papers across documentation, BibTeX, the project site,
+  and Python module references.
+- Added a citation-integrity regression test to prevent the superseded
+  venue/DOI combinations from returning.
+
 ## [0.3.0] - 2026-07-25
 
 June–July 2026 sprint (2026-05-28 – 2026-07-25): 18 pull requests merged

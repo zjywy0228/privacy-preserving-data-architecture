@@ -5,8 +5,8 @@ institutional data.  Version 2 adds a **Mitigation Primitives** column to each t
 a Mermaid flow diagram mapping threats to control layers.
 
 Based on:
-> Zhang et al., "Assessment Methods and Protection Strategies for Data Leakage Risks in Large Language Models," IEEE, 2025.  
-> DOI: 10.1109/ACCESS.2025.3527806
+> Xiao et al., "Assessment Methods and Protection Strategies for Data Leakage Risks in Large Language Models," *Journal of Industrial Engineering and Applied Science*, 3(2), 6–15, 2025.<br>
+> DOI: [10.70393/6a69656173.323736](https://doi.org/10.70393/6a69656173.323736)
 
 ---
 

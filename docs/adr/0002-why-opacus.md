@@ -42,8 +42,8 @@ Use **Opacus** (Meta AI Research; Apache 2.0 license).
    DOI: [10.48550/arXiv.2109.12298](https://doi.org/10.48550/arXiv.2109.12298)
 
 5. **Anchoring paper alignment.** The DP mechanism paper that motivates this module
-   (DOI: [10.1007/s11063-024-11604-9](https://doi.org/10.1007/s11063-024-11604-9)) builds on
-   DP-SGD; Opacus is the most direct open-source PyTorch implementation of that approach.
+   ([10.70393/616a736d.323732](https://doi.org/10.70393/616a736d.323732)) builds on DP-SGD;
+   Opacus is the most direct open-source PyTorch implementation of that approach.
 
 ---
 

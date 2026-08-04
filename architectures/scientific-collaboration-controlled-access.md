@@ -344,12 +344,16 @@ If you use this architecture in your research or institutional implementation, p
 }
 
 @article{zhang_dp_llm_2025,
-  author       = {Zhang, Junyi and others},
+  author       = {Xiao, Xingpeng and Zhang, Yaomin and Chen, Heyao and
+                  Ren, Wenkun and Zhang, Junyi and Xu, Jian},
   title        = {A Differential Privacy-Based Mechanism for Preventing Data
                   Leakage in Large Language Model Training},
-  journal      = {Neural Processing Letters},
+  journal      = {Academic Journal of Sociology and Management},
+  volume       = {3},
+  number       = {2},
+  pages        = {33--42},
   year         = {2025},
-  doi          = {10.1007/s11063-024-11604-9}
+  doi          = {10.70393/616a736d.323732}
 }
 ```
 

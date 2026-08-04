@@ -23,7 +23,8 @@ WHY THIS EXISTS:
     References:
         NIST AI RMF (2023), Govern 1.7 -- "Processes and procedures are in place
         for the continuous monitoring of AI systems."
-        Zhang et al., Neural Processing Letters, 2025 (doi:10.1007/s11063-024-11604-9)
+        Xiao et al., Academic Journal of Sociology and Management, 3(2), 33-42,
+        2025 (doi:10.70393/616a736d.323732)
 """
 
 import json

@@ -15,8 +15,8 @@ is returned.
 
 Based on the architecture described in:
   Zhang et al., "Privacy-Preserving Feature Extraction for Medical Images
-  Based on Fully Homomorphic Encryption," Applied Sciences, 2024.
-  doi:10.3390/app14062531
+  Based on Fully Homomorphic Encryption," Journal of Advanced Computing
+  Systems, 4(2), 15-28, 2024. doi:10.69987/JACS.2024.40202
 """
 
 import numpy as np

@@ -12,9 +12,9 @@ distribution by at most exp(epsilon), with probability at least 1 - delta.
 This addresses training-data extraction and membership-inference attacks
 documented in:
   NIST Adversarial ML Report (2025), Sections 2.5 and 3.2
-  Zhang et al., "A Differential Privacy-Based Mechanism for Preventing Data
-  Leakage in Large Language Model Training," Neural Processing Letters, 2025.
-  doi:10.1007/s11063-024-11604-9
+  Xiao et al., "A Differential Privacy-Based Mechanism for Preventing Data
+  Leakage in Large Language Model Training," Academic Journal of Sociology and
+  Management, 3(2), 33-42, 2025. doi:10.70393/616a736d.323732
 
 Usage pattern:
     trainer = DPTrainer(model, optimizer, target_epsilon=3.0, target_delta=1e-5)
