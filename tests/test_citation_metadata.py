@@ -11,6 +11,7 @@ SUPERSEDED_IDENTIFIERS = (
     "10.3390/" + "app14062531",
     "10.1007/" + "s11063-024-11604-9",
     "10.1109/" + "ACCESS.2025.3527806",
+    'Models," IEEE, ' + "2025",
 )
 
 EXPECTED_CITATIONS = {

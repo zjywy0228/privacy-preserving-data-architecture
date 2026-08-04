@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   controls, audit requirements, incident response, and version review.
 - Added implementation-oriented threat models for the FHE,
   differential-private training, and LLM-leakage workstreams.
+- Added a data-minimized Markdown/HTML report generator for structured
+  LLM-leakage assessment results.
 
 ## [0.3.0] - 2026-07-25
 

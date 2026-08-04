@@ -21,7 +21,7 @@ checks are complete.
   workstreams.
 - [ ] Add a federated FHE reference extension with mock-safe tests.
 - [ ] Add a privacy-budget visualization tool with deterministic test output.
-- [ ] Add an automated LLM leakage-assessment report generator.
+- [x] Add an automated LLM leakage-assessment report generator.
 - [ ] Add a streaming FHE pipeline for chunked large-input processing.
 - [ ] Add adaptive clipping for differential-private training.
 
