@@ -39,6 +39,7 @@ checks are complete.
 - [x] Maintain at least 65% automated test coverage in continuous integration.
 - [x] Validate the NIST control-mapping CSV in continuous integration.
 - [x] Add citation-integrity checks to continuous integration.
+- [x] Enforce a public-scope terminology guard in continuous integration.
 - [ ] Add a dependency security audit and documented remediation workflow.
 
 ## Later enhancements
