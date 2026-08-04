@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added a governed data-access control policy template covering data
+  classification, role-based permissions, approval workflows, technical
+  controls, audit requirements, incident response, and version review.
+
 ## [0.3.0] - 2026-07-25
 
 June–July 2026 sprint (2026-05-28 – 2026-07-25): 18 pull requests merged
