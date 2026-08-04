@@ -7,7 +7,7 @@
 
 > **English README:** [README.md](README.md)
 
-> **最新版本（2026-08-03）：** [`v0.3.0`](https://github.com/zjywy0228/privacy-preserving-data-architecture/releases/tag/v0.3.0) 已发布，包含已核验的核心论文元数据、引用完整性回归测试、扩展的隐私与安全模块、治理模板、合规映射、打包与发布自动化。
+> **最新版本（2026-08-03）：** [`v0.4.0`](https://github.com/zjywy0228/privacy-preserving-data-architecture/releases/tag/v0.4.0) 新增可审阅的威胁模型、联邦式全同态加密参考扩展、差分隐私预算可视化、数据最小化泄露报告、受治理访问控制以及机器可读的合规验证。
 
 面向需要在控制原始数据暴露、人工智能泄露风险和合规义务的同时分析敏感生物医学与科学数据的机构，提供可复用的架构模式、原型模块和评估框架。
 
