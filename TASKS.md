@@ -17,7 +17,7 @@ checks are complete.
 
 ## Architecture and validation
 
-- [ ] Add threat models for the FHE, differential-privacy, and LLM-leakage
+- [x] Add threat models for the FHE, differential-privacy, and LLM-leakage
   workstreams.
 - [ ] Add a federated FHE reference extension with mock-safe tests.
 - [ ] Add a privacy-budget visualization tool with deterministic test output.
