@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   differential-private training, and LLM-leakage workstreams.
 - Added a data-minimized Markdown/HTML report generator for structured
   LLM-leakage assessment results.
+- Added a dependency-free SVG privacy-budget visualization tool with a
+  logarithmic epsilon axis, target-budget marker, and deterministic rendering.
 
 ## [0.3.0] - 2026-07-25
 
