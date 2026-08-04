@@ -13,7 +13,7 @@ checks are complete.
   everywhere in the repository.
 - [x] Add an automated GitHub Release workflow for version tags.
 - [x] Publish the `v0.3.0` tag and GitHub Release.
-- [ ] Publish the `v0.4.0` architecture and validation release.
+- [x] Publish the `v0.4.0` architecture and validation release.
 - [x] Add a regression test that rejects the superseded citation metadata.
 
 ## Architecture and validation
