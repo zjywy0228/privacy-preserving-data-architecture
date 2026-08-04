@@ -41,8 +41,8 @@ Use **TenSEAL** (Microsoft Research / OpenMined; Apache 2.0 license).
    DOI: [10.48550/arXiv.2104.03152](https://doi.org/10.48550/arXiv.2104.03152)
 
 5. **Anchoring paper alignment.** The FHE medical-imaging paper that motivates this module
-   (DOI: [10.3390/app14062531](https://doi.org/10.3390/app14062531)) uses CKKS-based feature
-   extraction; TenSEAL is the most direct Python implementation of that approach.
+   ([10.69987/JACS.2024.40202](https://doi.org/10.69987/JACS.2024.40202)) uses CKKS-based
+   feature extraction; TenSEAL is the most direct Python implementation of that approach.
 
 ---
 

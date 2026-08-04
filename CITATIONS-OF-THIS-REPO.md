@@ -22,9 +22,9 @@ Each row maps a paper to the module it informs.
 
 | Paper | Venue / Year | DOI | Module |
 |---|---|---|---|
-| *Privacy-Preserving Feature Extraction for Medical Images Based on Fully Homomorphic Encryption* | MDPI Applied Sciences, 2024 | [10.3390/app14062531](https://doi.org/10.3390/app14062531) | `fhe-feature-extraction/` |
-| *A Differential Privacy-Based Mechanism for Preventing Data Leakage in Large Language Model Training* | Springer Neural Processing Letters, 2025 | [10.1007/s11063-024-11604-9](https://doi.org/10.1007/s11063-024-11604-9) | `dp-llm-training/` |
-| *Assessment Methods and Protection Strategies for Data Leakage Risks in Large Language Models* | IEEE, 2025 | — | `llm-leakage-assessment/` |
+| *Privacy-Preserving Feature Extraction for Medical Images Based on Fully Homomorphic Encryption* | Journal of Advanced Computing Systems, 4(2), 15–28, 2024 | [10.69987/JACS.2024.40202](https://doi.org/10.69987/JACS.2024.40202) | `fhe-feature-extraction/` |
+| *A Differential Privacy-Based Mechanism for Preventing Data Leakage in Large Language Model Training* | Academic Journal of Sociology and Management, 3(2), 33–42, 2025 | [10.70393/616a736d.323732](https://doi.org/10.70393/616a736d.323732) | `dp-llm-training/` |
+| *Assessment Methods and Protection Strategies for Data Leakage Risks in Large Language Models* | Journal of Industrial Engineering and Applied Science, 3(2), 6–15, 2025 | [10.70393/6a69656173.323736](https://doi.org/10.70393/6a69656173.323736) | `llm-leakage-assessment/` |
 | *Hospital-treated infectious diseases and the risk of epilepsy in older age* | Nature Aging, 2025 | [10.1038/s43587-024-00783-8](https://doi.org/10.1038/s43587-024-00783-8) | `architectures/` (application context) |
 | *Growth and sleep outcomes after adenotonsillectomy in pediatric mild sleep-disordered breathing* | Scientific Reports, 2025 | — | `architectures/` (application context) |
 

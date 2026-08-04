@@ -31,9 +31,9 @@ References
   Abadi et al. (2016). Deep Learning with Differential Privacy.
   ACM CCS. doi:10.1145/2976749.2978318
 
-  Zhang et al. (2025). A Differential Privacy-Based Mechanism for Preventing
-  Data Leakage in LLM Training. Neural Processing Letters.
-  doi:10.1007/s11063-024-11604-9
+  Xiao et al. (2025). A Differential Privacy-Based Mechanism for Preventing
+  Data Leakage in LLM Training. Academic Journal of Sociology and Management,
+  3(2), 33-42. doi:10.70393/616a736d.323732
 """
 
 from __future__ import annotations

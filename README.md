@@ -34,9 +34,9 @@ This work builds on the following published research:
 
 | Paper | Venue | DOI / Link |
 |---|---|---|
-| *Privacy-Preserving Feature Extraction for Medical Images Based on Fully Homomorphic Encryption* | MDPI Applied Sciences (2024) | [doi:10.3390/app14062531](https://doi.org/10.3390/app14062531) |
-| *A Differential Privacy-Based Mechanism for Preventing Data Leakage in Large Language Model Training* | Springer Neural Processing Letters (2025) | [doi:10.1007/s11063-024-11604-9](https://doi.org/10.1007/s11063-024-11604-9) |
-| *Assessment Methods and Protection Strategies for Data Leakage Risks in Large Language Models* | IEEE (2025) | see paper for full reference |
+| *Privacy-Preserving Feature Extraction for Medical Images Based on Fully Homomorphic Encryption* | Journal of Advanced Computing Systems, 4(2), 15–28 (2024) | [doi:10.69987/JACS.2024.40202](https://doi.org/10.69987/JACS.2024.40202) |
+| *A Differential Privacy-Based Mechanism for Preventing Data Leakage in Large Language Model Training* | Academic Journal of Sociology and Management, 3(2), 33–42 (2025) | [doi:10.70393/616a736d.323732](https://doi.org/10.70393/616a736d.323732) |
+| *Assessment Methods and Protection Strategies for Data Leakage Risks in Large Language Models* | Journal of Industrial Engineering and Applied Science, 3(2), 6–15 (2025) | [doi:10.70393/6a69656173.323736](https://doi.org/10.70393/6a69656173.323736) |
 | *Hospital-treated infectious diseases and the risk of epilepsy in older age* | Nature Aging (2025) | [doi:10.1038/s43587-024-00783-8](https://doi.org/10.1038/s43587-024-00783-8) |
 | *Growth and sleep outcomes after adenotonsillectomy in pediatric mild sleep-disordered breathing* | Scientific Reports (2025) | see paper for full reference |
 

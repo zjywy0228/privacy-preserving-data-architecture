@@ -9,11 +9,11 @@ checks are complete.
 ## Repository integrity and release readiness
 
 - [x] Add a public task tracker and ignore local coverage artifacts.
-- [ ] Correct the three anchor papers' venue, author, page, and DOI metadata
+- [x] Correct the three anchor papers' venue, author, page, and DOI metadata
   everywhere in the repository.
 - [ ] Add an automated GitHub Release workflow for version tags.
 - [ ] Publish the `v0.3.0` tag and GitHub Release.
-- [ ] Add a regression test that rejects the superseded citation metadata.
+- [x] Add a regression test that rejects the superseded citation metadata.
 
 ## Architecture and validation
 
@@ -37,7 +37,7 @@ checks are complete.
 - [x] Maintain a passing Python 3.10-3.12 continuous-integration matrix.
 - [x] Maintain at least 65% automated test coverage in continuous integration.
 - [x] Validate the NIST control-mapping CSV in continuous integration.
-- [ ] Add citation-integrity checks to continuous integration.
+- [x] Add citation-integrity checks to continuous integration.
 - [ ] Add a dependency security audit and documented remediation workflow.
 
 ## Later enhancements

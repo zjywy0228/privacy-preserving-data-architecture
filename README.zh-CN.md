@@ -32,9 +32,9 @@
 
 | 论文 | 期刊/会议 | DOI / 链接 |
 |---|---|---|
-| *基于全同态加密的医学图像隐私保护特征提取* | MDPI Applied Sciences（2024） | [doi:10.3390/app14062531](https://doi.org/10.3390/app14062531) |
-| *基于差分隐私机制防止大语言模型训练数据泄露* | Springer Neural Processing Letters（2025） | [doi:10.1007/s11063-024-11604-9](https://doi.org/10.1007/s11063-024-11604-9) |
-| *大语言模型数据泄露风险的评估方法与防护策略* | IEEE（2025） | 详见论文 |
+| *基于全同态加密的医学图像隐私保护特征提取* | Journal of Advanced Computing Systems，4(2)，15–28（2024） | [doi:10.69987/JACS.2024.40202](https://doi.org/10.69987/JACS.2024.40202) |
+| *基于差分隐私机制防止大语言模型训练数据泄露* | Academic Journal of Sociology and Management，3(2)，33–42（2025） | [doi:10.70393/616a736d.323732](https://doi.org/10.70393/616a736d.323732) |
+| *大语言模型数据泄露风险的评估方法与防护策略* | Journal of Industrial Engineering and Applied Science，3(2)，6–15（2025） | [doi:10.70393/6a69656173.323736](https://doi.org/10.70393/6a69656173.323736) |
 | *医院感染疾病与老年癫痫风险* | Nature Aging（2025） | [doi:10.1038/s43587-024-00783-8](https://doi.org/10.1038/s43587-024-00783-8) |
 | *腺样体扁桃体切除术后儿童轻度睡眠呼吸障碍的生长与睡眠结局* | Scientific Reports（2025） | 详见论文 |
 
