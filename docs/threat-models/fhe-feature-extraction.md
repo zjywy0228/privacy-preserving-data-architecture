@@ -41,6 +41,7 @@ service is not trusted with plaintext or the secret key.
 | FHE-T6 | Approximation error changes a decision | Incorrect scientific or clinical interpretation | Round-trip error and accuracy benchmarks | Compare encrypted and plaintext reference results |
 | FHE-T7 | Timing, memory, or access-log metadata leaks workload details | Side-channel disclosure | Minimize operational metadata and restrict logs | Deployment-specific side-channel and logging review |
 | FHE-T8 | Dependency or implementation compromise | Key/data compromise or incorrect results | Pinned review process and continuous tests | Dependency audit, reproducible test run, signed release verification |
+| FHE-T9 | Unauthorized or replayed federated update | Model poisoning, incorrect aggregate, or participation disclosure | Authorized-client allowlist, round binding, duplicate rejection, payload limits, ciphertext fingerprints | Federated coordinator negative tests and durable deployment replay control |
 
 ## Security assumptions
 
@@ -58,3 +59,7 @@ that an output is safe to release, that the computation is authorized, or that
 the implementation is free of side channels. Production deployments still need
 identity controls, key rotation, tamper-evident logs, resource isolation,
 dependency monitoring, and an approved output-release process.
+
+For federated use, the server must also authenticate clients, bind each
+ciphertext to a unique round, protect transport metadata, and persist replay
+state across process restarts.

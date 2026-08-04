@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   LLM-leakage assessment results.
 - Added a dependency-free SVG privacy-budget visualization tool with a
   logarithmic epsilon axis, target-budget marker, and deterministic rendering.
+- Added a Flower-compatible federated FHE transport/coordinator with opaque
+  ciphertext handling, authorized-client and round checks, SHA-256 receipt
+  records, a TenSEAL CKKS aggregation backend, and a clearly non-cryptographic
+  mock backend for continuous integration.
 
 ## [0.3.0] - 2026-07-25
 
