@@ -20,7 +20,7 @@ checks are complete.
 - [x] Add threat models for the FHE, differential-privacy, and LLM-leakage
   workstreams.
 - [ ] Add a federated FHE reference extension with mock-safe tests.
-- [ ] Add a privacy-budget visualization tool with deterministic test output.
+- [x] Add a privacy-budget visualization tool with deterministic test output.
 - [x] Add an automated LLM leakage-assessment report generator.
 - [ ] Add a streaming FHE pipeline for chunked large-input processing.
 - [ ] Add adaptive clipping for differential-private training.
