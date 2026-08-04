@@ -16,7 +16,7 @@ Thank you for your interest in contributing. This repository implements reusable
 ## Ground rules
 
 1. **No real patient data, no real PHI, no institutional credentials.** All examples must use synthetic or publicly available data. If your demo needs medical-imaging input, use a publicly downloadable synthetic sample.
-2. **No references to immigration, USCIS, visa proceedings, or petition strategy anywhere in the repository.** This is an open-source research project; contributions should be scoped to the technical and research content.
+2. **Keep the repository focused on public technical and research content.** Do not include unrelated personal legal or administrative matters.
 3. **Cite real DOIs only.** Do not invent paper references. If you reference a framework control, link to the published document.
 4. **Do not delete or rename existing module folders** (`architectures/`, `fhe-feature-extraction/`, `dp-llm-training/`, `llm-leakage-assessment/`, `governance-templates/`, `docs/compliance/`). These names appear in downstream documentation. Add; do not remove.
 

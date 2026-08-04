@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added a continuous-integration guard that prevents private-case terminology
+  from entering tracked public-repository text.
+
 ## [0.4.0] - 2026-08-03
 
 August 2026 implementation sprint: eight pull requests merged after `v0.3.0`,

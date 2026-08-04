@@ -71,3 +71,14 @@ jobs:
           name: nist-control-mapping-validation
           path: artifacts/nist-control-mapping-validation.json
           if-no-files-found: error
+
+  public-scope:
+    name: Check public-repository scope
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Reject private-case terminology
+        run: python tools/check_public_scope.py
