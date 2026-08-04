@@ -34,7 +34,14 @@ Researchers and compliance reviewers can filter the CSV by:
 - `gdpr_article` (in `gdpr-article-mapping.csv`) — find patterns that address a specific GDPR article (e.g., `Art. 25(1)`)
 
 The NIST CSV is validated in CI (`ci.yml` `validate-nist-csv` job) to ensure column
-schema and a minimum row count of 30.
+schema and a minimum row count of 46. The job uploads a structured JSON report as
+the `nist-control-mapping-validation` artifact. Generate the same report locally:
+
+```bash
+python tools/validate_control_mapping.py \
+  --min-rows 46 \
+  --report-json artifacts/nist-control-mapping-validation.json
+```
 
 ## Limitations
 

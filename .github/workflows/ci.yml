@@ -60,4 +60,14 @@ jobs:
         with:
           python-version: "3.11"
       - name: Validate NIST control-mapping CSV
-        run: python tools/validate_control_mapping.py --min-rows 30
+        run: |
+          python tools/validate_control_mapping.py \
+            --min-rows 46 \
+            --report-json artifacts/nist-control-mapping-validation.json
+      - name: Upload control-mapping validation report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nist-control-mapping-validation
+          path: artifacts/nist-control-mapping-validation.json
+          if-no-files-found: error

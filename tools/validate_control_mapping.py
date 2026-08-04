@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import json
 import re
 import sys
 from dataclasses import dataclass, field
@@ -85,6 +86,48 @@ class ValidationResult:
     @property
     def ok(self) -> bool:
         return len(self.errors) == 0
+
+    def to_report(self, source: Path, min_rows: int) -> dict[str, object]:
+        """Return a stable, machine-readable validation report."""
+        report_source = source
+        if source.is_absolute():
+            try:
+                report_source = source.relative_to(Path(__file__).parent.parent)
+            except ValueError:
+                pass
+        return {
+            "schema_version": "1.0",
+            "source": report_source.as_posix(),
+            "status": "pass" if self.ok else "fail",
+            "minimum_rows": min_rows,
+            "row_count": self.row_count,
+            "error_count": len(self.errors),
+            "warning_count": len(self.warnings),
+            "errors": [
+                {
+                    "row": error.row,
+                    "column": error.column,
+                    "value": error.value,
+                    "message": error.message,
+                }
+                for error in self.errors
+            ],
+            "warnings": self.warnings,
+        }
+
+
+def write_json_report(
+    result: ValidationResult,
+    source: Path,
+    min_rows: int,
+    destination: Path,
+) -> None:
+    """Write a UTF-8 JSON report, creating its parent directory when needed."""
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    destination.write_text(
+        json.dumps(result.to_report(source, min_rows), indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
 
 
 def validate(csv_path: Path, min_rows: int = DEFAULT_MIN_ROWS) -> ValidationResult:
@@ -176,12 +219,20 @@ def _build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Suppress warnings; only print errors and final status",
     )
+    parser.add_argument(
+        "--report-json",
+        type=Path,
+        metavar="PATH",
+        help="Write a machine-readable JSON report, including when validation fails",
+    )
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = _build_parser().parse_args(argv)
     result = validate(args.csv, min_rows=args.min_rows)
+    if args.report_json is not None:
+        write_json_report(result, args.csv, args.min_rows, args.report_json)
 
     if not args.quiet:
         for warning in result.warnings:

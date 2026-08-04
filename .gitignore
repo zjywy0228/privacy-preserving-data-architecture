@@ -8,6 +8,7 @@ htmlcov/
 *.egg-info/
 dist/
 build/
+artifacts/
 .mypy_cache/
 .ruff_cache/
 *.so
