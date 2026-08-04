@@ -9,7 +9,7 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![Last commit](https://img.shields.io/github/last-commit/zjywy0228/privacy-preserving-data-architecture)](https://github.com/zjywy0228/privacy-preserving-data-architecture/commits/master)
 
-> **What's new (2026-08-03):** [`v0.3.0`](https://github.com/zjywy0228/privacy-preserving-data-architecture/releases/tag/v0.3.0) is published with verified anchor-paper metadata, citation-integrity regression tests, expanded privacy/security modules, governance templates, compliance mappings, packaging, and release automation. [Full changelog →](CHANGELOG.md)
+> **What's new (2026-08-03):** [`v0.4.0`](https://github.com/zjywy0228/privacy-preserving-data-architecture/releases/tag/v0.4.0) adds reviewable threat models, a federated FHE reference extension, DP budget visualization, data-minimized leakage reports, governed-access controls, and machine-readable compliance validation. [Full changelog →](CHANGELOG.md)
 
 Reusable architecture patterns, prototype modules, and assessment frameworks for institutions that need to analyze sensitive biomedical and scientific data while controlling raw-data exposure, AI leakage risk, and compliance obligations.
 
