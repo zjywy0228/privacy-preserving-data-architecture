@@ -11,7 +11,7 @@ checks are complete.
 - [x] Add a public task tracker and ignore local coverage artifacts.
 - [x] Correct the three anchor papers' venue, author, page, and DOI metadata
   everywhere in the repository.
-- [ ] Add an automated GitHub Release workflow for version tags.
+- [x] Add an automated GitHub Release workflow for version tags.
 - [ ] Publish the `v0.3.0` tag and GitHub Release.
 - [x] Add a regression test that rejects the superseded citation metadata.
 

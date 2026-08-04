@@ -7,14 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Fixed
-
-- Corrected the venues, author order, volume/issue, pages, and resolvable DOIs
-  for the three anchor papers across documentation, BibTeX, the project site,
-  and Python module references.
-- Added a citation-integrity regression test to prevent the superseded
-  venue/DOI combinations from returning.
-
 ## [0.3.0] - 2026-07-25
 
 June–July 2026 sprint (2026-05-28 – 2026-07-25): 18 pull requests merged
@@ -71,6 +63,8 @@ compliance mappings, packaging, and community infrastructure.
   optional extras for FHE and DP dependencies (PR #32)
 - `.github/workflows/publish-testpypi.yml` — automated TestPyPI publish on version
   tag; README badge links to TestPyPI release page (PR #32)
+- `.github/workflows/release.yml` — validates version tags against
+  `pyproject.toml` and creates a GitHub Release with generated notes
 - `Makefile` — `make test`, `make lint`, `make fmt`, `make benchmark`, `make demo`
   targets; wraps ruff, mypy, pytest, and example runners (PR #21)
 - `.pre-commit-config.yaml` — ruff format + ruff check + mypy + codespell hooks (PR #21)
@@ -95,6 +89,11 @@ compliance mappings, packaging, and community infrastructure.
 
 ### Fixed
 
+- Corrected the venues, author order, volume/issue, pages, and resolvable DOIs
+  for the three anchor papers across documentation, BibTeX, the project site,
+  and Python module references.
+- Added a citation-integrity regression test to prevent the superseded
+  venue/DOI combinations from returning.
 - `fix/ruff-format-test-dp-trainer`: ruff format and lint failures in
   `tests/test_dp_trainer.py` corrected; import ordering and unused-variable
   suppressions applied (PR #19)
