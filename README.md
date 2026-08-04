@@ -43,6 +43,9 @@ This work builds on the following published research:
 
 The Nature Aging and Scientific Reports biomedical papers are the application context that motivates this repository: both required controlled, governed access to sensitive patient records across jurisdictions, and both show why reusable architecture patterns matter for research teams that cannot redesign their data-handling from scratch for each new study.
 
+Threat assumptions and residual risks are documented in
+[`docs/threat-models/`](docs/threat-models/README.md).
+
 ## Repository Structure
 
 ```

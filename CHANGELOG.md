@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added a governed data-access control policy template covering data
   classification, role-based permissions, approval workflows, technical
   controls, audit requirements, incident response, and version review.
+- Added implementation-oriented threat models for the FHE,
+  differential-private training, and LLM-leakage workstreams.
 
 ## [0.3.0] - 2026-07-25
 
