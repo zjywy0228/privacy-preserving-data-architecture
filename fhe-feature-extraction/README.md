@@ -72,3 +72,10 @@ python fhe-feature-extraction/examples/medical_image_demo.py
 Zhang et al., "Privacy-Preserving Feature Extraction for Medical Images Based on
 Fully Homomorphic Encryption," *Journal of Advanced Computing Systems*, 4(2),
 15–28, 2024. doi:[10.69987/JACS.2024.40202](https://doi.org/10.69987/JACS.2024.40202)
+
+## Federated extension
+
+[`federated/`](federated/README.md) provides a Flower-compatible transport path
+for serialized TenSEAL CKKS updates, an authorization/round coordinator, and a
+data-minimized ciphertext receipt log. Its mock backend is explicitly
+non-cryptographic and is used only for continuous integration.

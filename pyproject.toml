@@ -32,6 +32,7 @@ dependencies = []
 
 [project.optional-dependencies]
 fhe = ["tenseal>=0.3.14"]
+federated = ["flwr>=1.10.0", "tenseal>=0.3.14"]
 dp = ["opacus>=1.4.0", "torch>=2.0.0"]
 llm = ["transformers>=4.40.0", "datasets>=2.19.0", "pyyaml>=6.0.1"]
 dev = [
