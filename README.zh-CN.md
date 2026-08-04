@@ -1,10 +1,13 @@
 # 隐私保护数据架构（Privacy-Preserving Data Architecture）
 
 [![CI](https://github.com/zjywy0228/privacy-preserving-data-architecture/actions/workflows/ci.yml/badge.svg)](https://github.com/zjywy0228/privacy-preserving-data-architecture/actions/workflows/ci.yml)
+[![GitHub Release](https://img.shields.io/github/v/release/zjywy0228/privacy-preserving-data-architecture)](https://github.com/zjywy0228/privacy-preserving-data-architecture/releases/latest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 
 > **English README:** [README.md](README.md)
+
+> **最新版本（2026-08-03）：** [`v0.3.0`](https://github.com/zjywy0228/privacy-preserving-data-architecture/releases/tag/v0.3.0) 已发布，包含已核验的核心论文元数据、引用完整性回归测试、扩展的隐私与安全模块、治理模板、合规映射、打包与发布自动化。
 
 面向需要在控制原始数据暴露、人工智能泄露风险和合规义务的同时分析敏感生物医学与科学数据的机构，提供可复用的架构模式、原型模块和评估框架。
 

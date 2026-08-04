@@ -12,7 +12,7 @@ checks are complete.
 - [x] Correct the three anchor papers' venue, author, page, and DOI metadata
   everywhere in the repository.
 - [x] Add an automated GitHub Release workflow for version tags.
-- [ ] Publish the `v0.3.0` tag and GitHub Release.
+- [x] Publish the `v0.3.0` tag and GitHub Release.
 - [x] Add a regression test that rejects the superseded citation metadata.
 
 ## Architecture and validation
