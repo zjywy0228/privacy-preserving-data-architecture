@@ -25,6 +25,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Reconciled the federated FHE control mapping with the NIST Privacy Framework
   1.1 Initial Public Draft and removed claims not implemented by the reference
   coordinator.
+- Added a versioned JSON validation report for the NIST control mapping with
+  continuous-integration artifact upload on every validation run.
 
 ## [0.3.0] - 2026-07-25
 

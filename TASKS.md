@@ -30,7 +30,7 @@ checks are complete.
 - [x] Merge the governed data-access control policy template.
 - [x] Reconcile the NIST Privacy Framework 1.1 mapping with its current
   publication status and implemented repository modules.
-- [ ] Add a machine-readable validation report for compliance mappings.
+- [x] Add a machine-readable validation report for compliance mappings.
 
 ## Quality gates
 
