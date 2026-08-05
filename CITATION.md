@@ -52,16 +52,26 @@ If materials from this repository are useful for your research, please cite the 
 ```bibtex
 @article{naturaging2025epilepsy,
   title={Hospital-treated infectious diseases and the risk of epilepsy in older age},
-  author={[author list]},
+  author={Zhuang, Qiyuan and Hu, Yihan and Wei, Dang and Qin, Chenxi and Hu, Kejia and Zhang, Junyi and Chen, Lida and Yang, Zhelun and Ye, Weimin and Wirdefeldt, Karin and Zou, Xiang and Mao, Ying and H{\"a}gg, Sara and Fang, Fang},
   journal={Nature Aging},
+  volume={5},
+  pages={2188--2196},
   year={2025},
-  doi={10.1038/s43587-024-00783-8}
+  doi={10.1038/s43587-025-01005-x}
 }
 
-@article{scientificreports2025sleep,
+@article{scientificreports2026sleep,
   title={Growth and sleep outcomes after adenotonsillectomy in pediatric mild sleep-disordered breathing},
-  author={[author list]},
+  author={Gong, Wendan and Huang, Kuanen and Psychogios, Ioannis and Li, Shangjun and Chen, Lida and Zhang, Junyi and Fang, Fang and Zhang, Zhe and Hu, Yihan},
   journal={Scientific Reports},
-  year={2025}
+  volume={16},
+  pages={688},
+  year={2026},
+  doi={10.1038/s41598-025-30271-3},
+  note={Published online 5 December 2025}
 }
 ```
+
+The two biomedical papers are application-domain context for the architecture
+patterns. Individual author responsibilities are described only by the papers'
+published contribution statements.

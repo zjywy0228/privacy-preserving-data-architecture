@@ -7,10 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.1] - 2026-08-04
+
 ### Added
 
+- Added a dated twelve-month public roadmap covering versioned releases,
+  governance-template improvements, artifact-specific feedback, reproducible
+  validation, and public dissemination.
+- Extended citation regression tests to cover both biomedical application
+  papers, superseded DOI metadata, placeholder author lists, and the published
+  author-role boundary.
 - Added a continuous-integration guard that prevents private-case terminology
   from entering tracked public-repository text.
+
+### Changed
+
+- Corrected the complete authors, formal journal metadata, and DOI records for
+  the Nature Aging and Scientific Reports biomedical application papers across
+  the English and Chinese README files, citation files, architecture documents,
+  dashboard copy, and control-mapping data.
+- Clarified that the biomedical papers supply application-domain context and
+  that repository materials do not infer individual responsibilities beyond
+  their published contribution statements.
 
 ## [0.4.0] - 2026-08-03
 

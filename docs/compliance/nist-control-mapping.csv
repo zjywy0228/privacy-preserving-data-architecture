@@ -32,7 +32,7 @@ IRB-readiness annotation,governance-templates,MAP-5.1,GV.MT-P1,GV.RR-02,§164.51
 Biomedical reference architecture — four-layer design,architectures,GOVERN-1.1,CT.PO-P3,PR.DS-01,§164.312 Technical safeguards,Layers: access-control / privacy-preserving compute / audit / cross-jurisdictional compliance
 Biomedical arch — GDPR/Patientdatalag alignment,architectures,MAP-2.3,PR.DS-P5,GV.SC-07,,Cross-jurisdictional data governance for Sweden/EU/US biomedical registry studies
 Biomedical arch — Nature Aging workflow anchor,architectures,GOVERN-1.1,GV.MT-P1,ID.AM-03,,Anchored to Nature Aging 2025 epilepsy study (Swedish register + UK Biobank data)
-Biomedical arch — Scientific Reports workflow anchor,architectures,GOVERN-1.1,GV.MT-P1,ID.AM-03,,Anchored to Scientific Reports 2025 pediatric sleep study (institutional clinical data)
+Biomedical arch — Scientific Reports workflow anchor,architectures,GOVERN-1.1,GV.MT-P1,ID.AM-03,,Anchored to Scientific Reports 2026 pediatric sleep study (institutional clinical data)
 Biomedical arch — de-identification layer,architectures,MAP-2.3,PR.DS-P5,PR.DS-01,§164.514 De-identification,Architecture includes explicit raw-data de-identification before any cross-system transfer
 Biomedical arch — controlled-access output gate,architectures,MANAGE-3.1,PR.PO-P2,PR.DS-10,§164.308(a)(4),Output gate enforces minimum-necessary principle on computed results
 Biomedical arch — NIST AI RMF GOVERN,architectures,GOVERN-1.1,GV.PO-P1,GV.OC-02,,Organisational accountability for AI data governance aligned with NIST AI RMF Chapter 1

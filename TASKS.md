@@ -1,6 +1,6 @@
 # Project Tasks
 
-Last updated: 2026-08-03
+Last updated: 2026-08-04
 
 This is the public engineering task tracker for the repository. An item is
 checked only after the implementation and its relevant tests or documentation
@@ -15,6 +15,10 @@ checks are complete.
 - [x] Publish the `v0.3.0` tag and GitHub Release.
 - [x] Publish the `v0.4.0` architecture and validation release.
 - [x] Add a regression test that rejects the superseded citation metadata.
+- [x] Correct and regression-test both biomedical application-paper citations,
+  including authors, formal publication years, pages or article number, and DOI.
+- [x] Publish a dated twelve-month roadmap for releases, governance
+  improvements, artifact-specific feedback, validation, and dissemination.
 
 ## Architecture and validation
 

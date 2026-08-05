@@ -9,7 +9,7 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![Last commit](https://img.shields.io/github/last-commit/zjywy0228/privacy-preserving-data-architecture)](https://github.com/zjywy0228/privacy-preserving-data-architecture/commits/master)
 
-> **What's new (2026-08-03):** [`v0.4.0`](https://github.com/zjywy0228/privacy-preserving-data-architecture/releases/tag/v0.4.0) adds reviewable threat models, a federated FHE reference extension, DP budget visualization, data-minimized leakage reports, governed-access controls, and machine-readable compliance validation. [Full changelog →](CHANGELOG.md)
+> **What's new (2026-08-04):** [`v0.4.1`](https://github.com/zjywy0228/privacy-preserving-data-architecture/releases/tag/v0.4.1) corrects and regression-tests the biomedical citation record and publishes a dated twelve-month technical roadmap. [Full changelog →](CHANGELOG.md)
 
 Reusable architecture patterns, prototype modules, and assessment frameworks for institutions that need to analyze sensitive biomedical and scientific data while controlling raw-data exposure, AI leakage risk, and compliance obligations.
 
@@ -38,10 +38,13 @@ This work builds on the following published research:
 | *Privacy-Preserving Feature Extraction for Medical Images Based on Fully Homomorphic Encryption* | Journal of Advanced Computing Systems, 4(2), 15–28 (2024) | [doi:10.69987/JACS.2024.40202](https://doi.org/10.69987/JACS.2024.40202) |
 | *A Differential Privacy-Based Mechanism for Preventing Data Leakage in Large Language Model Training* | Academic Journal of Sociology and Management, 3(2), 33–42 (2025) | [doi:10.70393/616a736d.323732](https://doi.org/10.70393/616a736d.323732) |
 | *Assessment Methods and Protection Strategies for Data Leakage Risks in Large Language Models* | Journal of Industrial Engineering and Applied Science, 3(2), 6–15 (2025) | [doi:10.70393/6a69656173.323736](https://doi.org/10.70393/6a69656173.323736) |
-| *Hospital-treated infectious diseases and the risk of epilepsy in older age* | Nature Aging (2025) | [doi:10.1038/s43587-024-00783-8](https://doi.org/10.1038/s43587-024-00783-8) |
-| *Growth and sleep outcomes after adenotonsillectomy in pediatric mild sleep-disordered breathing* | Scientific Reports (2025) | see paper for full reference |
+| *Hospital-treated infectious diseases and the risk of epilepsy in older age* | Nature Aging, 5, 2188–2196 (2025) | [doi:10.1038/s43587-025-01005-x](https://doi.org/10.1038/s43587-025-01005-x) |
+| *Growth and sleep outcomes after adenotonsillectomy in pediatric mild sleep-disordered breathing* | Scientific Reports, 16, Article 688 (2026) | [doi:10.1038/s41598-025-30271-3](https://doi.org/10.1038/s41598-025-30271-3) |
 
-The Nature Aging and Scientific Reports biomedical papers are the application context that motivates this repository: both required controlled, governed access to sensitive patient records across jurisdictions, and both show why reusable architecture patterns matter for research teams that cannot redesign their data-handling from scratch for each new study.
+The Nature Aging and Scientific Reports biomedical papers are cited only as
+application-domain context for governed sensitive-data research. This repository
+does not infer any individual author's responsibilities beyond each paper's
+published contribution statement.
 
 Threat assumptions and residual risks are documented in
 [`docs/threat-models/`](docs/threat-models/README.md).
@@ -94,9 +97,12 @@ Review `llm-leakage-assessment/ASSESSMENT-CHECKLIST.md` for the structured workf
 |---|---|---|
 | Phase 1 | Initial FHE prototype, DP wrapper, LLM leakage checklist | Complete |
 | Phase 1.2 | Biomedical reference architecture — four-layer design anchored to Nature Aging + Scientific Reports papers | **Live** (2026-05-12) |
-| Phase 2 | Deployment patterns for pediatric/clinical and population-health workflows; requirements and CI | In progress |
-| Phase 3 | Validated compliance-ready architecture suite with NIST/HIPAA control mappings | Planned |
-| Phase 4 | Peer-reviewed architecture papers and public validation reports | Planned |
+| Phase 2 | Citation-integrity maintenance and dated governance-template improvements | `v0.4.1` released; `v0.5.0` target 2026-11-30 |
+| Phase 3 | Artifact-specific feedback and expanded reproducible validation | `v0.6.0` target 2027-02-28; `v0.7.0` target 2027-05-31 |
+| Phase 4 | Public dissemination and twelve-month maintenance report | Target 2027-08-03 |
+
+See [`ROADMAP.md`](ROADMAP.md) for release criteria, feedback boundaries, and
+the complete twelve-month plan.
 
 ## Target Users
 

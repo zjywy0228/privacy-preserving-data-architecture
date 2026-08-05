@@ -15,7 +15,11 @@ This reference architecture documents a repeatable four-layer design for biomedi
 The architecture is **paper-anchored**: each layer is grounded in the data-governance constraints documented in two peer-reviewed Nature Portfolio biomedical studies that informed its design:
 
 - **Nature Aging (2025):** *Hospital-treated infectious diseases and the risk of epilepsy in older age* — used UK Biobank and Swedish population-health register data; required governed cross-jurisdictional access to sensitive records of older adults.
-- **Scientific Reports (2025):** *Growth and sleep outcomes after adenotonsillectomy in pediatric mild sleep-disordered breathing* — used data from the Pediatric Adenotonsillectomy Trial for Snoring (PATS); required consent-governed access to records of minors under IRB protocol.
+- **Scientific Reports (2026):** *Growth and sleep outcomes after adenotonsillectomy in pediatric mild sleep-disordered breathing* — used data from the Pediatric Adenotonsillectomy Trial for Snoring (PATS); required consent-governed access to records of minors under IRB protocol.
+
+These papers are application-domain context for the architecture. References to
+their workflows do not assign individual author responsibilities beyond the
+papers' published contribution statements.
 
 The architecture is designed to be **institution-agnostic**: teams at different hospitals, research universities, or collaborative registries can evaluate and adapt it without adopting a specific vendor stack or having access to the original protected datasets.
 
@@ -302,17 +306,25 @@ HIPAA-specific control mapping in `docs/compliance/hipaa-control-mapping.md` (Da
 If you use this architecture in your research or institutional implementation, please cite the foundational papers that grounded its design:
 
 ```bibtex
-@article{nature_aging_epilepsy_2025,
+@article{zhuang2025epilepsy,
   title   = {Hospital-treated infectious diseases and the risk of epilepsy in older age},
+  author  = {Zhuang, Qiyuan and Hu, Yihan and Wei, Dang and Qin, Chenxi and Hu, Kejia and Zhang, Junyi and Chen, Lida and Yang, Zhelun and Ye, Weimin and Wirdefeldt, Karin and Zou, Xiang and Mao, Ying and H{\"a}gg, Sara and Fang, Fang},
   journal = {Nature Aging},
+  volume  = {5},
+  pages   = {2188--2196},
   year    = {2025},
-  doi     = {10.1038/s43587-024-00783-8}
+  doi     = {10.1038/s43587-025-01005-x}
 }
 
-@article{scientific_reports_pediatric_sleep_2025,
+@article{gong2026sleep,
   title   = {Growth and sleep outcomes after adenotonsillectomy in pediatric mild sleep-disordered breathing},
+  author  = {Gong, Wendan and Huang, Kuanen and Psychogios, Ioannis and Li, Shangjun and Chen, Lida and Zhang, Junyi and Fang, Fang and Zhang, Zhe and Hu, Yihan},
   journal = {Scientific Reports},
-  year    = {2025}
+  volume  = {16},
+  pages   = {688},
+  year    = {2026},
+  doi     = {10.1038/s41598-025-30271-3},
+  note    = {Published online 5 December 2025}
 }
 ```
 
