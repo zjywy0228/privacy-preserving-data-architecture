@@ -13,6 +13,16 @@ const DEFAULT_PALETTE = { bg: 'bg-slate-50', border: 'border-slate-200', badge: 
 
 const STATUS_LABEL = { prototype: 'Prototype', template: 'Template', assessment: 'Assessment', stable: 'Stable' };
 
+const PROVENANCE_LABELS = {
+  measured:            { text: 'Measured run',              classes: 'bg-blue-50 text-blue-800 border-blue-200' },
+  archived_record:     { text: 'Recorded reference values', classes: 'bg-slate-100 text-slate-700 border-slate-300' },
+  synthetic_fixture:   { text: 'Synthetic fixture run',     classes: 'bg-violet-50 text-violet-800 border-violet-200' },
+  mock:                { text: 'Mock harness run',          classes: 'bg-amber-50 text-amber-800 border-amber-200' },
+  illustrative_sample: { text: 'Illustrative sample data',  classes: 'bg-amber-50 text-amber-800 border-amber-200' },
+};
+const PROVENANCE_FALLBACK = { text: 'Unlabeled data', classes: 'bg-slate-100 text-slate-700 border-slate-300' };
+const NEUTRAL_LEAKAGE_MODES = ['illustrative_sample', 'mock', 'synthetic_fixture'];
+
 function esc(s) {
   return String(s)
     .replace(/&/g, '&amp;')
@@ -29,6 +39,38 @@ function leakageClasses(rate) {
   if (rate >= 80) return 'bg-green-50 border-green-200 text-green-900';
   if (rate >= 50) return 'bg-amber-50 border-amber-200 text-amber-900';
   return 'bg-red-50 border-red-200 text-red-900';
+}
+
+function formatDate(iso) {
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return '';
+  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
+function renderProvenance(elementId, provenance) {
+  const el = document.getElementById(elementId);
+  if (!el) return;
+  const mode  = provenance && provenance.run_mode;
+  const label = PROVENANCE_LABELS[mode] || PROVENANCE_FALLBACK;
+  const details = [];
+  if (provenance && provenance.source_commit) {
+    details.push(`commit ${esc(String(provenance.source_commit).slice(0, 7))}`);
+  }
+  if (provenance && provenance.generated_at) {
+    const d = formatDate(provenance.generated_at);
+    if (d) details.push(esc(d));
+  }
+  if (provenance && provenance.source) {
+    details.push(`source: ${esc(provenance.source)}`);
+  }
+  let html = `<span class="inline-block rounded border px-2 py-0.5 font-medium ${label.classes}">${esc(label.text)}</span>`;
+  if (details.length) {
+    html += ` <span>${details.join(' · ')}</span>`;
+  }
+  if (provenance && provenance.note) {
+    html += `<span class="block mt-1">${esc(provenance.note)}</span>`;
+  }
+  el.innerHTML = html;
 }
 
 // ─── Module Grid ───────────────────────────────────────────────────────────────
@@ -115,15 +157,22 @@ function renderLeakage(data) {
   const meta = document.getElementById('leakage-meta');
   if (!grid) return;
 
-  if (meta && data.run_timestamp) {
-    const d = new Date(data.run_timestamp);
-    const ds = d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-    meta.innerHTML = `Last run: ${ds}. Model under test: <code class="bg-slate-100 px-1 rounded text-xs">${esc(data.model_under_test)}</code>. See <code class="bg-slate-100 px-1 rounded text-xs">llm-leakage-assessment/</code> for methodology.`;
+  const mode    = data.provenance ? data.provenance.run_mode : null;
+  const neutral = !mode || NEUTRAL_LEAKAGE_MODES.includes(mode);
+
+  renderProvenance('leakage-provenance', data.provenance);
+
+  const legend = document.getElementById('leakage-legend');
+  if (legend) legend.hidden = neutral;
+
+  if (meta) {
+    const modelLabel = data.model_id || data.model_under_test || 'not recorded';
+    meta.innerHTML = `Model under test: <code class="bg-slate-100 px-1 rounded text-xs">${esc(modelLabel)}</code>. See <code class="bg-slate-100 px-1 rounded text-xs">llm-leakage-assessment/</code> for methodology.`;
   }
 
   grid.innerHTML = (data.categories || []).map(cat => {
     const rate = pct(cat.passed, cat.total);
-    const cls  = leakageClasses(rate);
+    const cls  = neutral ? 'bg-slate-50 border-slate-200 text-slate-800' : leakageClasses(rate);
     return `
       <div class="rounded-xl border px-5 py-4 ${cls}">
         <div class="flex items-center justify-between mb-1">
@@ -142,6 +191,8 @@ function renderLeakage(data) {
 function renderBenchmark(data) {
   const container = document.getElementById('benchmark-table');
   if (!container) return;
+
+  renderProvenance('benchmark-provenance', data.provenance);
 
   const rows   = data.rows || [];
   const maxMs  = Math.max(...rows.map(r => r.ciphertext_ms), 1);
@@ -169,9 +220,18 @@ function renderBenchmark(data) {
       </tr>`;
   }).join('');
 
+  const mode = data.provenance ? data.provenance.run_mode : null;
   const ts = data.run_timestamp
     ? ` · Run: ${new Date(data.run_timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`
     : '';
+  let footLead;
+  if (mode === 'measured') {
+    footLead = `Median of ${esc(String(data.trials))} trials per size`;
+    if (data.platform) footLead += ` on ${esc(data.platform)}`;
+    footLead += ts;
+  } else {
+    footLead = `Reference values from <code>fhe-feature-extraction/benchmarks/results.md</code>`;
+  }
 
   container.innerHTML = `
     <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-sm bg-white">
@@ -191,7 +251,7 @@ function renderBenchmark(data) {
         <tbody>${trows}</tbody>
       </table>
       <p class="px-5 py-2 text-xs text-slate-400 border-t border-slate-100">
-        Single-thread averages on consumer hardware${ts}${data.scheme ? ' · ' + esc(data.scheme) : ''}.
+        ${footLead}${data.scheme ? ' · ' + esc(data.scheme) : ''}.
         See <code>fhe-feature-extraction/benchmarks/</code> for run script and methodology.
       </p>
     </div>`;
