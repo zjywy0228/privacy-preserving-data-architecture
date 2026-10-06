@@ -7,7 +7,7 @@ training components for differential-private machine learning workflows.
 
 | File | Purpose |
 |---|---|
-| `dp_trainer.py` | Differential-private training wrapper with a mock mode for offline validation |
+| `dp_trainer.py` | Training wrapper with per-step privacy-budget accounting and a mock mode for offline validation |
 | `budget_accountant.py` | Cumulative privacy-budget accounting and JSON audit logs |
 | `privacy_budget_calculator.py` | Pre-run noise multiplier planning and sigma/epsilon sweeps |
 | `validate_audit_log.py` | Validation of saved audit logs against the repository schema |

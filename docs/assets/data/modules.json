@@ -2,20 +2,20 @@
   {
     "name": "FHE Feature Extraction",
     "slug": "fhe-feature-extraction",
-    "purpose": "TenSEAL CKKS-based encrypted feature extraction over biomedical signal vectors — statistical operations (sum, mean, variance, dot-product) execute entirely on ciphertext; raw data never leaves its origin.",
+    "purpose": "TenSEAL CKKS feature extraction: the input vector is encrypted and each feature is computed as a dot product on the ciphertext, so only derived feature values are decrypted. The threat model documents a split deployment in which the evaluator holds only public evaluation keys.",
     "lines_of_code": 231,
-    "test_count": 0,
-    "last_updated": "2026-05-14",
+    "test_count": 29,
+    "last_updated": "2026-10-06",
     "folder_url": "https://github.com/zjywy0228/privacy-preserving-data-architecture/tree/master/fhe-feature-extraction",
     "status": "prototype"
   },
   {
     "name": "DP LLM Training",
     "slug": "dp-llm-training",
-    "purpose": "Opacus wrapper that injects calibrated Gaussian noise during gradient descent and tracks cumulative (ε, δ) privacy budget per epoch — makes individual-record contribution to model weights formally bounded.",
+    "purpose": "Privacy-accounting training wrapper: computes (ε, δ) for the configured noise multiplier, sampling rate, and step count, signals when the target budget is reached, and writes a per-epoch JSON audit log checked by a validator.",
     "lines_of_code": 244,
-    "test_count": 0,
-    "last_updated": "2026-05-11",
+    "test_count": 64,
+    "last_updated": "2026-10-06",
     "folder_url": "https://github.com/zjywy0228/privacy-preserving-data-architecture/tree/master/dp-llm-training",
     "status": "prototype"
   },
@@ -24,18 +24,18 @@
     "slug": "llm-leakage-assessment",
     "purpose": "Seven-category threat taxonomy and structured assessment checklist covering prompt injection, training-data extraction, membership inference, system-prompt extraction, log capture, embedding inversion, and indirect injection.",
     "lines_of_code": 293,
-    "test_count": 0,
-    "last_updated": "2026-05-11",
+    "test_count": 42,
+    "last_updated": "2026-10-06",
     "folder_url": "https://github.com/zjywy0228/privacy-preserving-data-architecture/tree/master/llm-leakage-assessment",
     "status": "assessment"
   },
   {
     "name": "Governance Templates",
     "slug": "governance-templates",
-    "purpose": "Reusable data-minimization and pre-export review checklists for institutions operating under HIPAA, GDPR Article 9, Sweden's Patientdatalag, and equivalent data-governance frameworks.",
+    "purpose": "Data-minimization, access-control policy, derived-variable lineage, IRB-amendment, and pre-export review templates for institutions operating under HIPAA, GDPR Article 9, Sweden's Patientdatalag, and equivalent data-governance frameworks.",
     "lines_of_code": 74,
-    "test_count": 0,
-    "last_updated": "2026-05-11",
+    "test_count": 20,
+    "last_updated": "2026-10-06",
     "folder_url": "https://github.com/zjywy0228/privacy-preserving-data-architecture/tree/master/governance-templates",
     "status": "template"
   }

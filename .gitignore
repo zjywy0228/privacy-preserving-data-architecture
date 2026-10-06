@@ -15,3 +15,7 @@ artifacts/
 .env
 .venv/
 node_modules/
+
+# Private planning / handoff folders (never commit)
+repo-weekly-handoff-*/
+repo-weekly-handoff-*.zip

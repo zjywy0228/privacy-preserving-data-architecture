@@ -1,9 +1,11 @@
 """
 Differential Privacy Training Wrapper for LLM / ML Workflows
 
-Provides a privacy-accounting-aware training loop that bounds, with formal
-mathematical guarantees, what an adversary can infer about any individual
-record in the training dataset from the deployed model's outputs.
+Provides privacy accounting for a training loop: it computes the (epsilon, delta)
+budget for the configured noise multiplier, sampling rate, and step count, and
+signals when the target budget is reached. The formal guarantee below applies
+when the optimizer and data loader are made private (per-sample clipping and
+Gaussian noise), as Opacus make_private does.
 
 The core DP guarantee: given privacy parameters (epsilon, delta), any
 single training record's presence or absence changes the model's output
@@ -143,7 +145,7 @@ class GaussianMechanism:
 
 class DPTrainer:
     """
-    Privacy-accounting-aware trainer that enforces a maximum epsilon budget.
+    Privacy-accounting trainer that tracks the epsilon budget and signals through should_stop() when the target is reached.
 
     Integrates with PyTorch and Opacus when available; otherwise provides
     a mock implementation suitable for architecture review and testing.
@@ -177,7 +179,7 @@ class DPTrainer:
 
     def step(self, batch) -> float:
         """
-        Execute one differentially private gradient update.
+        Execute one training step and update the privacy accounting.
 
         Returns the training loss (or 0.0 in mock mode).
         """

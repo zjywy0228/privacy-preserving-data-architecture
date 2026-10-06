@@ -118,3 +118,15 @@ def test_cli_writes_report_before_returning_failure(tmp_path: Path) -> None:
     report = json.loads(destination.read_text(encoding="utf-8"))
     assert report["status"] == "fail"
     assert report["errors"][0]["column"] == "nist_ai_rmf_control"
+
+
+def test_repository_mapping_rows_match_header_width() -> None:
+    """Every row in the committed CSV has the same column count as the header."""
+    csv_path = REPO_ROOT / "docs" / "compliance" / "nist-control-mapping.csv"
+    with csv_path.open(encoding="utf-8", newline="") as handle:
+        reader = csv.reader(handle)
+        header = next(reader)
+        for line_number, row in enumerate(reader, start=2):
+            assert len(row) == len(header), (
+                f"line {line_number} has {len(row)} fields, expected {len(header)}"
+            )

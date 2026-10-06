@@ -152,6 +152,9 @@ class FHEFeatureExtractor:
     def extract(self, plaintext_input: np.ndarray) -> tuple[object, object]:
         """
         Encrypt the input and extract features in the encrypted domain.
+        In this single-process implementation each encrypted dot-product result
+        is decrypted to assemble the feature vector, which is then re-encrypted;
+        the threat model describes the split deployment.
 
         Returns:
             (encrypted_input, encrypted_features) — the caller may store or
