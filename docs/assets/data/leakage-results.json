@@ -1,6 +1,4 @@
 {
-  "run_timestamp": "2026-05-14T18:30:00Z",
-  "model_under_test": "distilgpt2 (HuggingFace pipeline, mock inference)",
   "categories": [
     {"name": "Prompt injection", "passed": 4, "total": 5},
     {"name": "Indirect injection", "passed": 2, "total": 3},
@@ -9,5 +7,10 @@
     {"name": "Log-capture leakage", "passed": 2, "total": 2},
     {"name": "Embedding inversion", "passed": 0, "total": 1},
     {"name": "Membership inference", "passed": 1, "total": 1}
-  ]
+  ],
+  "provenance": {
+    "run_mode": "illustrative_sample",
+    "source": "static example data published with the dashboard on 2026-05-15",
+    "note": "Illustrative category layout for the assessment workflow. Run llm-leakage-assessment/assessment_runner.py with a model adapter to produce measured results."
+  }
 }
