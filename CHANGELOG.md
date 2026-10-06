@@ -12,6 +12,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added an automated GitHub Pages workflow for the static dashboard in
   `docs/`.
 
+### Changed
+
+- Described the FHE, DP, leakage, and governance modules on the dashboard by
+  their implemented behavior and updated their test counts.
+- Linked the scientific-collaboration architecture from the dashboard.
+- Aligned control-mapping notes with implemented behavior and quoted two notes
+  that contained commas.
+
 ## [0.4.1] - 2026-08-04
 
 ### Added
@@ -313,7 +321,8 @@ Initial public release.
 - `DEVELOPMENT_PLAN.md` — 2-week sprint roadmap with daily branch/PR schedule
 - `README.md`, `LICENSE` (MIT)
 
-[Unreleased]: https://github.com/zjywy0228/privacy-preserving-data-architecture/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/zjywy0228/privacy-preserving-data-architecture/compare/v0.4.1...HEAD
+[0.4.1]: https://github.com/zjywy0228/privacy-preserving-data-architecture/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/zjywy0228/privacy-preserving-data-architecture/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/zjywy0228/privacy-preserving-data-architecture/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/zjywy0228/privacy-preserving-data-architecture/compare/v0.1.0...v0.2.0
