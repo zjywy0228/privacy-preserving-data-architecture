@@ -5,5 +5,10 @@
     {"vector_size": 128,  "cleartext_ms": 0.42, "ciphertext_ms": 18.7},
     {"vector_size": 512,  "cleartext_ms": 1.61, "ciphertext_ms": 71.3},
     {"vector_size": 2048, "cleartext_ms": 6.40, "ciphertext_ms": 285.1}
-  ]
+  ],
+  "provenance": {
+    "run_mode": "archived_record",
+    "source": "fhe-feature-extraction/benchmarks/results.md (reference table committed 2026-05-16)",
+    "note": "Reference values from the recorded benchmark table. Measure on your own hardware with fhe-feature-extraction/benchmarks/run_benchmark.py."
+  }
 }

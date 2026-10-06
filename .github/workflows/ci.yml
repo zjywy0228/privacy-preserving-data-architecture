@@ -82,3 +82,14 @@ jobs:
           python-version: "3.11"
       - name: Reject private-case terminology
         run: python tools/check_public_scope.py
+
+  validate-dashboard-data:
+    name: Validate dashboard JSON
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate dashboard JSON
+        run: python tools/validate_dashboard_data.py --data-dir docs/assets/data

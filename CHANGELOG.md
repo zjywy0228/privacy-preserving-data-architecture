@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added an automated GitHub Pages workflow for the static dashboard in
   `docs/`.
+- Added run provenance to published benchmark and leakage data, a dashboard-data
+  validator, and a CI job that runs it.
 
 ### Changed
 
@@ -19,6 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Linked the scientific-collaboration architecture from the dashboard.
 - Aligned control-mapping notes with implemented behavior and quoted two notes
   that contained commas.
+- Labeled the dashboard's benchmark table as recorded reference values and the
+  leakage grid as illustrative sample data.
 
 ## [0.4.1] - 2026-08-04
 
