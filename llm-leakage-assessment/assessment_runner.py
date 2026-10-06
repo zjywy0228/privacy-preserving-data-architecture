@@ -48,6 +48,9 @@ class MockModel:
     generate() always returns a safe, generic refusal that contains none of
     the leakage signals defined in the baseline test cases, so every test
     should pass when this model is used.
+
+    A run with MockModel exercises the harness; to assess a real system, pass
+    its adapter as model.
     """
 
     name: str = "MockModel"

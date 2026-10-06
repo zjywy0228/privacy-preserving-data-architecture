@@ -8,6 +8,12 @@ Extracts analytically useful features from sensitive medical or biomedical data
 **without decrypting the raw input** at any computation step. Only the derived
 feature vector is returned; raw data never leaves the encryption boundary.
 
+`fhe_pipeline.py` runs encryption, the encrypted dot products, and decryption of
+the derived feature values in one process that holds the secret key.
+[`docs/threat-models/fhe-feature-extraction.md`](../docs/threat-models/fhe-feature-extraction.md)
+describes the split deployment in which the evaluator holds only public
+evaluation keys.
+
 Addresses the threat model documented in:
 - NIST Privacy Framework (GV.PO-P2 — data-minimisation policy)
 - NIST AI RMF (GOVERN 6.1 — privacy risk policies)

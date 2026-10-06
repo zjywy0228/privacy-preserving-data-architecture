@@ -87,9 +87,11 @@ pip install opacus torch transformers
 python dp-llm-training/examples/demo_training.py
 ```
 
+`dp_trainer.py` computes the (ε, δ) privacy budget for a training configuration and records it in an auditable log; [`dp-llm-training/README.md`](dp-llm-training/README.md) explains how a privacy claim maps to the training loop.
+
 ### LLM Leakage Assessment
 
-Review `llm-leakage-assessment/ASSESSMENT-CHECKLIST.md` for the structured workflow. The Python runner (`assessment_runner.py`) automates the prompt-injection and log-capture test cases.
+Review `llm-leakage-assessment/ASSESSMENT-CHECKLIST.md` for the structured workflow. The Python runner (`assessment_runner.py`) runs all 15 YAML test cases in seven categories through any object with a `generate(prompt) -> str` method; its built-in `MockModel` gives deterministic responses for automated tests.
 
 ## Deliverable Roadmap
 

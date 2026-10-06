@@ -7,7 +7,7 @@
 
 > **English README:** [README.md](README.md)
 
-> **最新版本（2026-08-03）：** [`v0.4.0`](https://github.com/zjywy0228/privacy-preserving-data-architecture/releases/tag/v0.4.0) 新增可审阅的威胁模型、联邦式全同态加密参考扩展、差分隐私预算可视化、数据最小化泄露报告、受治理访问控制以及机器可读的合规验证。
+> **最新版本（2026-08-04）：** [`v0.4.1`](https://github.com/zjywy0228/privacy-preserving-data-architecture/releases/tag/v0.4.1) 更正生物医学引用记录并为其增加回归测试，同时发布带日期的十二个月技术路线图。[完整更新日志 →](CHANGELOG.md)
 
 面向需要在控制原始数据暴露、人工智能泄露风险和合规义务的同时分析敏感生物医学与科学数据的机构，提供可复用的架构模式、原型模块和评估框架。
 
@@ -94,9 +94,11 @@ pip install opacus torch transformers
 python dp-llm-training/examples/demo_training.py
 ```
 
+`dp_trainer.py` 为训练配置计算 (ε, δ) 隐私预算并写入可审计日志；隐私声明与训练循环的对应关系见 `dp-llm-training/README.md`。
+
 ### 大语言模型泄露评估
 
-查阅 `llm-leakage-assessment/ASSESSMENT-CHECKLIST.md` 获取结构化工作流程。Python 运行器（`assessment_runner.py`）可自动执行提示注入和日志捕获测试用例。
+查阅 `llm-leakage-assessment/ASSESSMENT-CHECKLIST.md` 获取结构化工作流程。Python 运行器（`assessment_runner.py`）通过任何提供 `generate(prompt) -> str` 方法的对象运行全部 15 个 YAML 测试用例（七个类别）；内置的 `MockModel` 为自动化测试提供确定性响应。
 
 ### 端到端演示（Jupyter Notebook）
 
