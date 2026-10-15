@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Rewrote the FHE benchmark runner to time cleartext and encrypted feature extraction on identical inputs, report medians with provenance, and generate the results table and dashboard data from one run.
+
 - Described the FHE, DP, leakage, and governance modules on the dashboard by
   their implemented behavior and updated their test counts.
 - Linked the scientific-collaboration architecture from the dashboard.

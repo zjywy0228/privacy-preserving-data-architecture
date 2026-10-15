@@ -85,3 +85,21 @@ Fully Homomorphic Encryption," *Journal of Advanced Computing Systems*, 4(2),
 for serialized TenSEAL CKKS updates, an authorization/round coordinator, and a
 data-minimized ciphertext receipt log. Its mock backend is explicitly
 non-cryptographic and is used only for continuous integration.
+
+## Benchmark
+
+Run `python fhe-feature-extraction/benchmarks/run_benchmark.py --require-tenseal`.
+The runner uses identical synthetic inputs and projection weights for both paths.
+It measures the cleartext NumPy product (averaged over 100 repetitions) and the
+full encrypted pass: encryption, CKKS dot products, and decryption of the derived
+features. In the current single-process extractor, this includes decrypting the
+scalar dot-product results and re-encrypting the assembled feature vector.
+Context creation and projection generation are outside the timed region.
+
+Outputs are `benchmarks/results.md` and `benchmarks/benchmark_results.json`, with
+median, mean, minimum, maximum, numerical error, and run provenance. Timings depend
+on the machine and runtime load. Mock runs measure cleartext only and write to
+`artifacts/benchmark/` by default. Add `--write-dashboard` to refresh
+`docs/assets/data/benchmark.json` from a real TenSEAL run (at least three trials).
+Use `--sizes`, `--trials`, `--warmup`, `--feature-dim`, `--seed`, and `--output-dir`
+to configure a run.
