@@ -19,3 +19,4 @@ node_modules/
 # Private planning / handoff folders (never commit)
 repo-weekly-handoff-*/
 repo-weekly-handoff-*.zip
+fhe-feature-extraction/benchmarks/benchmark_results.json

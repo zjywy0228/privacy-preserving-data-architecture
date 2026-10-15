@@ -1,14 +1,42 @@
 {
-  "run_timestamp": "2026-05-14T16:00:00Z",
+  "run_timestamp": "2026-10-15T01:48:35+00:00",
   "scheme": "CKKS (TenSEAL)",
-  "rows": [
-    {"vector_size": 128,  "cleartext_ms": 0.42, "ciphertext_ms": 18.7},
-    {"vector_size": 512,  "cleartext_ms": 1.61, "ciphertext_ms": 71.3},
-    {"vector_size": 2048, "cleartext_ms": 6.40, "ciphertext_ms": 285.1}
-  ],
+  "trials": 10,
+  "statistic": "median",
+  "platform": "Windows-10",
   "provenance": {
-    "run_mode": "archived_record",
-    "source": "fhe-feature-extraction/benchmarks/results.md (reference table committed 2026-05-16)",
-    "note": "Reference values from the recorded benchmark table. Measure on your own hardware with fhe-feature-extraction/benchmarks/run_benchmark.py."
-  }
+    "schema_version": "1.0",
+    "run_mode": "measured",
+    "generator": "fhe-feature-extraction/benchmarks/run_benchmark.py",
+    "generated_at": "2026-10-15T01:48:35+00:00",
+    "source_commit": "0080a4193d9e3c1ac9863edf49caea715496bf8d",
+    "source_dirty": false,
+    "python_version": "3.11.17",
+    "platform": "Windows-10",
+    "packages": {
+      "numpy": "2.4.6",
+      "tenseal": "0.3.18",
+      "torch": null,
+      "opacus": null,
+      "PyYAML": "6.0.3"
+    },
+    "seed": 0
+  },
+  "rows": [
+    {
+      "vector_size": 128,
+      "cleartext_ms": 0.0012,
+      "ciphertext_ms": 321.125
+    },
+    {
+      "vector_size": 512,
+      "cleartext_ms": 0.003,
+      "ciphertext_ms": 396.047
+    },
+    {
+      "vector_size": 2048,
+      "cleartext_ms": 0.0105,
+      "ciphertext_ms": 653.635
+    }
+  ]
 }

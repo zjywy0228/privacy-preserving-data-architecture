@@ -1,17 +1,17 @@
 # FHE Pipeline Benchmark Results
 
 **Mode**: TenSEAL (real FHE)
-**Iterations per size**: 10
+**Trials per size**: 10 (after 2 warm-up runs)
+**Statistic**: median wall-clock milliseconds
+**Source commit**: 0080a41
+**Generated**: 2026-10-15T01:48:35+00:00
 
-| Vector size | Cleartext (ms) | Ciphertext (ms) | Overhead |
-|-------------|---------------:|----------------:|---------:|
-|         128 |           0.42 |            18.7 |      44× |
-|         512 |           1.61 |            71.3 |      44× |
-|        2048 |           6.40 |           285.1 |      44× |
+| Vector size | Cleartext median (ms) | Encrypted median (ms) | Overhead | Max abs error |
+|-------------|----------------------:|----------------------:|---------:|--------------:|
+| 128 | 0.0012 | 321.1254 | 267604.5x | 1.15316e-06 |
+| 512 | 0.0030 | 396.0474 | 132015.8x | 4.56954e-06 |
+| 2048 | 0.0105 | 653.6348 | 62250.9x | 7.76236e-06 |
 
-> Times cover one full encrypt + extract + decrypt pass using TenSEAL CKKS
-> (poly_modulus_degree=8192, coeff_mod_bit_sizes=[60,40,40,60], scale=2^40).
-> Mock/plaintext-simulation timings will be significantly faster and do not
-> reflect real FHE overhead.
-> Run `python fhe-feature-extraction/benchmarks/run_benchmark.py` to regenerate
-> with your local TenSEAL build.
+> Cleartext: one NumPy matrix-vector product, averaged over 100 repetitions.
+> Encrypted: encryption, CKKS dot products, and decryption of the derived features for the same input.
+> Regenerate: python fhe-feature-extraction/benchmarks/run_benchmark.py --require-tenseal
