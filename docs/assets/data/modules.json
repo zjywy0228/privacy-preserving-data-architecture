@@ -24,8 +24,8 @@
     "slug": "llm-leakage-assessment",
     "purpose": "Seven-category threat taxonomy and structured assessment checklist covering prompt injection, training-data extraction, membership inference, system-prompt extraction, log capture, embedding inversion, and indirect injection.",
     "lines_of_code": 293,
-    "test_count": 42,
-    "last_updated": "2026-10-06",
+    "test_count": 50,
+    "last_updated": "2026-10-20",
     "folder_url": "https://github.com/zjywy0228/privacy-preserving-data-architecture/tree/master/llm-leakage-assessment",
     "status": "assessment"
   },

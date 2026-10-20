@@ -41,7 +41,6 @@ from typing import Any
 
 import yaml
 
-
 ALLOWED_CATEGORIES = frozenset(
     {
         "prompt_injection",
