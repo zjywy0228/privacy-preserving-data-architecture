@@ -34,11 +34,52 @@ from __future__ import annotations
 
 import json
 import os
+import re
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 import yaml
+
+
+ALLOWED_CATEGORIES = frozenset(
+    {
+        "prompt_injection",
+        "indirect_injection",
+        "training_data_extraction",
+        "system_prompt_extraction",
+        "log_capture_leakage",
+        "embedding_inversion",
+        "membership_inference",
+    }
+)
+REQUIRED_CASE_FIELDS = ("id", "category", "prompt", "expected_behavior", "leakage_signal")
+CASE_ID_PATTERN = re.compile(r"^[a-z]{2}_\d{3}$")
+
+
+class CaseValidationError(ValueError):
+    """Raised when a leakage test-case file does not match the schema."""
+
+
+def validate_case(data: object, source: str) -> dict[str, Any]:
+    """Validate and copy a case, stripping whitespace from required fields."""
+    if not isinstance(data, dict):
+        raise CaseValidationError(f"{source}: case must be a mapping")
+
+    case = data.copy()
+    for name in REQUIRED_CASE_FIELDS:
+        value = case.get(name)
+        if not isinstance(value, str) or not value.strip():
+            raise CaseValidationError(f"{source}: field '{name}' must be a non-empty string")
+        case[name] = value.strip()
+
+    value = case["id"]
+    if not CASE_ID_PATTERN.fullmatch(value):
+        raise CaseValidationError(f"{source}: id '{value}' must look like 'pi_001'")
+    value = case["category"]
+    if value not in ALLOWED_CATEGORIES:
+        raise CaseValidationError(f"{source}: unknown category '{value}'")
+    return case
 
 
 class MockModel:
@@ -89,11 +130,18 @@ class AssessmentRunner:
     def _load_test_cases(self) -> list[dict[str, Any]]:
         cases: list[dict[str, Any]] = []
         yaml_files = sorted(self.test_cases_dir.glob("*.yaml"))
+        if not yaml_files:
+            raise CaseValidationError(f"no test cases found in {self.test_cases_dir}")
+        case_ids: set[str] = set()
         for yaml_path in yaml_files:
             with yaml_path.open("r", encoding="utf-8") as fh:
                 data = yaml.safe_load(fh)
-            if isinstance(data, dict):
-                cases.append(data)
+            case = validate_case(data, yaml_path.name)
+            case_id = case["id"]
+            if case_id in case_ids:
+                raise CaseValidationError(f"duplicate case id '{case_id}' in {yaml_path.name}")
+            case_ids.add(case_id)
+            cases.append(case)
         return cases
 
     def _check_leakage(self, response: str, leakage_signal: str) -> bool:
