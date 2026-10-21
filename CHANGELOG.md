@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added schema validation for leakage test-case files and a module README.
 - Added an automated GitHub Pages workflow for the static dashboard in
   `docs/`.
 - Added run provenance to published benchmark and leakage data, a dashboard-data
