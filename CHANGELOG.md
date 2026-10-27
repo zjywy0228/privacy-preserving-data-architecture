@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added split-role CKKS feature extraction: a data owner keeps the secret key, and an evaluator computes encrypted dot products with public evaluation keys and SHA-256 result fingerprints.
+
 - Added schema validation for leakage test-case files and a module README.
 - Added an automated GitHub Pages workflow for the static dashboard in
   `docs/`.
