@@ -52,10 +52,11 @@ import numpy as np
 _REPO_ROOT = Path(__file__).resolve().parent.parent
 _FHE_DIR = _REPO_ROOT / "fhe-feature-extraction"
 _VAL_DIR = _REPO_ROOT / "validation"
-for _p in (_FHE_DIR, _VAL_DIR):
+for _p in (_REPO_ROOT, _FHE_DIR, _VAL_DIR):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
+import split_roles  # noqa: E402
 from fhe_pipeline import (  # noqa: E402
     TENSEAL_AVAILABLE,
     DataMinimizationPipeline,
@@ -63,6 +64,8 @@ from fhe_pipeline import (  # noqa: E402
     FHEFeatureExtractor,
 )
 from synthetic_medical_signal import generate_dataset  # noqa: E402
+
+from tools.provenance import build_provenance  # noqa: E402
 
 # ---------------------------------------------------------------------------
 # Validation core
@@ -146,6 +149,52 @@ def validate_pipeline(
 
 
 # ---------------------------------------------------------------------------
+# Split-role validation
+# ---------------------------------------------------------------------------
+
+
+def validate_split_roles(
+    n_samples: int = 20,
+    signal_dim: int = 128,
+    feature_dim: int = 16,
+    seed: int = 0,
+) -> dict[str, Any]:
+    """Validate the split-role owner/evaluator path on synthetic signals."""
+    X, _, _ = generate_dataset(n_samples=n_samples, signal_dim=signal_dim, seed=seed)
+
+    rng = np.random.default_rng(seed)
+    projection = rng.standard_normal((feature_dim, signal_dim))
+    projection /= np.linalg.norm(projection, axis=1, keepdims=True)
+
+    owner = split_roles.DataOwner()
+    evaluator = split_roles.Evaluator(owner.public_context(), projection)
+    has_secret = split_roles.ts.context_from(owner.public_context()).is_private()
+
+    errors: list[float] = []
+    worst: list[float] = []
+    t_start = time.perf_counter()
+    for record in X:
+        encrypted = owner.encrypt(record)
+        features = evaluator.evaluate(encrypted)
+        output = owner.decrypt_features(features, expected_count=feature_dim)
+        difference = np.abs(output - projection @ record)
+        errors.append(float(difference.mean()))
+        worst.append(float(difference.max()))
+    elapsed = time.perf_counter() - t_start
+
+    return {
+        "vector_size": signal_dim,
+        "feature_dim": feature_dim,
+        "n_samples": n_samples,
+        "mean_error": round(float(np.mean(errors)), 8),
+        "max_error": round(float(np.max(worst)), 8),
+        "throughput_rps": round(n_samples / elapsed, 2),
+        "evaluator_has_secret_key": bool(has_secret),
+        "mode": "split-roles-tenseal",
+    }
+
+
+# ---------------------------------------------------------------------------
 # Multi-configuration sweep
 # ---------------------------------------------------------------------------
 
@@ -215,11 +264,56 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Run the default multi-config sweep instead of a single config.",
     )
     p.add_argument("--output", type=str, default=None, help="Write JSON report to FILE.")
+    p.add_argument(
+        "--split-roles",
+        action="store_true",
+        help="Validate the split-role owner and evaluator path (requires TenSEAL).",
+    )
     return p
+
+
+def _write_report(path: str, run_mode: str, results: list[dict[str, Any]], seed: int) -> None:
+    report = {
+        "schema_version": "1.1",
+        "results": results,
+        "provenance": build_provenance(run_mode, "validation/run_fhe_validation.py", seed=seed),
+    }
+    with open(path, "w", encoding="utf-8") as fh:
+        json.dump(report, fh, indent=2)
+    print(f"  [OK] Report written to {path}")
 
 
 def main(argv: list[str] | None = None) -> None:
     args = _build_parser().parse_args(argv)
+
+    if args.split_roles:
+        if not split_roles.TENSEAL_AVAILABLE:
+            print(
+                "split-role validation requires TenSEAL: pip install -e .[fhe]",
+                file=sys.stderr,
+            )
+            raise SystemExit(2)
+        result = validate_split_roles(
+            n_samples=args.n_samples,
+            signal_dim=args.signal_dim,
+            feature_dim=min(args.feature_dim, args.signal_dim),
+            seed=args.seed,
+        )
+        results = [result]
+        print(json.dumps(results, indent=2))
+        if (
+            result["mean_error"] > 1e-4
+            or result["max_error"] > 1e-3
+            or result["evaluator_has_secret_key"]
+        ):
+            print(
+                "  [FAIL] split-role validation failed accuracy or key-boundary gates.",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+        if args.output:
+            _write_report(args.output, "measured", results, args.seed)
+        return
 
     if args.sweep:
         results = run_sweep()
@@ -241,12 +335,11 @@ def main(argv: list[str] | None = None) -> None:
         print(f"  [FAIL] {len(failed)} configuration(s) failed validation.", file=sys.stderr)
         sys.exit(1)
     else:
-        print("  [✓] All configurations passed.")
+        print("  [OK] All configurations passed.")
 
     if args.output:
-        with open(args.output, "w", encoding="utf-8") as fh:
-            json.dump({"schema_version": "1.0", "results": results}, fh, indent=2)
-        print(f"  [✓] Report written to {args.output}")
+        run_mode = "measured" if TENSEAL_AVAILABLE else "mock"
+        _write_report(args.output, run_mode, results, args.seed)
 
 
 if __name__ == "__main__":
