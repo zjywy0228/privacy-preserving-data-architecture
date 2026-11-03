@@ -51,6 +51,23 @@ features = pipeline.process("RECORD-001", raw_patch, "analysis-node", "classific
 # features.shape == (16,) — raw_patch never returned
 ```
 
+## Split-role quickstart
+
+The split-role path separates the data owner (who holds the secret key) from
+an evaluator (who holds only public evaluation keys). See
+[`docs/threat-models/fhe-feature-extraction.md`](../docs/threat-models/fhe-feature-extraction.md)
+for the trust boundary.
+
+1. `owner = DataOwner()`.
+2. Send `owner.public_context()` and a public projection matrix to the
+   evaluator; the evaluator builds `Evaluator(public_context, projection)`.
+3. The owner calls `owner.encrypt(vector)`, and the evaluator returns
+   `evaluator.evaluate(encrypted_input)`.
+4. The owner calls `owner.decrypt_features(features, expected_count)`.
+
+Run `python validation/run_fhe_validation.py --split-roles` to check accuracy
+and the key boundary on synthetic signals.
+
 ## Examples
 
 | Script | Description |

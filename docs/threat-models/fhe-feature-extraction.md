@@ -52,6 +52,20 @@ service is not trusted with plaintext or the secret key.
 - Approximate arithmetic error is measured against a defined acceptance
   threshold for the workload.
 
+## Reference implementation of the trust boundary
+
+`fhe-feature-extraction/split_roles.py` implements the two roles. `DataOwner`
+creates the CKKS context, keeps the secret key, encrypts each input, and
+decrypts only the number of derived features it expects. `Evaluator` loads the
+serialized public context, which reports `is_private()` as false, computes one
+encrypted dot product per projection row, and returns each result with a
+SHA-256 fingerprint. The owner rejects results from another context, a wrong
+result count, or a changed fingerprint. Fingerprints detect accidental
+corruption in storage or transit; resisting a dishonest evaluator that
+recomputes fingerprints requires authenticated transport or signatures
+(FHE-T8). `fhe_pipeline.py` remains the single-process implementation for
+local experiments.
+
 ## Residual risks
 
 Fully homomorphic encryption protects data in use; it does not by itself prove
