@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added split-role stage timings (encrypt, evaluate, decrypt) to the benchmark report.
+
 - Added split-role validation (`--split-roles`), provenance in validation reports, a split-role demo, and a threat-model section on the reference trust boundary.
 
 - Added split-role CKKS feature extraction: a data owner keeps the secret key, and an evaluator computes encrypted dot products with public evaluation keys and SHA-256 result fingerprints.

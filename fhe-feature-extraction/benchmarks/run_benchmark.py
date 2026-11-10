@@ -17,6 +17,7 @@ _FHE_DIR = _HERE.parent
 if str(_FHE_DIR) not in sys.path:
     sys.path.insert(0, str(_FHE_DIR))
 
+import split_roles  # noqa: E402
 from fhe_pipeline import TENSEAL_AVAILABLE, FHEContext, FHEFeatureExtractor  # noqa: E402
 
 _REPO_ROOT = _FHE_DIR.parent
@@ -74,6 +75,63 @@ def time_encrypted(extractor: FHEFeatureExtractor, vector: np.ndarray) -> tuple[
     return elapsed_ms, np.asarray(features, dtype=np.float64)
 
 
+def run_split_benchmark(
+    vector_sizes: list[int] = VECTOR_SIZES,
+    trials: int = ITERATIONS,
+    warmup: int = WARMUP,
+    feature_dim: int = FEATURE_DIM,
+    seed: int = 0,
+) -> list[dict[str, Any]]:
+    """Measure encryption, public-key evaluation, and owner decryption separately."""
+    if not split_roles.TENSEAL_AVAILABLE:
+        raise RuntimeError("TenSEAL is required for split-role timings")
+    if trials < 1 or warmup < 0:
+        raise ValueError("trials must be at least 1 and warmup must be non-negative")
+    if not vector_sizes or not 0 < feature_dim <= min(vector_sizes):
+        raise ValueError("feature_dim must be positive and at most the smallest vector size")
+    owner = split_roles.DataOwner()
+    rows = []
+    for size in vector_sizes:
+        projection = make_projection(size, feature_dim, seed + size)
+        evaluator = split_roles.Evaluator(owner.public_context(), projection)
+        rng = np.random.default_rng(seed + size)
+        vectors = [rng.standard_normal(size) for _ in range(warmup + trials)]
+        samples: dict[str, list[float]] = {
+            stage: [] for stage in ("encrypt", "evaluate", "decrypt", "total")
+        }
+        max_abs_error = 0.0
+        for index, vector in enumerate(vectors):
+            start = time.perf_counter_ns()
+            encrypted = owner.encrypt(vector)
+            after_encrypt = time.perf_counter_ns()
+            features = evaluator.evaluate(encrypted)
+            after_evaluate = time.perf_counter_ns()
+            output = owner.decrypt_features(features, expected_count=feature_dim)
+            after_decrypt = time.perf_counter_ns()
+            if index < warmup:
+                continue
+            encrypt_ms = (after_encrypt - start) / 1e6
+            evaluate_ms = (after_evaluate - after_encrypt) / 1e6
+            decrypt_ms = (after_decrypt - after_evaluate) / 1e6
+            samples["encrypt"].append(encrypt_ms)
+            samples["evaluate"].append(evaluate_ms)
+            samples["decrypt"].append(decrypt_ms)
+            samples["total"].append(encrypt_ms + evaluate_ms + decrypt_ms)
+            max_abs_error = max(max_abs_error, float(np.max(np.abs(output - projection @ vector))))
+        rows.append(
+            {
+                "vector_size": size,
+                "feature_dim": feature_dim,
+                "trials": trials,
+                "stages_ms": {stage: summarize_ms(values) for stage, values in samples.items()},
+                "input_ciphertext_bytes": len(encrypted.ciphertext),
+                "feature_ciphertext_bytes": sum(len(data) for data in features.ciphertexts),
+                "max_abs_error": max_abs_error,
+            }
+        )
+    return rows
+
+
 def run_benchmark(
     vector_sizes: list[int] = VECTOR_SIZES,
     trials: int = ITERATIONS,
@@ -81,10 +139,13 @@ def run_benchmark(
     feature_dim: int = FEATURE_DIM,
     seed: int = 0,
     use_tenseal: bool | None = None,
+    include_split_roles: bool = False,
 ) -> dict[str, Any]:
     """Measure paired cleartext and encrypted passes with recorded provenance."""
     if use_tenseal is None:
         use_tenseal = TENSEAL_AVAILABLE
+    if include_split_roles and not use_tenseal:
+        raise RuntimeError("split-role timings require TenSEAL")
     if use_tenseal and not TENSEAL_AVAILABLE:
         raise RuntimeError("TenSEAL is required for encrypted timings: pip install -e .[fhe]")
     if trials < 1:
@@ -148,6 +209,9 @@ def run_benchmark(
         "warmup": warmup,
         "cleartext_repeats": CLEARTEXT_REPEATS,
         "rows": rows,
+        "split_roles": run_split_benchmark(vector_sizes, trials, warmup, feature_dim, seed)
+        if include_split_roles
+        else None,
         "provenance": build_provenance(
             "measured" if use_tenseal else "mock",
             "fhe-feature-extraction/benchmarks/run_benchmark.py",
@@ -190,9 +254,36 @@ def render_markdown(report: dict[str, Any]) -> str:
             "",
             "> Cleartext: one NumPy matrix-vector product, averaged over 100 repetitions.",
             "> Encrypted: encryption, CKKS dot products, and decryption of the derived features for the same input.",
-            "> Regenerate: python fhe-feature-extraction/benchmarks/run_benchmark.py --require-tenseal",
+            "> Regenerate: python fhe-feature-extraction/benchmarks/run_benchmark.py --require-tenseal"
+            + (" --split-roles" if report.get("split_roles") else ""),
         ]
     )
+    if report.get("split_roles"):
+        lines.extend(
+            [
+                "",
+                "## Split-role stage timings (median ms)",
+                "",
+                "| Vector size | Encrypt | Evaluate | Decrypt | Total | Feature ciphertext (KB) | Max abs error |",
+                "|-------------|--------:|---------:|--------:|------:|------------------------:|--------------:|",
+            ]
+        )
+        for row in report["split_roles"]:
+            stages = row["stages_ms"]
+            lines.append(
+                f"| {row['vector_size']} | {stages['encrypt']['median']:.4f} "
+                f"| {stages['evaluate']['median']:.4f} | {stages['decrypt']['median']:.4f} "
+                f"| {stages['total']['median']:.4f} | {row['feature_ciphertext_bytes'] / 1024:.1f} "
+                f"| {row['max_abs_error']:.6g} |"
+            )
+        lines.extend(
+            [
+                "",
+                "> The evaluator holds only public evaluation keys; see docs/threat-models/fhe-feature-extraction.md.",
+                "> Stage timings include ciphertext serialization and result fingerprint checks; context creation and transport are outside the timed region.",
+                "> Total is the median of per-trial stage sums; individual stage medians may not sum to it.",
+            ]
+        )
     return "\n".join(lines)
 
 
@@ -232,6 +323,9 @@ def _build_parser() -> argparse.ArgumentParser:
         "--dashboard-path", type=Path, default=_REPO_ROOT / "docs/assets/data/benchmark.json"
     )
     parser.add_argument("--require-tenseal", action="store_true")
+    parser.add_argument(
+        "--split-roles", action="store_true", help="Include split-role stage timings."
+    )
     return parser
 
 
@@ -246,6 +340,7 @@ def main(argv: list[str] | None = None) -> int:
             args.feature_dim,
             args.seed,
             use_tenseal=True if args.require_tenseal else None,
+            include_split_roles=args.split_roles,
         )
     except RuntimeError as exc:
         print(exc, file=sys.stderr)
