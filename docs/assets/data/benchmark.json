@@ -1,5 +1,5 @@
 {
-  "run_timestamp": "2026-10-15T01:48:35+00:00",
+  "run_timestamp": "2026-11-10T00:44:07+00:00",
   "scheme": "CKKS (TenSEAL)",
   "trials": 10,
   "statistic": "median",
@@ -8,8 +8,8 @@
     "schema_version": "1.0",
     "run_mode": "measured",
     "generator": "fhe-feature-extraction/benchmarks/run_benchmark.py",
-    "generated_at": "2026-10-15T01:48:35+00:00",
-    "source_commit": "0080a4193d9e3c1ac9863edf49caea715496bf8d",
+    "generated_at": "2026-11-10T00:44:07+00:00",
+    "source_commit": "8a52c7c23ea68ea641a0817bf7f50841c36ca86d",
     "source_dirty": false,
     "python_version": "3.11.17",
     "platform": "Windows-10",
@@ -26,17 +26,17 @@
     {
       "vector_size": 128,
       "cleartext_ms": 0.0012,
-      "ciphertext_ms": 321.125
+      "ciphertext_ms": 284.472
     },
     {
       "vector_size": 512,
-      "cleartext_ms": 0.003,
-      "ciphertext_ms": 396.047
+      "cleartext_ms": 0.002,
+      "ciphertext_ms": 332.274
     },
     {
       "vector_size": 2048,
-      "cleartext_ms": 0.0105,
-      "ciphertext_ms": 653.635
+      "cleartext_ms": 0.0049,
+      "ciphertext_ms": 431.211
     }
   ]
 }
