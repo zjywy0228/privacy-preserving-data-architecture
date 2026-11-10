@@ -95,3 +95,42 @@ def test_real_tenseal_run_matches_plaintext():
     assert report["rows"][0]["encrypted_ms"]["median"] > 0
     assert report["rows"][0]["max_abs_error"] < 1e-3
     assert validate_benchmark(module.to_dashboard(report)) == []
+
+
+def test_split_benchmark_requires_tenseal(monkeypatch):
+    monkeypatch.setattr(module.split_roles, "TENSEAL_AVAILABLE", False)
+    with pytest.raises(RuntimeError, match="TenSEAL is required for split-role timings"):
+        module.run_split_benchmark([16], trials=2, warmup=0, feature_dim=4)
+    with pytest.raises(RuntimeError, match="split-role timings require TenSEAL"):
+        module.run_benchmark([16], feature_dim=4, use_tenseal=False, include_split_roles=True)
+
+
+def test_split_benchmark_stage_timings():
+    pytest.importorskip("tenseal")
+    rows = module.run_split_benchmark([64], trials=2, warmup=1, feature_dim=4, seed=0)
+    row = rows[0]
+    assert all(stage["median"] > 0 for stage in row["stages_ms"].values())
+    assert row["stages_ms"]["total"]["median"] >= row["stages_ms"]["evaluate"]["median"]
+    assert row["max_abs_error"] < 1e-3
+
+
+def test_render_markdown_includes_split_table():
+    report = module.run_benchmark([16], trials=3, warmup=0, feature_dim=4, use_tenseal=False)
+    report["split_roles"] = [
+        {
+            "vector_size": 16,
+            "feature_dim": 4,
+            "trials": 3,
+            "stages_ms": {
+                stage: {"median": 1.0, "mean": 1.0, "min": 1.0, "max": 1.0}
+                for stage in ("encrypt", "evaluate", "decrypt", "total")
+            },
+            "input_ciphertext_bytes": 2048,
+            "feature_ciphertext_bytes": 1024,
+            "max_abs_error": 0.0,
+        }
+    ]
+    markdown = module.render_markdown(report)
+    assert "Split-role stage timings" in markdown
+    assert "| 16 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 1.0 | 0 |" in markdown
+    assert "--require-tenseal --split-roles" in markdown
