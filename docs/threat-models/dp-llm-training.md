@@ -6,6 +6,16 @@ This model covers the `dp-llm-training/` wrapper, privacy-budget calculator,
 budget accountant, and audit-log validator. It focuses on training-time privacy
 controls and the correctness of privacy accounting.
 
+`private_training.py` is the reference implementation of private training:
+Opacus clips each per-sample gradient, adds calibrated Gaussian noise, and the
+RDP accountant attached to the run reports epsilon; `dp_trainer.py` provides
+budget planning and accounting for a configuration. The trainer predicts the
+next step's epsilon on a copied accountant and stops before exceeding the target.
+The synthetic reference example uses seeded, non-cryptographic randomness.
+Exported batch-averaged training loss is an unprotected diagnostic; keep it
+restricted or apply a separately accounted privacy mechanism before releasing
+metrics from sensitive data.
+
 ## Assets
 
 - raw training examples and labels;
