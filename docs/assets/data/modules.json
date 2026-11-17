@@ -14,8 +14,8 @@
     "slug": "dp-llm-training",
     "purpose": "Privacy-accounting training wrapper: computes (ε, δ) for the configured noise multiplier, sampling rate, and step count, signals when the target budget is reached, and writes a per-epoch JSON audit log checked by a validator.",
     "lines_of_code": 244,
-    "test_count": 64,
-    "last_updated": "2026-10-06",
+    "test_count": 75,
+    "last_updated": "2026-11-16",
     "folder_url": "https://github.com/zjywy0228/privacy-preserving-data-architecture/tree/master/dp-llm-training",
     "status": "prototype"
   },
